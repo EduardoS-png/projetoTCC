@@ -1,45 +1,51 @@
 from flask import Blueprint, request, jsonify
-from app import db
-from app.models.produto import Produto
-from app.models.venda import Venda
+from app.models.venda import venda , get_venda, get_venda_id, insert_venda
 
+venda_bp = Blueprint("venda", __name__)
 
-venda_bp = Blueprint('venda_bp', __name__)
-
-@venda_bp.route('/venda_bp', methods=['POST'])
-def registrar_venda():
-    dados = request.get_json()
-    produto_id = dados.get('produto_id')
-    quantidade = dados.get('quantidade')
-
-    if not produto_id or not quantidade:
-        return jsonify({'erro': 'Campos obrigatórios: produto_id e quantidade'}), 400
+# Listar todas as vendas
+@venda_bp.route("/api/vendas", methods=["GET"])
+def listar_vendas():
+    try:
+        vendas = get_venda()
+        return jsonify(venda), 200
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 400
     
-    # Buscar o produto no estoque
-    produto = Produto.query.get(produto_id)
-    if not produto:
-        return jsonify({'erro': 'Produto não encontrado'}), 404
+
+# Buscar venda por id
+@venda_bp.route("/api/vendas/<int:venda_id>", methods=["GET"])
+def buscar_venda(venda_id):
+    try:
+        resultado = get_venda_id(venda_id)
+        if not resultado:
+            return jsonify({"erro": "Venda não encontrada"}), 404
+        return jsonify(resultado), 200
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 400
     
-    # Verificar estoque
-    if produto.quantidade_estoque < quantidade:
-        return jsonify({'erro': 'Estoque insuficiente'}),400
-    
-    # Calcular valor total 
-    valor_total = quantidade * produto.precoVenda
 
-    # Criar registro da venda
-    venda = Venda(produto_id=produto_id,
-                  quantidade=quantidade,
-                  valor_total=valor_total)
-    
-    # Atualizar estoque
-    produto.quantidade_estoque -= quantidade
+# Registrar nova venda 
+@venda_bp.route("/api/vendas", methods=["POST"])
+def registrar_vendas():
+    try:
+        dados = request.get_json()
+        if not dados:
+            return jsonify({"erro": "JSON inválido ou vazio"}), 400
+        
 
-    # Commit
-    db.session.add(venda)
-    db.session.commit()
+        produto_id = dados.get("produto_id")
+        nome_produto = dados.get("nome_produto")
+        cliente_id = dados.get("cliente_id")
+        quantidade = dados.get("quantidade")
+        preco_venda = dados.get("preco_venda")
+        data_venda = dados.get("data_venda")
 
+        if not all([produto_id, nome_produto, cliente_id, quantidade, preco_venda, data_venda]):
+            return jsonify({"erro": "Campos obrigatórios faltando"}), 400
 
-    return jsonify({'mensagem': 'Venda registrada com sucesso',
-                    'venda_id': venda.id,
-                    'estoque_atual': produto.quantidade_estoque}), 201
+        venda_id = insert_venda(produto_id, nome_produto, cliente_id, quantidade, preco_venda, data_venda)
+
+        return jsonify({"mensagem": "Venda registrada com sucesso!", "id": venda_id}), 201
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 400

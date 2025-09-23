@@ -1,17 +1,35 @@
-from app import db
-from datetime import datetime
+from app.models import conexaoBD
 
-class Venda(db.Model):
-    __tablename__ = 'vendas'
+def get_venda():
+    conexao = conexaoBD()
+    cursor = conexao.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM vendas")
+    vendas = cursor.fetchall()
+    cursor.close()
+    conexao.close()
+    return vendas
 
-    id = db.Column(db.Integer, primary_key=True)
-    produto_id = db.Column(db.Integer, db.ForeignKey('produtos.id'), nullable=False)
-    quantidade = db.Column(db.Integer, nullable=False)
-    valor_total = db.Column(db.Float, nullable=False)
-    data_venda = db.Column(db.DateTime, default=datetime.utcnow)
 
-    # relacionamento com Produto (estoque)
-    produto = db.relationship('Produto', backref=db.backref('vendas', lazy=True))
+def get_venda_id(venda_id):
+    conexao = conexaoBD()
+    cursor = conexao.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM vendas WHERE id = %s", (venda_id,))
+    venda = cursor.fetchone()
+    cursor.close()
+    conexao.close()
+    return venda
 
-    def __repr__(self):
-        return f"<Venda {self.id}>"
+
+def insert_venda(produto_id, nome_produto, cliente_id, quantidade, preco_venda, data_venda):
+    conexao = conexaoBD()
+    cursor = conexao.cursor()
+    sql = """
+        INSERT INTO vendas (produto_id, nome_produto, cliente_id, quantidade, preco_venda, data_venda)
+        VALUES (%s, %s, %s, %s, %s, %s)
+    """
+    cursor.execute(sql, (produto_id, nome_produto, cliente_id, quantidade, preco_venda, data_venda))
+    conexao.commit()
+    venda_id = cursor.lastrowid
+    cursor.close()
+    conexao.close()
+    return venda_id
