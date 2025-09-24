@@ -182,6 +182,7 @@ window.addEventListener("DOMContentLoaded", () => {
     [1200, 1900, 3000],
     [1200, 1900, 3000]
   );
+  atualizarGraficos();
 });
 
 setTimeout(() => {

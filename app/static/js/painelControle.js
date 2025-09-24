@@ -26,16 +26,21 @@ const btnCancelarModalEditar = document.getElementById(
   "botaoCancelarModalEditar"
 );
 
+const usuarioLogado = document.getElementById("bemVindo");
 const btnLogout = document.getElementById("btnLogout");
 
 // Variáveis de alteração do conteúdo do formulário
 const tipoProduto = document.getElementById("tipoProduto");
-const form = document.getElementById("formCadastroProduto");
+const formCadastroProduto = document.getElementById("formCadastroProduto");
+const formRegistroCompra = document.getElementById("formRegistroCompra");
+const formRegistroVenda = document.getElementById("formRegistroVenda");
 const toastContainer = document.getElementById("toastContainer");
+const btnSpinner = document.getElementById("btnSpinner");
 const filtroTipo = document.getElementById("filtroTipo");
 
-const tabelaProdutos = document.querySelector("#tabelaProdutos tbody");
-const tabelaInativos = document.querySelector("#tabelaInativos tbody");
+const tabelaProdutos = document.querySelector("#tabelaProdutos");
+const tabelaInativos = document.querySelector("#tabelaInativos");
+const tabelaOperacoes = document.querySelector("#tabelaOperacoes");
 
 const campoPesquisa = document.getElementById("campoPesquisa");
 const tabela = document
@@ -124,12 +129,12 @@ function mostrarToast(mensagem, tipo = "sucesso", duracao = 4000) {
 // -------- Modais --------
 btnAbrirModalCompra.addEventListener("click", () => {
   modalCompras.showModal();
-  form.reset();
+  formRegistroCompra.reset();
 });
 
 btnFecharModalCompra.addEventListener("click", () => {
   modalCompras.close();
-  form.reset();
+  formRegistroCompra.reset();
 });
 
 btnCancelarModalCompra.addEventListener("click", () => modalCompras.close());
@@ -147,12 +152,12 @@ modalCompras.addEventListener("click", (evento) => {
 
 btnAbrirModalVenda.addEventListener("click", () => {
   modalVenda.showModal();
-  form.reset();
+  formRegistroVenda.reset();
 });
 
 btnFecharModalVenda.addEventListener("click", () => {
   modalVenda.close();
-  form.reset();
+  formRegistroVenda.reset();
 });
 
 btnCancelarModalVenda.addEventListener("click", () => modalVenda.close());
@@ -170,13 +175,13 @@ modalVenda.addEventListener("click", (evento) => {
 
 btnAbrirModalEstoque.addEventListener("click", () => {
   modalCadastro.showModal();
-  form.reset();
+  formCadastroProduto.reset();
   tipoProduto.value = "";
 });
 
 btnFecharModalEstoque.addEventListener("click", () => {
   modalCadastro.close();
-  form.reset();
+  formCadastroProduto.reset();
 });
 
 btnCancelarModalEstoque.addEventListener("click", () => modalCadastro.close());
@@ -219,8 +224,53 @@ btnLogout.addEventListener("click", async () => {
   }
 });
 
+async function carregarUsuarioLogado() {
+  if (btnSpinner) btnSpinner.style.display = "inline-block";
+
+  try {
+    const resposta = await fetch("/api/usuarioLogado", {
+      method: "GET",
+      credentials: "include",
+    });
+
+    if (resposta.ok) {
+      const usuario = await resposta.json();
+      usuarioLogado.innerText = "Bem-vindo(a), " + usuario.nome;
+    } else {
+      usuarioLogado.innerText = "Bem-vindo(a), visitante";
+    }
+  } catch (erro) {
+    console.error("Erro ao carregar usuário logado:", erro);
+    usuarioLogado.innerText = "Bem-vindo(a), visitante";
+  } finally {
+    btnSpinner.style.display = "none";
+  }
+}
+
+function mostrarEsqueleto(tabela, linhas = 5) {
+  const tbody = tabela.querySelector("tbody");
+  if (!tbody) return;
+
+  const colunas = tabela.querySelectorAll("thead th").length;
+  tbody.innerHTML = "";
+
+  for (let i = 0; i < linhas; i++) {
+    const tr = document.createElement("tr");
+    for (let j = 0; j < colunas; j++) {
+      const td = document.createElement("td");
+      td.classList.add("esqueleto");
+      tr.appendChild(td);
+    }
+    tbody.appendChild(tr);
+  }
+}
+
 // Carregar os produtos
 async function carregarProdutos(tipo = "") {
+  const tabela = tabelaProdutos;
+
+  mostrarEsqueleto(tabela, 5);
+
   try {
     let url = "/api/produtos";
     if (tipo) {
@@ -230,7 +280,11 @@ async function carregarProdutos(tipo = "") {
     const resposta = await fetch(url);
     const produtos = await resposta.json();
 
-    tabelaProdutos.innerHTML = "";
+    const linhas = produtos.length || 5;
+    mostrarEsqueleto(tabela, linhas);
+
+    const tbody = tabela.querySelector("tbody");
+    tbody.innerHTML = "";
 
     produtos.forEach((produto) => {
       const tr = document.createElement("tr");
@@ -258,11 +312,11 @@ async function carregarProdutos(tipo = "") {
           <button class="botoesDecisao btnInativarProduto" data-id="${
             produto.id
           }">
-            <img src="/static/assets/icons/lixeira.svg" alt="lixeira.svg" />
+            <img src="/static/assets/icons/inativar.svg" alt="inativar.svg" />
           </button>
         </td>
       `;
-      tabelaProdutos.appendChild(tr);
+      tbody.appendChild(tr);
     });
 
     document.querySelectorAll(".btnInativarProduto").forEach((botao) => {
@@ -295,12 +349,20 @@ async function carregarProdutos(tipo = "") {
 }
 
 async function carregarProdutosInativos() {
+  const tabela = tabelaInativos;
+
+  mostrarEsqueleto(tabela, 5);
+
   try {
     const url = "/api/produtos/inativos";
     const resposta = await fetch(url);
     const produtos = await resposta.json();
 
-    tabelaInativos.innerHTML = "";
+    const linhas = produtos.length || 5;
+    mostrarEsqueleto(tabela, linhas);
+
+    const tbody = tabela.querySelector("tbody");
+    tbody.innerHTML = "";
 
     produtos.forEach((produto) => {
       const tr = document.createElement("tr");
@@ -327,7 +389,7 @@ async function carregarProdutosInativos() {
           </button>
         </td>
       `;
-      tabelaInativos.appendChild(tr);
+      tbody.appendChild(tr);
     });
 
     document.querySelectorAll(".btnReativarProduto").forEach((btn) => {
@@ -374,7 +436,7 @@ function fecharModalCadastro() {
 }
 
 // -------- CRUD produtos --------
-form.addEventListener("submit", async (evento) => {
+formCadastroProduto.addEventListener("submit", async (evento) => {
   evento.preventDefault();
 
   const dados = {
@@ -383,7 +445,6 @@ form.addEventListener("submit", async (evento) => {
     codigo_original: document.getElementById("codigoProduto").value,
     preco_base: parseFloat(document.getElementById("precoProduto").value),
     marca: document.getElementById("marcaProduto").value,
-    material: document.getElementById("materialProduto").value,
     tamanho: document.getElementById("tamanhoProduto").value,
     cor: document.getElementById("corProduto").value,
     data_cadastro: document.getElementById("dataCadastroProduto").value,
@@ -521,18 +582,21 @@ campoPesquisa.addEventListener("keyup", function () {
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "");
-  const linhas = tabela.getElementsByTagName("tr");
 
-  for (let i = 0; i < linhas.length; i++) {
-    const colunaNome = linhas[i].getElementsByTagName("td")[1];
+  const linhas = tabela.querySelectorAll("tbody tr");
+
+  linhas.forEach((linha) => {
+    if (linha.querySelector(".esqueleto")) return;
+
+    const colunaNome = linha.getElementsByTagName("td")[1];
     if (colunaNome) {
       const textoNome = colunaNome.textContent
         .toLowerCase()
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "");
-      linhas[i].style.display = textoNome.includes(filtro) ? "" : "none";
+      linha.style.display = textoNome.includes(filtro) ? "" : "none";
     }
-  }
+  });
 });
 
 document.addEventListener("click", (evento) => {
@@ -563,8 +627,52 @@ async function carregarResumoProdutos() {
   }
 }
 
+async function carregarUsuarios() {
+  const tabela = tabelaOperacoes;
+
+  mostrarEsqueleto(tabela, 5);
+
+  try {
+    let url = "/api/usuario";
+
+    const resposta = await fetch(url);
+    const usuarios = await resposta.json();
+
+    const linhas = usuarios.length || 5;
+    mostrarEsqueleto(tabela, linhas);
+
+    const tbody = tabela.querySelector("tbody");
+    tbody.innerHTML = "";
+
+    usuarios.forEach((usuario) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td class="linhaTabela">${usuario.id}</td>
+        <td class="linhaTabela">${usuario.nome}</td>
+        <td class="linhaTabela">${usuario.email}</td>
+        <td class="linhaTabela">${usuario.senha}</td>
+        <td class="linhaTabela">R$ ${usuario.status}</td>
+        <td class="linhaTabela acoes">
+          <button class="botoesDecisao btnEditarUsuario" data-id="${usuario.id}">
+            <img src="/static/assets/icons/editar.svg" alt="editar.svg" />
+          </button>
+          <button class="botoesDecisao btnDeletarUsuario" data-id="${usuario.id}">
+            <img src="/static/assets/icons/lixeira.svg" alt="lixeira.svg" />
+          </button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  } catch (erro) {
+    console.error("Erro ao carregar usuários:", erro);
+    mostrarToast("Erro ao carregar usuários", "erro");
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  carregarUsuarioLogado();
   carregarProdutos();
   carregarProdutosInativos();
   carregarResumoProdutos();
+  carregarUsuarios();
 });

@@ -9,7 +9,6 @@ formLogin.addEventListener("submit", async (e) => {
   const senha = document.getElementById("senha").value.trim();
   const estado = document.getElementById("estado").value;
 
-  btnText.style.display = "none";
   btnSpinner.style.display = "block";
 
   try {

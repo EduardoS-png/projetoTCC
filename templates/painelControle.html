@@ -36,7 +36,8 @@
         <h1 id="tituloPrincipal">Tudo no Controle</h1>
       </div>
       <div class="perfilUsuario">
-        <span class="nomeUsuario">Bem-vindo - {{ session['usuario'] }}</span>
+        <button id="btnSpinner" class="spinner" style="display: none"></button>
+        <h2 id="bemVindo"></h2>
         <button id="btnLogout">Sair</button>
       </div>
     </header>
@@ -196,16 +197,16 @@
             </tr>
           </thead>
           <tbody id="listaCompras">
-            <tr class="linhaTabela">
-              <td class="tabelaColuna">PROD001</td>
-              <td class="tabelaColuna">Empresa Cardoso</td>
-              <td class="tabelaColuna">20/06/2026</td>
-              <td class="tabelaColuna">10 linhas</td>
+            <tr>
+              <td class="linhaTabela">PROD001</td>
+              <td class="linhaTabela">Empresa Cardoso</td>
+              <td class="linhaTabela">20/06/2026</td>
+              <td class="linhaTabela">10 linhas</td>
               <td>R$9.000</td>
-              <td class="tabelaColuna">
+              <td class="linhaTabela">
                 <span class="itemEstado emEstoque">Recebido</span>
               </td>
-              <td class="tabelaColuna acoes">
+              <td class="linhaTabela acoes">
                 <button class="botoesDecisao" title="Editar">
                   <img
                     src="{{ url_for('static', filename='assets/icons/editar.svg') }}"
@@ -285,17 +286,17 @@
               <th>Ações</th>
             </tr>
           </thead>
-          <tbody id="listaCompras">
-            <tr class="linhaTabela">
-              <td class="tabelaColuna">PROD001</td>
-              <td class="tabelaColuna">Empresa Cardoso</td>
-              <td class="tabelaColuna">20/06/2026</td>
-              <td class="tabelaColuna">10 linhas</td>
+          <tbody>
+            <tr>
+              <td class="linhaTabela">PROD001</td>
+              <td class="linhaTabela">Empresa Cardoso</td>
+              <td class="linhaTabela">20/06/2026</td>
+              <td class="linhaTabela">10 linhas</td>
               <td>R$9.000</td>
-              <td class="tabelaColuna">
+              <td class="linhaTabela">
                 <span class="itemEstado emEstoque">Recebido</span>
               </td>
-              <td class="tabelaColuna acoes">
+              <td class="linhaTabela acoes">
                 <button class="botoesDecisao" title="Editar">
                   <img
                     src="{{ url_for('static', filename='assets/icons/editar.svg') }}"
@@ -325,7 +326,7 @@
                 <strong id="totalQuant"></strong>
               </div>
               <div class="sumarioEstado alerta">
-                <span>Baixo Estoque (&lt; 30)</span>
+                <span>Baixo Estoque</span>
                 <strong id="baixoEstoq"></strong>
               </div>
               <div class="sumarioEstado perigo">
@@ -426,7 +427,8 @@
 
         <table id="tabelaOperacoes">
           <thead>
-            <tr class="configCabecalho">
+            <tr class="tabelaCabecalho">
+              <th>ID</th>
               <th>Usuário</th>
               <th>Email</th>
               <th>Senha</th>
@@ -448,7 +450,7 @@
     <dialog id="modalRegistroCompra">
       <form id="formRegistroCompra" method="POST">
         <div class="modalCabecalho">
-          <h2 class="tituloModal">Cadastrar / Editar Produto</h2>
+          <h2 class="tituloModal">Registrar Compra</h2>
           <button
             type="button"
             id="botaoFecharCompra"
@@ -510,12 +512,7 @@
     </dialog>
 
     <!-- Modal para o registro de novas vendas -->
-    <dialog
-      id="modalRegistroVenda"
-      aria-labelledby="tituloModalVenda"
-      aria-modal="true"
-      role="dialog"
-    >
+    <dialog id="modalRegistroVenda">
       <form id="formRegistroVenda" method="POST">
         <div class="modalCabecalho">
           <h2 class="tituloModal">Registrar Venda</h2>
@@ -528,26 +525,18 @@
         </div>
 
         <div class="grupoFormulario">
-          <!-- Cliente -->
           <label for="clienteVenda">Cliente</label>
-          <select name="cliente_id" id="clienteVenda" required>
-            <option value="" disabled selected>Seleciona o cliente</option>
-            {% for cliente in clientes %}
-            <option value="{{ cliente.id }}">{{ cliente.nome }}</option>
-            {% endfor %}
-          </select>
+          <input type="text" name="clienteVenda" id="clienteVenda" />
 
           <!-- Produto -->
           <label for="produtoVenda">Produto</label>
-          <select id="produtoVenda" name="produto_id" required>
+          <select id="produtoVenda" name="produtoVenda" required>
             <option value="" disabled selected>Selecione o produto</option>
             {% for produto in produtos %}
             <option value="{{ produto.id }}">{{ produto.nome }}</option>
             {% endfor %}
-            <!-- Produtos devem ser carregados dinamicamente -->
           </select>
 
-          <!-- Quantidade -->
           <label for="quantidadeVenda">Quantidade</label>
           <input
             type="number"
@@ -558,7 +547,6 @@
             required
           />
 
-          <!-- Preço unitário (preenchido automático ou editável) -->
           <label for="precoVenda">Preço Unitário</label>
           <input
             type="number"
@@ -569,7 +557,6 @@
             required
           />
 
-          <!-- Valor total (calculado automaticamente) -->
           <label for="valorTotalVenda">Valor Total</label>
           <input
             type="number"
@@ -580,7 +567,6 @@
             readonly
           />
 
-          <!-- Forma de pagamento -->
           <label for="formaPagamentoVenda">Forma de Pagamento</label>
           <select id="formaPagamentoVenda" name="forma_pagamento" required>
             <option value="" disabled selected>Selecione</option>
@@ -590,7 +576,6 @@
             <option value="boleto">Boleto</option>
           </select>
 
-          <!-- Data da venda -->
           <label for="dataVenda">Data da Venda</label>
           <input type="date" id="dataVenda" name="data_venda" required />
         </div>
@@ -706,10 +691,8 @@
           </button>
         </div>
 
-        <!-- Hidden para armazenar o ID do produto -->
         <input type="hidden" id="editarProdutoId" />
 
-        <!-- Campos do Produto -->
         <label for="editarNomeProduto">Nome</label>
         <input
           type="text"
@@ -721,9 +704,6 @@
         <label for="editarTipoProduto">Tipo de Produto</label>
         <select id="editarTipoProduto" disabled>
           <option value="">Selecione</option>
-          <option value="linha">Linha</option>
-          <option value="tecido">Tecido</option>
-          <option value="extra">Extra</option>
         </select>
 
         <label for="editarCodigoProduto">Código</label>

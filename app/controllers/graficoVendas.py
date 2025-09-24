@@ -21,7 +21,6 @@ def dados_vendas():
 
     resultados = cursor.fetchall()
 
-    # transforma em listas
     semanas = []
     totais = []
     for semana, total in resultados:
