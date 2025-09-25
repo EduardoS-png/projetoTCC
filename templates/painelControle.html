@@ -174,6 +174,12 @@
               alt="novo.svg"
             />Nova Compra
           </button>
+          <button id="btnAbrirModalFornecedor" class="botaoPrimario">
+            <img
+              src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
+              alt="novo.svg"
+            />Novo fornecedor
+          </button>
           <div class="filtrarOpcoes">
             <select class="filtroSelecionar">
               <option value="">Todos os status</option>
@@ -184,44 +190,40 @@
           </div>
         </div>
 
-        <table id="tabelaCompras">
+        <h3 class="tituloTabela">Fornecedores Cadastrados</h3>
+        <table id="tabelaFornecedores">
           <thead>
             <tr class="tabelaCabecalho">
-              <th>Código</th>
-              <th>Fornecedor</th>
-              <th>Data</th>
-              <th>Itens</th>
-              <th>Total (R$)</th>
-              <th>Status</th>
+              <th>ID</th>
+              <th>Nome do fornecedor</th>
+              <th>Nome Fantasia(fornecedor)</th>
+              <th>CNPJ do fornecedor</th>
+              <th>Endereço</th>
+              <th>Telefone 1</th>
+              <th>Telefone 2</th>
               <th>Ações</th>
             </tr>
           </thead>
-          <tbody id="listaCompras">
-            <tr>
-              <td class="linhaTabela">PROD001</td>
-              <td class="linhaTabela">Empresa Cardoso</td>
-              <td class="linhaTabela">20/06/2026</td>
-              <td class="linhaTabela">10 linhas</td>
-              <td>R$9.000</td>
-              <td class="linhaTabela">
-                <span class="itemEstado emEstoque">Recebido</span>
-              </td>
-              <td class="linhaTabela acoes">
-                <button class="botoesDecisao" title="Editar">
-                  <img
-                    src="{{ url_for('static', filename='assets/icons/editar.svg') }}"
-                    alt="editar.svg"
-                  />
-                </button>
-                <button class="botoesDecisao" title="Excluir">
-                  <img
-                    src="{{ url_for('static', filename='assets/icons/lixeira.svg') }}"
-                    alt="lixeira.svg"
-                  />
-                </button>
-              </td>
+          <tbody></tbody>
+        </table>
+
+        <h3 class="tituloTabela">Compras Registradas</h3>
+        <table id="tabelaCompras">
+          <thead>
+            <tr class="tabelaCabecalho">
+              <th>ID</th>
+              <th>Produto id</th>
+              <th>Nome do produto</th>
+              <th>Id do fornecedor</th>
+              <th>Nome do fornecedor</th>
+              <th>Quantidade comprada</th>
+              <th>Categoria do produto</th>
+              <th>Preço da compra</th>
+              <th>Data da compra</th>
+              <th>Ações</th>
             </tr>
-          </tbody>
+          </thead>
+          <tbody></tbody>
         </table>
       </section>
 
@@ -274,44 +276,20 @@
         </div>
 
         <h3 class="tituloTabela">Vendas Registradas</h3>
-        <table id="tabelaCompras">
+        <table id="tabelaVendas">
           <thead>
             <tr class="tabelaCabecalho">
-              <th>Código</th>
-              <th>Fornecedor</th>
-              <th>Data</th>
-              <th>Itens</th>
-              <th>Total (R$)</th>
-              <th>Status</th>
+              <th>ID</th>
+              <th>Produto_id</th>
+              <th>Nome do produto</th>
+              <th>Nome do cliente</th>
+              <th>Quantidade vendida</th>
+              <th>Total da venda</th>
+              <th>Data de venda</th>
               <th>Ações</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td class="linhaTabela">PROD001</td>
-              <td class="linhaTabela">Empresa Cardoso</td>
-              <td class="linhaTabela">20/06/2026</td>
-              <td class="linhaTabela">10 linhas</td>
-              <td>R$9.000</td>
-              <td class="linhaTabela">
-                <span class="itemEstado emEstoque">Recebido</span>
-              </td>
-              <td class="linhaTabela acoes">
-                <button class="botoesDecisao" title="Editar">
-                  <img
-                    src="{{ url_for('static', filename='assets/icons/editar.svg') }}"
-                    alt="editar.svg"
-                  />
-                </button>
-                <button class="botoesDecisao" title="Excluir">
-                  <img
-                    src="{{ url_for('static', filename='assets/icons/lixeira.svg') }}"
-                    alt="lixeira.svg"
-                  />
-                </button>
-              </td>
-            </tr>
-          </tbody>
+          <tbody></tbody>
         </table>
       </section>
 
@@ -344,6 +322,12 @@
               alt="novo.svg"
             />Novos produtos
           </button>
+          <button id="btnAbrirModalCategoria" class="botaoPrimario">
+            <img
+              src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
+              alt="novo.svg"
+            />Nova categoria
+          </button>
 
           <div class="filtrarOpcoes">
             <label for="filtroTipo">Filtrar por tipo:</label>
@@ -368,7 +352,7 @@
             <tr class="tabelaCabecalho">
               <th>ID</th>
               <th>Nome</th>
-              <th>Tipo</th>
+              <th>Categoria do produto</th>
               <th>Código Original</th>
               <th>Preço Base</th>
               <th>Marca</th>
@@ -388,7 +372,7 @@
             <tr class="tabelaCabecalho">
               <th>ID</th>
               <th>Nome</th>
-              <th>Tipo</th>
+              <th>Categoria do produto</th>
               <th>Código Original</th>
               <th>Preço Base</th>
               <th>Marca</th>
@@ -472,6 +456,9 @@
           required
         />
 
+        <label for="produto_nome">Nome do Produto</label>
+        <input type="text" id="produto_nome" name="produto_nome" readonly />
+
         <label for="categoria_compra">Categoria</label>
         <input
           type="text"
@@ -485,6 +472,14 @@
           id="fornecedor_id"
           placeholder="Digite o id do fornecedor..."
           required
+        />
+
+        <label for="fornecedor_nome">Nome do Fornecedor</label>
+        <input
+          type="text"
+          id="fornecedor_nome"
+          name="fornecedor_nome"
+          readonly
         />
 
         <label for="quantidade">Quantidade</label>
@@ -616,12 +611,9 @@
           required
         />
 
-        <label for="tipoProduto">Tipo de Produto</label>
-        <select id="tipoProduto" required>
+        <label for="categoriaProduto">Categoria do Produto</label>
+        <select id="categoriaProduto" required>
           <option value="" selected>Selecione</option>
-          <option value="linha">Linha</option>
-          <option value="tecido">Tecido</option>
-          <option value="extra">Extra</option>
         </select>
 
         <label for="codigoProduto">Código</label>

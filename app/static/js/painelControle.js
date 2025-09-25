@@ -41,6 +41,9 @@ const filtroTipo = document.getElementById("filtroTipo");
 const tabelaProdutos = document.querySelector("#tabelaProdutos");
 const tabelaInativos = document.querySelector("#tabelaInativos");
 const tabelaOperacoes = document.querySelector("#tabelaOperacoes");
+const tabelaCompras = document.querySelector("#tabelaCompras");
+const tabelaFornecedores = document.querySelector("#tabelaFornecedores");
+const tabelaVendas = document.querySelector("#tabelaVendas");
 
 const campoPesquisa = document.getElementById("campoPesquisa");
 const tabela = document
@@ -627,6 +630,144 @@ async function carregarResumoProdutos() {
   }
 }
 
+async function carregarCompras() {
+  const tabela = tabelaCompras;
+
+  mostrarEsqueleto(tabela, 5);
+
+  try {
+    let url = "/api/compra";
+
+    const resposta = await fetch(url);
+    const compras = await resposta.json();
+
+    const linhas = compras.length || 5;
+    mostrarEsqueleto(tabela, linhas);
+
+    const tbody = tabela.querySelector("tbody");
+    tbody.innerHTML = "";
+
+    compras.forEach((compra) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td class="linhaTabela">${compra.id}</td>
+        <td class="linhaTabela">${compra.produto_id}</td>
+        <td class="linhaTabela">${compra.nome_produto}</td>
+        <td class="linhaTabela">${compra.fornecedor_id}</td>
+        <td class="linhaTabela">R$ ${compra.nome_fornecedor}</td>
+        <td class="linhaTabela">${compra.quantidade || 0}</td>
+        <td class="linhaTabela">${compra.categoria}</td>
+        <td class="linhaTabela">R$ ${parseFloat(compra.preco_compra).toFixed(
+          2
+        )}</td>
+        <td class="linhaTabela">${new Date(
+          compra.data_compra
+        ).toLocaleDateString("pt-BR")}</td>
+        
+        <td class="linhaTabela acoes">
+          <button class="botoesDecisao btnEditarCompra" data-id="${compra.id}">
+            <img src="/static/assets/icons/editar.svg" alt="editar.svg" />
+          </button>
+          <button class="botoesDecisao btnDeletarCompra" data-id="${compra.id}">
+            <img src="/static/assets/icons/inativar.svg" alt="inativar.svg" />
+          </button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  } catch (erro) {
+    console.error("Erro ao carregar as compras:", erro);
+    mostrarToast("Erro ao carregar as compras", "erro");
+  }
+}
+
+async function carregarFornecedores() {
+  const tabela = tabelaFornecedores;
+
+  mostrarEsqueleto(tabela, 5);
+
+  try {
+    let url = "/api/fornecedor";
+
+    const resposta = await fetch(url);
+    const fornecedores = await resposta.json();
+
+    const linhas = fornecedores.length || 5;
+    mostrarEsqueleto(tabela, linhas);
+
+    const tbody = tabela.querySelector("tbody");
+    tbody.innerHTML = "";
+
+    fornecedores.forEach((fornecedor) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td class="linhaTabela">${fornecedor.id}</td>
+        <td class="linhaTabela">${fornecedor.nome}</td>
+        <td class="linhaTabela">${fornecedor.nome_fantasia}</td>
+        <td class="linhaTabela">${fornecedor.cnpj}</td>
+        <td class="linhaTabela">${fornecedor.endereco}</td>
+        <td class="linhaTabela">${fornecedor.telefone1}</td>
+        <td class="linhaTabela">${fornecedor.telefone2}</td>
+        <td class="linhaTabela acoes">
+          <button class="botoesDecisao btnEditarCompra" data-id="${fornecedor.id}">
+            <img src="/static/assets/icons/editar.svg" alt="editar.svg" />
+          </button>
+          <button class="botoesDecisao btnDeletarCompra" data-id="${fornecedor.id}">
+            <img src="/static/assets/icons/inativar.svg" alt="inativar.svg" />
+          </button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  } catch (erro) {
+    console.error("Erro ao carregar os fornecedores:", erro);
+    mostrarToast("Erro ao carregar os fornecedores", "erro");
+  }
+}
+
+async function carregarVendas() {
+  const tabela = tabelaVendas;
+
+  mostrarEsqueleto(tabela, 5);
+
+  try {
+    let url = "/api/venda";
+
+    const resposta = await fetch(url);
+    const vendas = await resposta.json();
+
+    const linhas = vendas.length || 5;
+    mostrarEsqueleto(tabela, linhas);
+
+    const tbody = tabela.querySelector("tbody");
+    tbody.innerHTML = "";
+
+    vendas.forEach((venda) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td class="linhaTabela">${venda.id}</td>
+        <td class="linhaTabela">${venda.produto_id}</td>
+        <td class="linhaTabela">${venda.produto_nome}</td>
+        <td class="linhaTabela">${venda.cliente_nome}</td>
+        <td class="linhaTabela">R$ ${venda.quantidade || 0}</td>
+        <td class="linhaTabela">${parseFloat(venda.preco_venda).toFixed(2)}</td>
+        <td class="linhaTabela">${new Date(venda.data_venda).toLocaleDateString(
+          "pt-BR"
+        )}</td>
+        <td class="linhaTabela acoes">
+          <button class="botoesDecisao btnEditarVenda" data-id="${venda.id}">
+            <img src="/static/assets/icons/editar.svg" alt="editar.svg" />
+          </button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  } catch (erro) {
+    console.error("Erro ao carregar as vendas:", erro);
+    mostrarToast("Erro ao carregar as vendas", "erro");
+  }
+}
+
 async function carregarUsuarios() {
   const tabela = tabelaOperacoes;
 
@@ -674,5 +815,8 @@ document.addEventListener("DOMContentLoaded", () => {
   carregarProdutos();
   carregarProdutosInativos();
   carregarResumoProdutos();
+  carregarCompras();
+  carregarFornecedores();
+  carregarVendas();
   carregarUsuarios();
 });

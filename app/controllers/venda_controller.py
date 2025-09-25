@@ -1,32 +1,32 @@
 from flask import Blueprint, request, jsonify
-from app.models.venda import venda , get_venda, get_venda_id, insert_venda
+from app.models.venda import get_venda, get_venda_id, insert_venda
 
 venda_bp = Blueprint("venda", __name__)
 
 # Listar todas as vendas
-@venda_bp.route("/api/vendas", methods=["GET"])
+@venda_bp.route("/api/venda", methods=["GET"])
 def listar_vendas():
     try:
         vendas = get_venda()
-        return jsonify(venda), 200
+        return jsonify(vendas), 200
     except Exception as e:
         return jsonify({"erro": str(e)}), 400
     
 
 # Buscar venda por id
-@venda_bp.route("/api/vendas/<int:venda_id>", methods=["GET"])
+@venda_bp.route("/api/venda/<int:venda_id>", methods=["GET"])
 def buscar_venda(venda_id):
     try:
-        resultado = get_venda_id(venda_id)
-        if not resultado:
+        venda = get_venda_id(venda_id)
+        if not venda:
             return jsonify({"erro": "Venda não encontrada"}), 404
-        return jsonify(resultado), 200
+        return jsonify(venda), 200
     except Exception as e:
         return jsonify({"erro": str(e)}), 400
     
 
 # Registrar nova venda 
-@venda_bp.route("/api/vendas", methods=["POST"])
+@venda_bp.route("/api/venda", methods=["POST"])
 def registrar_vendas():
     try:
         dados = request.get_json()

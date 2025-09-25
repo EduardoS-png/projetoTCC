@@ -380,7 +380,9 @@ main {
   margin-bottom: 1rem;
 }
 
-#tabelaCompras {
+#tabelaCompras,
+#tabelaFornecedores,
+#tabelaVendas {
   width: 100%;
   margin-bottom: 2rem;
   border-collapse: separate;
@@ -393,7 +395,11 @@ main {
 }
 
 #tabelaCompras th,
-#tabelaCompras td {
+#tabelaCompras td,
+#tabelaFornecedores th,
+#tabelaFornecedores td,
+#tabelaVendas th,
+#tabelaVendas td {
   padding: 0.8rem 1rem;
   text-align: left;
   vertical-align: middle;
