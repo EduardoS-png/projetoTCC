@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
-from app.models.venda import get_venda, get_venda_id, insert_venda, validar_venda
+from datetime import datetime
+from app.models.venda import conexaoBD, get_venda, get_venda_id, insert_venda, validar_venda
 
 venda_bp = Blueprint("venda", __name__)
 
@@ -34,21 +35,50 @@ def registrar_vendas():
             return jsonify({"erro": "JSON inválido ou vazio"}), 400
         
 
-        produto_id = dados.get("produto_id")
-        nome_produto = dados.get("nome_produto")
-        cliente_id = dados.get("cliente_id")
-        quantidade = dados.get("quantidade")
-        preco_venda = dados.get("preco_venda")
-        data_venda = dados.get("data_venda")
+        cliente_nome = dados.get("cliente_nome")
+        date_venda = dados.get("data_venda")
+        forma_pagamento = dados.get("forma_pagamento")
+        itens = dados.get("itens", [])
 
-        if not all([produto_id, nome_produto, cliente_id, quantidade, preco_venda, data_venda]):
+        if not all([cliente_nome, date_venda, forma_pagamento]) or not itens:
             return jsonify({"erro": "Campos obrigatórios faltando"}), 400
 
-        venda_id = insert_venda(produto_id, nome_produto, cliente_id, quantidade, preco_venda, data_venda)
+        conexao = conexaoBD()
+        cursor = conexao.cursor(dictionary= True)
 
-        return jsonify({"mensagem": "Venda registrada com sucesso!", "id": venda_id}), 201
+        # Validar estoque de cada item 
+        for item in itens:
+            cursor.execute("SELECT quantidade FROM estoque WHERE produto_id = %s", (item["produto_id"]))
+
+            estoque = cursor.fetchone()
+            if not estoque:
+                return jsonify({"erro": f"Produto{item['nome_produto']} não encontrado"}), 404
+            if estoque["quantidade"] < item["quantidade"]:
+                return jsonify({"erro": f"Estoque insuficiente para {item['nome_produto']}"}), 400
+
+        # Registrar vendas e atualizar estoque 
+        for item in itens:
+            cursor.execute(" UPDATE estoque SET quantidade = quantidade - %s WHERE produto_id = %s", (item["quantidade"], item["produto_id"]))
+
+            cursor.execute(""" INSERT INTO venda (produto_id, produto_nome, cliente_nome, quantidade, preco_venda, data_venda, forma_pagamento) VALUES(%s,%s,%s,%s,%s,%s,%s)""",
+                    (item["produto_id"],
+                     item["nome_produto"],
+                     cliente_nome, item["quantidade"],
+                     item["preco_venda"],
+                     datetime.strptime(date_venda, "%y-%m-%d"),
+                     forma_pagamento
+                    )
+                ) 
+        conexao.commit()
+        return jsonify({"mensagem": "Venda(s) registrada(s) com sucesso!"}), 201
     except Exception as e:
-        return jsonify({"erro": str(e)}), 400
+        conexao.rollback()
+        return jsonify({"erro": str(e)}), 500
+    
+    finally:
+        cursor.close()
+        conexao.close()
+
     
 
 @venda_bp.route("/api/venda", methods=["POST"])

@@ -51,7 +51,6 @@ const tabelaProdutos = document.querySelector("#tabelaProdutos");
 const tabelaInativos = document.querySelector("#tabelaInativos");
 const tabelaOperacoes = document.querySelector("#tabelaOperacoes");
 const tabelaCompras = document.querySelector("#tabelaCompras");
-const tabelaFornecedores = document.querySelector("#tabelaFornecedores");
 const tabelaVendas = document.querySelector("#tabelaVendas");
 
 const campoPesquisa = document.getElementById("campoPesquisa");
@@ -59,6 +58,14 @@ const select = document.getElementById("categoriaProduto");
 const tabela = document
   .getElementById("tabelaProdutos")
   .getElementsByTagName("tbody")[0];
+
+const produtoSelect = document.getElementById("produtoSelect");
+const quantidadeProduto = document.getElementById("quantidadeProduto");
+const btnAdicionarItem = document.getElementById("btnAdicionarItem");
+const tabelaItensVenda = document.getElementById("tabelaItensVenda").querySelector("tbody");
+const valorTotalVenda = document.getElementById("valorTotalVenda");
+
+let itensVenda = [];
 
 // Botões para a navegação das abas principais
 botaoMenu.addEventListener("click", () => {
@@ -783,9 +790,7 @@ export async function carregarVendas() {
   mostrarEsqueleto(tabela, 5);
 
   try {
-    let url = "/api/venda";
-
-    const resposta = await fetch(url);
+    const resposta = await fetch("/api/venda");
     const vendas = await resposta.json();
 
     const linhas = vendas.length || 5;
@@ -795,17 +800,17 @@ export async function carregarVendas() {
     tbody.innerHTML = "";
 
     vendas.forEach((venda) => {
+      const totalVenda = (venda.quantidade || 0) * parseFloat(venda.preco_venda || 0);
+
       const tr = document.createElement("tr");
       tr.innerHTML = `
         <td class="linhaTabela">${venda.id}</td>
-        <td class="linhaTabela">${venda.produto_id}</td>
         <td class="linhaTabela">${venda.produto_nome}</td>
+        <td class="linhaTabela">${venda.produto_id}</td>
         <td class="linhaTabela">${venda.cliente_nome}</td>
-        <td class="linhaTabela">R$ ${venda.quantidade || 0}</td>
-        <td class="linhaTabela">${parseFloat(venda.preco_venda).toFixed(2)}</td>
-        <td class="linhaTabela">${new Date(venda.data_venda).toLocaleDateString(
-          "pt-BR"
-        )}</td>
+        <td class="linhaTabela">${venda.quantidade || 0}</td>
+        <td class="linhaTabela">R$ ${totalVenda.toFixed(2)}</td>
+        <td class="linhaTabela">${new Date(venda.data_venda).toLocaleDateString("pt-BR")}</td>
         <td class="linhaTabela acoes">
           <button class="botoesDecisao btnEditarVenda" data-id="${venda.id}">
             <img src="/static/assets/icons/editar.svg" alt="editar.svg" />
@@ -819,6 +824,107 @@ export async function carregarVendas() {
     mostrarToast("Erro ao carregar as vendas", "erro");
   }
 }
+
+async function carregarProdutosSelect() {
+  const resposta = await fetch("/api/produtos");
+  const produtos = await resposta.json();
+
+  produtoSelect.innerHTML = '<option value="" disabled selected>Selecione o Produto</option>';
+  produtos.forEach(produto => {
+    const option = document.createElement("option");
+    option.value = produto.id;
+    option.textContent = `${produto.nome} - R$ ${parseFloat(produto.preco_base).toFixed(2)}`;
+    option.dataset.preco = produto.preco_base;
+    produtoSelect.appendChild(option);
+  });
+}
+
+function atualizarTabelaItens() {
+  tabelaItensVenda.innerHTML = "";
+  let total = 0;
+
+  itensVenda.forEach((item, index) => {
+    const subtotal = item.quantidade * item.precoUnit;
+    total += subtotal;
+
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td class="linhaTabela">${item.produtoNome}</td>
+      <td class="linhaTabela">${item.quantidade}</td>
+      <td class="linhaTabela">R$ ${item.precoUnit.toFixed(2)}</td>
+      <td class="linhaTabela"><button type="button" data-index="${index}" class="btnRemoverItem">Remover</button></td>
+    `;
+    tabelaItensVenda.appendChild(tr);
+  });
+
+  valorTotalVenda.value = total.toFixed(2);
+
+  document.querySelectorAll(".btnRemoverItem").forEach(botao => {
+    botao.addEventListener("click", () => {
+      const idx = parseInt(botao.dataset.index);
+      itensVenda.splice(idx, 1);
+      atualizarTabelaItens();
+    });
+  });
+}
+
+btnAdicionarItem.addEventListener("click", () => {
+  const produtoId = parseInt(produtoSelect.value);
+  const produtoNome = produtoSelect.options[produtoSelect.selectedIndex].text.split(" - ")[0];
+  const precoUnit = parseFloat(produtoSelect.options[produtoSelect.selectedIndex].dataset.preco);
+  const quantidade = parseInt(quantidadeProduto.value);
+
+  if (!produtoId || quantidade <= 0) {
+    alert("Selecione produto e quantidade válida");
+    return;
+  }
+
+  itensVenda.push({ produtoId, produtoNome, quantidade, precoUnit });
+
+  atualizarTabelaItens();
+  quantidadeProduto.value = "";
+  produtoSelect.value = "";
+});
+
+formRegistroVenda.addEventListener("submit", async (evento) => {
+  evento.preventDefault();
+  if (itensVenda.length === 0) {
+    alert("Adicione pelo menos um item na venda.");
+    return;
+  }
+
+  const dadosVenda = {
+    cliente: document.getElementById("clienteVenda").value,
+    data_venda: document.getElementById("dataVenda").value,
+    forma_pagamento: document.getElementById("formaPagamentoVenda").value,
+    itens: itensVenda,
+    valor_total: parseFloat(valorTotalVenda.value)
+  };
+
+  try {
+    const resposta = await fetch("/api/vendas", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dadosVenda)
+    });
+    const resultado = await resposta.json();
+
+    if (resposta.ok && resultado.status) {
+      mostrarToast(resultado.mensagem || "Venda registrada com sucesso!");
+      itensVenda = [];
+      atualizarTabelaItens();
+      formRegistroVenda.reset();
+      modalVenda.close();
+      carregarProdutos(); 
+      carregarVendas();
+    } else {
+      mostrarToast(resultado.mensagem || "Erro ao registrar venda", "erro");
+    }
+  } catch (erro) {
+    console.error("Erro ao registrar venda:", erro);
+    mostrarToast("Erro ao registrar venda", "erro");
+  }
+});
 
 async function carregarUsuarios() {
   const tabela = tabelaOperacoes;
@@ -869,7 +975,7 @@ document.addEventListener("DOMContentLoaded", () => {
   carregarCategorias();
   carregarResumoProdutos();
   carregarCompras();
-  carregarFornecedores();
+  carregarProdutosSelect();
   carregarVendas();
   carregarUsuarios();
 });
