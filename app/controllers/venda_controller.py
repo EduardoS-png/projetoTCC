@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.models.venda import get_venda, get_venda_id, insert_venda
+from app.models.venda import get_venda, get_venda_id, insert_venda, validar_venda
 
 venda_bp = Blueprint("venda", __name__)
 
@@ -49,3 +49,18 @@ def registrar_vendas():
         return jsonify({"mensagem": "Venda registrada com sucesso!", "id": venda_id}), 201
     except Exception as e:
         return jsonify({"erro": str(e)}), 400
+    
+
+@venda_bp.route("/api/venda", methods=["POST"])
+def validar_venda():
+    try:
+        dados = request.get_json() if request.is_json else request.form
+        produto_id = int(dados.get('produto_id'))
+        quantidade_desejada = int(dados.get('quantidade_desejada'))
+
+        resultado = validar_venda(produto_id, quantidade_desejada)
+
+        return jsonify(resultado), (200 if resultado['status'] else 400)
+    
+    except Exception as e:
+        return jsonify({"status": False, "mensagem": f"Erro interno: {str(e)}"}), 500

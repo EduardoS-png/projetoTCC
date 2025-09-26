@@ -269,7 +269,8 @@ function mostrarEsqueleto(tabela, linhas = 5) {
 }
 
 // Carregar os produtos
-async function carregarProdutos(tipo = "") {
+
+export async function carregarProdutos(tipo = "") {
   const tabela = tabelaProdutos;
 
   mostrarEsqueleto(tabela, 5);
@@ -630,7 +631,7 @@ async function carregarResumoProdutos() {
   }
 }
 
-async function carregarCompras() {
+export async function carregarCompras() {
   const tabela = tabelaCompras;
 
   mostrarEsqueleto(tabela, 5);
@@ -725,7 +726,7 @@ async function carregarFornecedores() {
   }
 }
 
-async function carregarVendas() {
+export async function carregarVendas() {
   const tabela = tabelaVendas;
 
   mostrarEsqueleto(tabela, 5);

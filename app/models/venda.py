@@ -56,4 +56,37 @@ def insert_venda(dados: dict):
     finally:
         cursor.close()
         conexao.close()
+
+
+
+
+def validar_venda(produto_id, quantidade_desejada):
+    conexao = conexaoBD()
+    cursor = conexao.cursor(dictionary=True)
+
+    # 1. Verificar se o produto existe
+    sql_produto = """
+        SELECT produto_id, quantidade
+        FROM produto
+        JOIN estoque e ON produto_id = estoque.produto_id
+        WHERE produto_id = %s
+    """
+    cursor.execute(sql_produto, (produto_id,))
+    produto = cursor.fetchone()
+
+    if not produto:
+        return {"status": False, "mensagem": "Produto não encontrado."}
+
+    # 2. Verificar se há estoque suficiente
+    if produto['quantidade'] < quantidade_desejada:
+        return {"status": False, "mensagem": "Quantidade insuficiente em estoque."}
+
+    # 3. Se tudo OK, atualiza estoque
+    nova_qtd = produto['quantidade'] - quantidade_desejada
+    sql_update = "UPDATE estoque SET quantidade = %s WHERE produto_id = %s"
+    cursor.execute(sql_update, (nova_qtd, produto_id))
+    conexao.commit()
+
+    return {"status": True, "mensagem": "Venda validada e estoque atualizado."}
+
     
