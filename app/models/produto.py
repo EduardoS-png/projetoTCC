@@ -1,23 +1,23 @@
 from app.models import conexaoBD
 from datetime import date
 
-def get_produtos(tipo=None):
+def get_produtos(categoria_id=None):
     conexao = conexaoBD()
     try: 
         cursor = conexao.cursor(dictionary=True)
         sql = """
-            SELECT p.id, p.nome, p.tipo, p.codigo_original, p.preco_base, 
-                   p.marca, p.tamanho, p.cor, p.data_cadastro, e.quantidade
+            SELECT p.id, p.nome, c.id AS categoria_id, c.nome AS categoria, p.codigo_original, p.preco_base, p.marca, p.tamanho, p.cor, p.data_cadastro, e.quantidade
             FROM produto p
             JOIN estoque e ON p.id = e.produto_id
+            JOIN categoria c ON p.categoria_id = c.id
             WHERE p.ativo = TRUE
         """
 
         parametro = []
 
-        if tipo: 
-            sql += " AND p.tipo = %s"
-            parametro.append(tipo)
+        if categoria_id: 
+            sql += " AND p.categoria_id = %s"
+            parametro.append(categoria_id)
         
         cursor.execute(sql, tuple(parametro))
         produtos = cursor.fetchall()
@@ -26,23 +26,25 @@ def get_produtos(tipo=None):
         conexao.close()
     return produtos
 
-def get_produtos_inativos(tipo=None):
+def get_produtos_inativos(categoria_id=None):
     conexao = conexaoBD()
     try: 
         cursor = conexao.cursor(dictionary=True)
         sql = """
-            SELECT p.id, p.nome, p.tipo, p.codigo_original, p.preco_base, 
-                   p.marca, p.tamanho, p.cor, p.data_cadastro, e.quantidade
+            SELECT p.id, p.nome, c.id AS categoria_id, c.nome AS categoria, 
+            p.codigo_original, p.preco_base, p.marca, p.tamanho, p.cor, 
+            p.data_cadastro, e.quantidade
             FROM produto p
             JOIN estoque e ON p.id = e.produto_id
+            JOIN categoria c ON p.categoria_id = c.id
             WHERE p.ativo = FALSE
         """
 
         parametro = []
 
-        if tipo: 
-            sql += " AND p.tipo = %s"
-            parametro.append(tipo)
+        if categoria_id: 
+            sql += " AND p.categoria_id = %s"
+            parametro.append(categoria_id)
         
         cursor.execute(sql, tuple(parametro))
         produtos = cursor.fetchall()
@@ -56,12 +58,15 @@ def get_produtos_id(produto_id):
     try:
         cursor = conexao.cursor(dictionary=True)
         sql = """
-            SELECT p.id, p.nome, p.tipo, p.codigo_original, p.preco_base, 
-                   p.marca, p.tamanho, p.cor, p.data_cadastro, e.quantidade
+            SELECT p.id, p.nome, c.id AS categoria_id, c.nome AS categoria, 
+            p.codigo_original, p.preco_base, p.marca, p.tamanho, p.cor, 
+            p.data_cadastro, e.quantidade
             FROM produto p
             JOIN estoque e ON p.id = e.produto_id
+            JOIN categoria c ON p.categoria_id = c.id
             WHERE p.id = %s AND p.ativo = TRUE
         """
+
         cursor.execute(sql, (produto_id,))
         produto = cursor.fetchone()
     finally:
@@ -69,24 +74,54 @@ def get_produtos_id(produto_id):
         conexao.close()
     return produto
 
+def get_categorias():
+    conexao = conexaoBD()
+    try:
+        cursor = conexao.cursor(dictionary=True)
+        cursor.execute("SELECT id, nome, descricao FROM categoria ORDER BY nome")
+        categorias = cursor.fetchall()
+    finally:
+        cursor.close()
+        conexao.close()
+    return categorias
+
+def insert_categoria(nome, descricao=None):
+    conexao = conexaoBD()
+    try:
+        cursor = conexao.cursor()
+        sql = "INSERT INTO categoria (nome, descricao) VALUES (%s, %s)"
+        cursor.execute(sql, (nome, descricao))
+        conexao.commit()
+        return cursor.lastrowid
+    finally:
+        cursor.close()
+        conexao.close()
+
+
 
 def insert_produtos(dados: dict):
     conexao = conexaoBD()
     try: 
         cursor = conexao.cursor()
         data_cadastro = dados.get('data_cadastro', date.today())
+
         cursor.execute("""
             INSERT INTO produto 
-            (nome, tipo, codigo_original, preco_base, marca, tamanho, cor, data_cadastro)
+            (nome, codigo_original, preco_base, marca, tamanho, cor, data_cadastro, categoria_id)
             VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
         """, (
-            dados['nome'], dados['tipo'], dados.get('codigo_original'),
-            dados['preco_base'], dados.get('marca'),
-            dados.get('tamanho'), dados.get('cor'), data_cadastro
+            dados['nome'], 
+            dados['tipo'], 
+            dados.get('codigo_original'),
+            dados['preco_base'], 
+            dados.get('marca'),
+            dados.get('tamanho'), 
+            dados.get('cor'), 
+            data_cadastro,
+            dados['categoria_id']
         ))
 
         produto_id = cursor.lastrowid
-        # Cria estoque inicial
         cursor.execute("INSERT INTO estoque (produto_id, quantidade) VALUES (%s, %s)", (produto_id, dados.get('quantidade_inicial', 0)))
         conexao.commit()
         return produto_id

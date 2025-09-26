@@ -235,15 +235,11 @@
             <div id="vendasSumario">
               <div class="sumarioEstado total">
                 <span>Total Vendido Hoje</span>
-                <strong>R$ 1.250,00</strong>
+                <strong></strong>
               </div>
               <div class="sumarioEstado realizadas">
                 <span>Vendas Realizadas</span>
-                <strong>287 vendas</strong>
-              </div>
-              <div class="sumarioEstado alerta">
-                <span>Fiado Pendente</span>
-                <strong>R$ 320,00</strong>
+                <strong></strong>
               </div>
             </div>
           </div>
@@ -520,17 +516,11 @@
         </div>
 
         <div class="grupoFormulario">
-          <label for="clienteVenda">Cliente</label>
-          <input type="text" name="clienteVenda" id="clienteVenda" />
+          <label for="produtoVenda">Nome do Produto</label>
+          <input type="text" id="produtoVenda" name="produtoVenda" required />
 
-          <!-- Produto -->
-          <label for="produtoVenda">Produto</label>
-          <select id="produtoVenda" name="produtoVenda" required>
-            <option value="" disabled selected>Selecione o produto</option>
-            {% for produto in produtos %}
-            <option value="{{ produto.id }}">{{ produto.nome }}</option>
-            {% endfor %}
-          </select>
+          <label for="clienteVenda">Nome do Cliente</label>
+          <input type="text" name="clienteVenda" id="clienteVenda" />
 
           <label for="quantidadeVenda">Quantidade</label>
           <input
@@ -539,16 +529,6 @@
             name="quantidade"
             min="0"
             step="1"
-            required
-          />
-
-          <label for="precoVenda">Preço Unitário</label>
-          <input
-            type="number"
-            id="precoVenda"
-            name="preco_venda"
-            step="0.01"
-            min="0"
             required
           />
 
@@ -584,6 +564,47 @@
       </form>
     </dialog>
 
+    <dialog id="modalCadastroCategoria">
+      <form id="formCadastroCategoria" method="POST">
+        <div class="modalCabecalho">
+          <h2 class="tituloModal">Cadastrar Categoria</h2>
+          <button
+            type="button"
+            aria-label="Fechar formulário"
+            id="botaoFecharCategoria"
+            class="botaoFecharModal"
+          >
+            <img
+              src="{{ url_for('static', filename='assets/icons/fechar.svg')}}"
+              alt="fechar.svg"
+            />
+          </button>
+        </div>
+
+        <label for="nomeCategoria">Nome da Categoria</label>
+        <input
+          type="text"
+          id="nomeCategoria"
+          name="nomeCategoria"
+          placeholder="Digite o nome da categoria..."
+          required
+        />
+
+        <label for="descricaoCategoria">Descrição</label>
+        <textarea
+          id="descricaoCategoria"
+          name="descricaoCategoria"
+          placeholder="Digite a descrição da categoria..."
+          rows="3"
+        ></textarea>
+
+        <menu>
+          <button type="submit" class="botaoPrimario">Salvar</button>
+          <button type="button" id="botaoCancelarCategoria">Cancelar</button>
+        </menu>
+      </form>
+    </dialog>
+
     <!-- Modal para o cadastro de novos produtos -->
     <dialog id="modalCadastroProduto">
       <form id="formCadastroProduto" method="POST">
@@ -612,9 +633,7 @@
         />
 
         <label for="categoriaProduto">Categoria do Produto</label>
-        <select id="categoriaProduto" required>
-          <option value="" selected>Selecione</option>
-        </select>
+        <select id="categoriaProduto" required></select>
 
         <label for="codigoProduto">Código</label>
         <input
