@@ -11,6 +11,15 @@ const btnAbrirModalEstoque = document.getElementById("btnAbrirModalEstoque");
 const btnFecharModalEstoque = document.getElementById("botaoFecharModal");
 const btnCancelarModalEstoque = document.getElementById("botaoCancelarModal");
 
+const modalCategoria = document.getElementById("modalCadastroCategoria");
+const btnAbrirModalCategoria = document.getElementById(
+  "btnAbrirModalCategoria"
+);
+const btnFecharModalCategoria = document.getElementById("botaoFecharCategoria");
+const btnCancelarModalCategoria = document.getElementById(
+  "botaoCancelarCategoria"
+);
+
 const modalCompras = document.getElementById("modalRegistroCompra");
 const btnAbrirModalCompra = document.getElementById("btnAbrirModalCompra");
 const btnFecharModalCompra = document.getElementById("botaoFecharCompra");
@@ -30,10 +39,10 @@ const usuarioLogado = document.getElementById("bemVindo");
 const btnLogout = document.getElementById("btnLogout");
 
 // Variáveis de alteração do conteúdo do formulário
-const tipoProduto = document.getElementById("tipoProduto");
 const formCadastroProduto = document.getElementById("formCadastroProduto");
 const formRegistroCompra = document.getElementById("formRegistroCompra");
 const formRegistroVenda = document.getElementById("formRegistroVenda");
+const formCadastroCategoria = document.getElementById("formCadastroCategoria");
 const toastContainer = document.getElementById("toastContainer");
 const btnSpinner = document.getElementById("btnSpinner");
 const filtroTipo = document.getElementById("filtroTipo");
@@ -46,6 +55,7 @@ const tabelaFornecedores = document.querySelector("#tabelaFornecedores");
 const tabelaVendas = document.querySelector("#tabelaVendas");
 
 const campoPesquisa = document.getElementById("campoPesquisa");
+const select = document.getElementById("categoriaProduto");
 const tabela = document
   .getElementById("tabelaProdutos")
   .getElementsByTagName("tbody")[0];
@@ -176,10 +186,34 @@ modalVenda.addEventListener("click", (evento) => {
     modalVenda.close();
 });
 
+btnAbrirModalCategoria.addEventListener("click", () => {
+  modalCategoria.showModal();
+  formCadastroCategoria.reset();
+});
+
+btnFecharModalCategoria.addEventListener("click", () => {
+  modalCategoria.close();
+  formCadastroCategoria.reset();
+});
+
+btnCancelarModalCategoria.addEventListener("click", () =>
+  modalCategoria.close()
+);
+
+modalCategoria.addEventListener("click", (evento) => {
+  const reacao = modalCategoria.getBoundingClientRect();
+  if (
+    evento.clientX < reacao.left ||
+    evento.clientX > reacao.right ||
+    evento.clientY < reacao.top ||
+    evento.clientY > reacao.bottom
+  )
+    modalCategoria.close();
+});
+
 btnAbrirModalEstoque.addEventListener("click", () => {
   modalCadastro.showModal();
   formCadastroProduto.reset();
-  tipoProduto.value = "";
 });
 
 btnFecharModalEstoque.addEventListener("click", () => {
@@ -269,16 +303,15 @@ function mostrarEsqueleto(tabela, linhas = 5) {
 }
 
 // Carregar os produtos
-
-export async function carregarProdutos(tipo = "") {
+async function carregarProdutos(tipo = "") {
   const tabela = tabelaProdutos;
 
   mostrarEsqueleto(tabela, 5);
 
   try {
     let url = "/api/produtos";
-    if (tipo) {
-      url += `?tipo=${tipo}`;
+    if (categoria_id) {
+      url += `?categoria=${categoria_id}`;
     }
 
     const resposta = await fetch(url);
@@ -295,7 +328,7 @@ export async function carregarProdutos(tipo = "") {
       tr.innerHTML = `
         <td class="linhaTabela">${produto.id}</td>
         <td class="linhaTabela">${produto.nome}</td>
-        <td class="linhaTabela">${produto.tipo}</td>
+        <td class="linhaTabela">${produto.categoria}</td>
         <td class="linhaTabela">${produto.codigo_original || ""}</td>
         <td class="linhaTabela">R$ ${parseFloat(produto.preco_base).toFixed(
           2
@@ -421,23 +454,31 @@ async function carregarProdutosInativos() {
   }
 }
 
+async function carregarCategorias() {
+  select.innerHTML = '<option value="" selected>Selecione</option>';
+
+  try {
+    const resposta = await fetch("/api/categorias");
+    const categorias = await resposta.json();
+
+    categorias.forEach((categoria) => {
+      const option = document.createElement("option");
+      option.value = categoria.id;
+      option.textContent = categoria.nome;
+
+      option.title = categoria.descricao || "Sem descrição";
+
+      select.appendChild(option);
+    });
+  } catch (erro) {
+    console.error("Erro ao carregar categorias", erro);
+    mostrarToast("Erro ao carregar categorias", "erro");
+  }
+}
+
 filtroTipo.addEventListener("change", () => {
   carregarProdutos(filtroTipo.value);
 });
-
-function resetarFormulario() {
-  form.reset();
-  tipoProduto.value = "";
-}
-
-function abrirModalCadastro() {
-  modalCadastro.showModal();
-}
-
-function fecharModalCadastro() {
-  modalCadastro.close();
-  resetarFormulario();
-}
 
 // -------- CRUD produtos --------
 formCadastroProduto.addEventListener("submit", async (evento) => {
@@ -445,7 +486,6 @@ formCadastroProduto.addEventListener("submit", async (evento) => {
 
   const dados = {
     nome: document.getElementById("nomeProduto").value,
-    tipo: tipoProduto.value,
     codigo_original: document.getElementById("codigoProduto").value,
     preco_base: parseFloat(document.getElementById("precoProduto").value),
     marca: document.getElementById("marcaProduto").value,
@@ -478,7 +518,6 @@ formCadastroProduto.addEventListener("submit", async (evento) => {
     if (resposta.ok) {
       mostrarToast("Produto cadastrado com sucesso!");
       resetarFormulario();
-      fecharModalCadastro();
       carregarProdutos(filtroTipo.value);
     } else {
       mostrarToast(resultado.erro || "Erro ao cadastrar produto", "erro");
@@ -529,7 +568,6 @@ function abrirModalEdicao() {
   }
 }
 
-// --- Fechar modal ---
 function fecharModalEdicao() {
   const modalEditar = document.getElementById("modalEditarProduto");
   if (typeof modalEditar.close === "function") {
@@ -580,6 +618,41 @@ async function salvarEdicaoProduto() {
     mostrarToast("Erro ao atualizar produto.", "erro");
   }
 }
+
+formCadastroCategoria.addEventListener("submit", async (evento) => {
+  evento.preventDefault();
+
+  const dados = {
+    nome: document.getElementById("nomeCategoria").value,
+    descricao: document.getElementById("descricaoCategoria").value,
+  };
+
+  if (!dados.nome) {
+    mostrarToast("Preencha corretamente todos os campos obrigatórios!", "erro");
+    return;
+  }
+
+  try {
+    const resposta = await fetch("/api/categorias", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dados),
+    });
+
+    const resultado = await resposta.json();
+
+    if (resposta.ok) {
+      mostrarToast("Categoria cadastrada com sucesso!");
+      resetarFormulario();
+      carregarProdutos(filtroTipo.value);
+    } else {
+      mostrarToast(resultado.erro || "Erro ao cadastrar categoria", "erro");
+    }
+  } catch (erro) {
+    console.error("Erro ao cadastrar categoria:", erro);
+    mostrarToast("Falha na conexão com o servidor.", "erro");
+  }
+});
 
 campoPesquisa.addEventListener("keyup", function () {
   const filtro = campoPesquisa.value
@@ -815,6 +888,7 @@ document.addEventListener("DOMContentLoaded", () => {
   carregarUsuarioLogado();
   carregarProdutos();
   carregarProdutosInativos();
+  carregarCategorias();
   carregarResumoProdutos();
   carregarCompras();
   carregarFornecedores();

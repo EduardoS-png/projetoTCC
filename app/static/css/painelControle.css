@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
 
 :root {
   --cor-primaria: #2b12cf;
@@ -33,7 +33,7 @@ body {
   min-height: 100vh;
   color: var(--cor-texto);
   background-color: var(--cor-fundo);
-  font-family: "Merriweather", serif;
+  font-family: "Roboto", sans-serif;
   line-height: 1.6;
   letter-spacing: 0.3px;
   transition: grid-template-columns 0.3s ease;
@@ -559,10 +559,6 @@ main {
   border-left: 4px solid var(--cor-primaria);
 }
 
-.alerta {
-  border-left: 4px solid #f59e0b;
-}
-
 .realizadas {
   border-left: 4px solid #63e45f;
 }
@@ -641,29 +637,6 @@ main {
 
 .tabelaColuna {
   padding: 0.5rem 0;
-}
-
-.itemEstado {
-  padding: 0.4rem 0.8rem;
-  border-radius: 8px;
-  font-size: 12px;
-  font-weight: 500;
-  text-align: center;
-}
-
-.emEstoque {
-  background: #dcfce7;
-  color: #166534;
-}
-
-.baixoEstoque {
-  background: #fef9c3;
-  color: #854d0e;
-}
-
-.foraEstoque {
-  background: #fee2e2;
-  color: #991b1b;
 }
 
 .acoes {
@@ -839,6 +812,7 @@ dialog::backdrop {
 }
 
 form#formCadastroProduto,
+form#formCadastroCategoria,
 form#formEditarProduto,
 form#formRegistroVenda,
 form#formRegistroCompra {
@@ -848,6 +822,7 @@ form#formRegistroCompra {
 }
 
 form#formCadastroProduto label,
+form#formCadastroCategoria label,
 form#formEditarProduto label,
 form#formRegistroVenda label,
 form#formRegistroCompra label {
@@ -867,6 +842,7 @@ form#formRegistroCompra label {
 
 form#formCadastroProduto input,
 form#formCadastroProduto select,
+form#formCadastroCategoria input,
 form#formEditarProduto input,
 form#formlEditarProduto select,
 form#formRegistroCompra input,
@@ -893,6 +869,7 @@ form#formRegistroCompra input[type="date"] {
 
 form#formCadastroProduto input:focus,
 form#formCadastroProduto select:focus,
+form#formCadastroCategoria input:focus,
 form#formEditarProduto input:focus,
 form#formEditarProduto select:focus,
 form#formRegistroVenda input:focus,
@@ -906,7 +883,35 @@ form#formRegistroCompra select:focus {
   background-color: #f9f9ff;
 }
 
+form#formCadastroCategoria textarea {
+  width: 100%;
+  min-height: 90px;
+  padding: 0.7rem 1rem;
+  border-radius: var(--raio-borda);
+  border: 1px solid #c7c3c3;
+  font-size: 14px;
+  line-height: 1.4;
+  resize: vertical;
+  background: white;
+  color: var(--cor-texto);
+  transition: all 0.25s ease;
+}
+
+form#formCadastroCategoria textarea:focus {
+  border-color: var(--cor-primaria);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(43, 18, 207, 0.15);
+  transform: scale(1.02);
+  background-color: #f9f9ff;
+}
+
+form#formCadastroCategoria textarea:active {
+  border-color: var(--cor-primaria);
+  background-color: #eef2ff;
+}
+
 #botaoFecharModal,
+#botaoFecharCategoria,
 #botaoFecharVenda,
 #BotaoFecharCompra,
 #botaoFecharModalEditar {
@@ -916,6 +921,7 @@ form#formRegistroCompra select:focus {
 }
 
 #botaoFecharModal img,
+#botaoFecharCategoria img,
 #botaoFecharVenda img,
 #botaoFecharCompra img,
 #botaoFceharModalEditar img {
@@ -924,6 +930,7 @@ form#formRegistroCompra select:focus {
 }
 
 #botaoCancelarModal,
+#botaoCancelarCategoria,
 #botaoCancelarCompra,
 #botaoCancelarVenda,
 #botaoCancelarModalEditar {
@@ -941,6 +948,7 @@ form#formRegistroCompra select:focus {
 }
 
 #botaoCancelarModal:hover,
+#botaoCancelarCategoria:hover,
 #botaoCancelarCompra:hover,
 #botaoCancelarVenda:hover,
 #botaoCancelarModalEditar:hover {
@@ -951,6 +959,7 @@ form#formRegistroCompra select:focus {
 .botaoPrimario:active,
 .botaoSecundario:active,
 #botaoCancelarModal:active,
+#botaoCancelarCategoria:active,
 #botaoCancelarCompra:active,
 #botaoCancelarVenda:active,
 #botaoCencelarModalEditar:active {
