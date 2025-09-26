@@ -142,6 +142,7 @@ function mostrarToast(mensagem, tipo = "sucesso", duracao = 4000) {
 // -------- Modais --------
 btnAbrirModalCompra.addEventListener("click", () => {
   modalCompras.showModal();
+  carregarFornecedorModalCompras();
   formRegistroCompra.reset();
 });
 
@@ -755,43 +756,20 @@ async function carregarCompras() {
   }
 }
 
-async function carregarFornecedores() {
-  const tabela = tabelaFornecedores;
-
-  mostrarEsqueleto(tabela, 5);
-
+async function carregarFornecedorModalCompras() {
   try {
     let url = "/api/fornecedor";
 
     const resposta = await fetch(url);
     const fornecedores = await resposta.json();
-
-    const linhas = fornecedores.length || 5;
-    mostrarEsqueleto(tabela, linhas);
-
-    const tbody = tabela.querySelector("tbody");
-    tbody.innerHTML = "";
+    let select = document.getElementById("fornecedor_id");
 
     fornecedores.forEach((fornecedor) => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td class="linhaTabela">${fornecedor.id}</td>
-        <td class="linhaTabela">${fornecedor.nome}</td>
-        <td class="linhaTabela">${fornecedor.nome_fantasia}</td>
-        <td class="linhaTabela">${fornecedor.cnpj}</td>
-        <td class="linhaTabela">${fornecedor.endereco}</td>
-        <td class="linhaTabela">${fornecedor.telefone1}</td>
-        <td class="linhaTabela">${fornecedor.telefone2}</td>
-        <td class="linhaTabela acoes">
-          <button class="botoesDecisao btnEditarCompra" data-id="${fornecedor.id}">
-            <img src="/static/assets/icons/editar.svg" alt="editar.svg" />
-          </button>
-          <button class="botoesDecisao btnDeletarCompra" data-id="${fornecedor.id}">
-            <img src="/static/assets/icons/inativar.svg" alt="inativar.svg" />
-          </button>
-        </td>
-      `;
-      tbody.appendChild(tr);
+      let option = document.createElement("option");
+      option.setAttribute("value", fornecedor.id);
+      option.innerHTML = `${fornecedor.nome_fantasia}`;
+
+      select.appendChild(option);
     });
   } catch (erro) {
     console.error("Erro ao carregar os fornecedores:", erro);

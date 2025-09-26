@@ -190,23 +190,6 @@
           </div>
         </div>
 
-        <h3 class="tituloTabela">Fornecedores Cadastrados</h3>
-        <table id="tabelaFornecedores">
-          <thead>
-            <tr class="tabelaCabecalho">
-              <th>ID</th>
-              <th>Nome do fornecedor</th>
-              <th>Nome Fantasia(fornecedor)</th>
-              <th>CNPJ do fornecedor</th>
-              <th>Endereço</th>
-              <th>Telefone 1</th>
-              <th>Telefone 2</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-
         <h3 class="tituloTabela">Compras Registradas</h3>
         <table id="tabelaCompras">
           <thead>
@@ -461,6 +444,11 @@
           id="categoria_compra"
           placeholder="Digite a categoria do produto..."
         />
+        <!-- mexendo aqui -->
+        <label for="fornecedor_id">Fornecedor_id</label>
+        <select id="fornecedor_id" name="fornecedor_id">
+          <option value="">Selecione uma opção</option>
+        </select>
 
         <label for="fornecedor_id">Fornecedor_id</label>
         <input
