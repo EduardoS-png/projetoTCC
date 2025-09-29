@@ -469,7 +469,9 @@ async function carregarCategorias() {
 
   try {
     const resposta = await fetch("/api/categorias");
+    console.log(resposta)
     const categorias = await resposta.json();
+    console.log(categorias)
 
     categorias.forEach((categoria) => {
       const option = document.createElement("option");

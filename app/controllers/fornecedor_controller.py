@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.models.fornecedor import get_fornecedores, get_fornecedor_id
+from app.models.fornecedor import get_fornecedores, get_fornecedor_id, get_insert_fornecedor
 
 fornecedor_bp = Blueprint("fornecedor", __name__)
 
@@ -20,3 +20,13 @@ def buscar_fornecedor_id(fornecedor_id):
     return jsonify({"mensagem": "Compra não encontrada"}), 404
   except Exception as e:
     return jsonify({"erro": str(e)}), 500
+
+
+@fornecedor_bp.route("/api/fornecedor", methods=["POST"])
+def cadastro_fornecedor():
+    try:
+        dados = request.json
+        cadastro_fornecedor = get_insert_fornecedor(dados)
+        return jsonify({"mensagem": "Compra registrada com sucesso", "id": cadastro_fornecedor}), 201
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 500
