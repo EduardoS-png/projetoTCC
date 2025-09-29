@@ -32,6 +32,11 @@ def adicionar_produto():
         if not dados:
             return jsonify({"erro": "JSON inválido ou vazio"}), 400
 
+        obrigatorios = ["nome", "codigo_original", "preco_base", "categoria_id"] 
+        
+        for campo in obrigatorios: 
+            if campo not in dados or dados[campo] in (None, "", []): return jsonify({"erro": f"Campo obrigatório '{campo}' ausente"}), 400
+
         produto_id = insert_produtos(dados)
         return jsonify({"mensagem": "Produto adicionado com sucesso!", "id": produto_id}), 201
     except Exception as err:

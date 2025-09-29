@@ -498,39 +498,46 @@
           <button type="button" id="botaoFecharVenda" class="botaoFecharModal">
             <img
               src="{{ url_for('static', filename='assets/icons/fechar.svg')}}"
-              alt="fechar.svg"
+              alt="fechar"
             />
           </button>
         </div>
 
         <div class="grupoFormulario">
           <label for="clienteVenda">Nome do Cliente</label>
-          <input type="text" name="clienteVenda" id="clienteVenda" />
+          <input type="text" id="clienteVenda" name="clienteVenda" />
 
           <label for="dataVenda">Data da Venda</label>
           <input type="date" id="dataVenda" name="data_venda" required />
 
           <label>Itens da Venda</label>
           <div class="itensVenda">
-            <select name="produto" id="produto_id">
-              <option value="" disabled selected> Selecione o Produto</option>
+            <select id="produto_id" name="produto">
+              <option value="" disabled selected>Selecione o Produto</option>
             </select>
-            <input type="number" id="quantidadeProduto" min="1" step="1" placeholder="Quantidade" />
+
+            <input
+              type="number"
+              id="quantidadeProduto"
+              min="1"
+              step="1"
+              placeholder="Quantidade"
+            />
+
             <button type="button" id="btAdicionarItem">Adicionar</button>
           </div>
 
           <table id="tabelaItensVenda">
             <thead>
-                <tr>
-                  <th>Produto</th>
-                  <th>Quantidade</th>
-                  <th>Preço Unitário</th>
-                  <th>Ações</th>
-                </tr>
+              <tr>
+                <th>Produto</th>
+                <th>Quantidade</th>
+                <th>Preço Unitário</th>
+                <th>Ações</th>
+              </tr>
             </thead>
             <tbody></tbody>
           </table>
-        
 
           <label for="valorTotalVenda">Valor Total</label>
           <input
@@ -550,8 +557,6 @@
             <option value="cartao">Cartão</option>
             <option value="boleto">Boleto</option>
           </select>
-
-        
         </div>
 
         <menu>
@@ -623,7 +628,7 @@
         </div>
 
         <!-- Campos do Produto -->
-        <label for="nomeProduto">Nome</label>
+        <label for="nomeProduto">Nome do Produto</label>
         <input
           type="text"
           id="nomeProduto"
@@ -786,11 +791,66 @@
       </form>
     </dialog>
 
+    ```html
+    <dialog id="modalEditarUsuario">
+      <form id="formEditarUsuario" method="POST">
+        <!-- Cabeçalho -->
+        <div class="modalCabecalho">
+          <h2 class="tituloModal">Editar Usuário</h2>
+          <button
+            type="button"
+            aria-label="Fechar formulário"
+            id="botaoFecharModalEditar"
+            class="botaoFecharModal"
+          >
+            <img
+              src="{{ url_for('static', filename='assets/icons/fechar.svg')}}"
+              alt="Fechar"
+            />
+          </button>
+        </div>
+
+        <label for="nomeUsuario">Nome do Usuário</label>
+        <input type="text" id="nomeUsuario" name="nome_usuario" required />
+
+        <label for="emailUsuario">Email do Usuário</label>
+        <input type="email" id="emailUsuario" name="email_usuario" required />
+
+        <label for="senhaUsuario">Senha do Usuário</label>
+        <input
+          type="password"
+          id="senhaUsuario"
+          name="senha_usuario"
+          required
+        />
+
+        <label for="selectCargo">Cargo</label>
+        <select id="selectCargo" name="cargo" required>
+          <option value="" disabled selected>Selecione</option>
+          <option value="administrador">Administrador</option>
+          <option value="funcionario">Funcionário</option>
+        </select>
+
+        <menu>
+          <button type="submit" class="botaoPrimario">Salvar Usuário</button>
+          <button
+            type="button"
+            id="botaoCancelarModalEditar"
+            class="botaoSecundario"
+          >
+            Cancelar
+          </button>
+        </menu>
+      </form>
+    </dialog>
+
     <div id="toastContainer" class="toast-container"></div>
 
-    <script type="module" src="{{ url_for('static', filename='js/painelControle.js') }}"></script>
+    <script
+      type="module"
+      src="{{ url_for('static', filename='js/painelControle.js') }}"
+    ></script>
     <script src="{{ url_for('static', filename='js/graficos.js')}}"></script>
     <script src="{{ url_for('static', filename='js/compras.js') }}"></script>
-
   </body>
 </html>

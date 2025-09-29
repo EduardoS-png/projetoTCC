@@ -97,8 +97,6 @@ def insert_categoria(nome, descricao=None):
         cursor.close()
         conexao.close()
 
-
-
 def insert_produtos(dados: dict):
     conexao = conexaoBD()
     try: 
@@ -110,19 +108,19 @@ def insert_produtos(dados: dict):
             (nome, codigo_original, preco_base, marca, tamanho, cor, data_cadastro, categoria_id)
             VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
         """, (
-            dados['nome'], 
-            dados['tipo'], 
-            dados.get('codigo_original'),
-            dados['preco_base'], 
-            dados.get('marca'),
-            dados.get('tamanho'), 
-            dados.get('cor'), 
-            data_cadastro,
-            dados['categoria_id']
+            dados["nome"],
+            dados["codigo_original"],
+            dados["preco_base"], 
+            dados.get("marca"),
+            dados.get("tamanho"), 
+            dados.get("cor"), 
+            data_cadastro, 
+            dados["categoria_id"]
         ))
 
         produto_id = cursor.lastrowid
         cursor.execute("INSERT INTO estoque (produto_id, quantidade) VALUES (%s, %s)", (produto_id, dados.get('quantidade_inicial', 0)))
+        
         conexao.commit()
         return produto_id
     finally:

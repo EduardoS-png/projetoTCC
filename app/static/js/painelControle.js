@@ -62,7 +62,9 @@ const tabela = document
 const produtoSelect = document.getElementById("produtoSelect");
 const quantidadeProduto = document.getElementById("quantidadeProduto");
 const btnAdicionarItem = document.getElementById("btnAdicionarItem");
-const tabelaItensVenda = document.getElementById("tabelaItensVenda").querySelector("tbody");
+const tabelaItensVenda = document
+  .getElementById("tabelaItensVenda")
+  .querySelector("tbody");
 const valorTotalVenda = document.getElementById("valorTotalVenda");
 
 let itensVenda = [];
@@ -311,7 +313,7 @@ function mostrarEsqueleto(tabela, linhas = 5) {
 }
 
 // Carregar os produtos
-async function carregarProdutos(tipo = "") {
+async function carregarProdutos(categoria_id = "") {
   const tabela = tabelaProdutos;
 
   mostrarEsqueleto(tabela, 5);
@@ -502,13 +504,15 @@ formCadastroProduto.addEventListener("submit", async (evento) => {
     data_cadastro: document.getElementById("dataCadastroProduto").value,
     quantidade_inicial:
       parseInt(document.getElementById("quantidadeProduto").value) || 0,
+    categoria_id: parseInt(document.getElementById("categoriaProduto").value),
   };
 
   if (
     !dados.nome ||
-    !dados.tipo ||
+    !dados.codigo_original ||
     isNaN(dados.preco_base) ||
-    dados.preco_base <= 0
+    dados.preco_base <= 0 ||
+    isNaN(dados.categoria_id)
   ) {
     mostrarToast("Preencha corretamente todos os campos obrigatórios!", "erro");
     return;
@@ -800,7 +804,8 @@ export async function carregarVendas() {
     tbody.innerHTML = "";
 
     vendas.forEach((venda) => {
-      const totalVenda = (venda.quantidade || 0) * parseFloat(venda.preco_venda || 0);
+      const totalVenda =
+        (venda.quantidade || 0) * parseFloat(venda.preco_venda || 0);
 
       const tr = document.createElement("tr");
       tr.innerHTML = `
@@ -810,7 +815,9 @@ export async function carregarVendas() {
         <td class="linhaTabela">${venda.cliente_nome}</td>
         <td class="linhaTabela">${venda.quantidade || 0}</td>
         <td class="linhaTabela">R$ ${totalVenda.toFixed(2)}</td>
-        <td class="linhaTabela">${new Date(venda.data_venda).toLocaleDateString("pt-BR")}</td>
+        <td class="linhaTabela">${new Date(venda.data_venda).toLocaleDateString(
+          "pt-BR"
+        )}</td>
         <td class="linhaTabela acoes">
           <button class="botoesDecisao btnEditarVenda" data-id="${venda.id}">
             <img src="/static/assets/icons/editar.svg" alt="editar.svg" />
@@ -829,11 +836,14 @@ async function carregarProdutosSelect() {
   const resposta = await fetch("/api/produtos");
   const produtos = await resposta.json();
 
-  produtoSelect.innerHTML = '<option value="" disabled selected>Selecione o Produto</option>';
-  produtos.forEach(produto => {
+  produtoSelect.innerHTML =
+    '<option value="" disabled selected>Selecione o Produto</option>';
+  produtos.forEach((produto) => {
     const option = document.createElement("option");
     option.value = produto.id;
-    option.textContent = `${produto.nome} - R$ ${parseFloat(produto.preco_base).toFixed(2)}`;
+    option.textContent = `${produto.nome} - R$ ${parseFloat(
+      produto.preco_base
+    ).toFixed(2)}`;
     option.dataset.preco = produto.preco_base;
     produtoSelect.appendChild(option);
   });
@@ -859,7 +869,7 @@ function atualizarTabelaItens() {
 
   valorTotalVenda.value = total.toFixed(2);
 
-  document.querySelectorAll(".btnRemoverItem").forEach(botao => {
+  document.querySelectorAll(".btnRemoverItem").forEach((botao) => {
     botao.addEventListener("click", () => {
       const idx = parseInt(botao.dataset.index);
       itensVenda.splice(idx, 1);
@@ -870,8 +880,11 @@ function atualizarTabelaItens() {
 
 btnAdicionarItem.addEventListener("click", () => {
   const produtoId = parseInt(produtoSelect.value);
-  const produtoNome = produtoSelect.options[produtoSelect.selectedIndex].text.split(" - ")[0];
-  const precoUnit = parseFloat(produtoSelect.options[produtoSelect.selectedIndex].dataset.preco);
+  const produtoNome =
+    produtoSelect.options[produtoSelect.selectedIndex].text.split(" - ")[0];
+  const precoUnit = parseFloat(
+    produtoSelect.options[produtoSelect.selectedIndex].dataset.preco
+  );
   const quantidade = parseInt(quantidadeProduto.value);
 
   if (!produtoId || quantidade <= 0) {
@@ -898,14 +911,14 @@ formRegistroVenda.addEventListener("submit", async (evento) => {
     data_venda: document.getElementById("dataVenda").value,
     forma_pagamento: document.getElementById("formaPagamentoVenda").value,
     itens: itensVenda,
-    valor_total: parseFloat(valorTotalVenda.value)
+    valor_total: parseFloat(valorTotalVenda.value),
   };
 
   try {
     const resposta = await fetch("/api/vendas", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(dadosVenda)
+      body: JSON.stringify(dadosVenda),
     });
     const resultado = await resposta.json();
 
@@ -915,7 +928,7 @@ formRegistroVenda.addEventListener("submit", async (evento) => {
       atualizarTabelaItens();
       formRegistroVenda.reset();
       modalVenda.close();
-      carregarProdutos(); 
+      carregarProdutos();
       carregarVendas();
     } else {
       mostrarToast(resultado.mensagem || "Erro ao registrar venda", "erro");
