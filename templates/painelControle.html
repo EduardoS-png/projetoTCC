@@ -512,11 +512,11 @@
 
           <label>Itens da Venda</label>
           <div class="itensVenda">
-            <select name="produto" id="produto_id">
+            <select name="produto" id="produtoSelect">
               <option value="" disabled selected> Selecione o Produto</option>
             </select>
             <input type="number" id="quantidadeProduto" min="1" step="1" placeholder="Quantidade" />
-            <button type="button" id="btAdicionarItem">Adicionar</button>
+            <button type="button" id="btnAdicionarItem">Adicionar</button>
           </div>
 
           <table id="tabelaItensVenda">
@@ -789,8 +789,8 @@
     <div id="toastContainer" class="toast-container"></div>
 
     <script type="module" src="{{ url_for('static', filename='js/painelControle.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/graficos.js')}}"></script>
-    <script src="{{ url_for('static', filename='js/compras.js') }}"></script>
+
+
 
   </body>
 </html>

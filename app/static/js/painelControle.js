@@ -311,7 +311,7 @@ function mostrarEsqueleto(tabela, linhas = 5) {
 }
 
 // Carregar os produtos
-async function carregarProdutos(tipo = "") {
+async function carregarProdutos(categoria_id = "") {
   const tabela = tabelaProdutos;
 
   mostrarEsqueleto(tabela, 5);
