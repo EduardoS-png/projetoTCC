@@ -1,0 +1,77 @@
+{% extends 'head.html %}
+
+<dialog id="modalCadastroProduto">
+  <form id="formCadastroProduto" method="POST">
+    <div class="modalCabecalho">
+      <h2 class="tituloModal">Cadastrar produto</h2>
+      <button
+        type="button"
+        aria-label="Fechar formulário"
+        id="botaoFecharModal"
+        class="botaoFecharModal"
+      >
+        <img
+          src="{{ url_for('static', filename='assets/icons/fechar.svg')}}"
+          alt="fechar.svg"
+        />
+      </button>
+    </div>
+
+    <!-- Campos do Produto -->
+    <label for="nomeProduto">Nome do Produto</label>
+    <input
+      type="text"
+      id="nomeProduto"
+      placeholder="Digite o nome do produto..."
+      required
+    />
+
+    <label for="categoriaProduto">Categoria do Produto</label>
+    <select id="categoriaProduto" required></select>
+
+    <label for="codigoProduto">Código</label>
+    <input
+      type="text"
+      id="codigoProduto"
+      placeholder="Digite o código do produto..."
+      required
+    />
+
+    <label for="marcaProduto">Marca</label>
+    <input type="text" id="marcaProduto" placeholder="Digite a marca..." />
+
+    <label for="tamanhoProduto">Tamanho</label>
+    <input type="text" id="tamanhoProduto" placeholder="Digite o tamanho..." />
+
+    <label for="corProduto">Cor</label>
+    <input type="text" id="corProduto" placeholder="Digite a cor..." />
+
+    <label for="precoProduto">Preço Base</label>
+    <input
+      type="number"
+      id="precoProduto"
+      placeholder="Digite o preço base..."
+      step="0.01"
+      min="0"
+      required
+    />
+
+    <label for="quantidadeProduto">Quantidade Inicial</label>
+    <input
+      type="number"
+      id="quantidadeProduto"
+      placeholder="Digite a quantidade inicial..."
+      min="0"
+    />
+
+    <label for="dataCadastroProduto">Data de Cadastro</label>
+    <input type="date" id="dataCadastroProduto" required />
+
+    <menu>
+      <button type="submit" class="botaoPrimario">Salvar</button>
+      <button type="button" id="botaoCancelarModal">Cancelar</button>
+    </menu>
+  </form>
+</dialog>
+
+{% extends 'footer.html' %}

@@ -1,13 +1,13 @@
-from flask import Blueprint, request, jsonify
-from app.models.produto import get_produtos, get_produtos_id, get_produtos_inativos, get_categorias, insert_categoria, insert_produtos, update_produto, inative_produto, reative_produto, get_quantidade_total, get_baixo_estoque, get_sem_estoque
+from flask import Blueprint, request, render_template, redirect, jsonify, url_for
+from app.models.produto import get_produtos, get_produtos_id, get_produtos_inativos, insert_produtos, update_produto, inative_produto, reative_produto
 
 produto_bp = Blueprint("produto", __name__)
 
-@produto_bp.route("/api/produtos", methods=["GET"])
+@produto_bp.route("/produto/lista", methods=["GET"])
 def listar_produtos():
     categoria_id = request.args.get("categoria", type=int)
     produtos = get_produtos(categoria_id)
-    return jsonify(produtos)
+    return render_template("produto.html", produtos= produtos)
 
 @produto_bp.route("/api/produtos/inativos", methods=["GET"])
 def buscar_produtos_inativos():
@@ -25,39 +25,29 @@ def buscar_produto_id(produto_id):
     return jsonify({"erro": "Produto não encontrado"}), 404
 
 
-@produto_bp.route("/api/produtos", methods=["POST"])
+@produto_bp.route("/cadastrar", methods=["POST"])
 def adicionar_produto():
-    try:
-        dados = request.get_json()
-        if not dados:
-            return jsonify({"erro": "JSON inválido ou vazio"}), 400
+    nome = request.form['nome']
+    codigo_original = request.form['codigo_original']
+    preco_base = request.form['preco_base']
+    marca = request.form.get('marca')
+    tamanho = request.form.get('tamanho')
+    cor = request.form.get('cor')
+    categoria_id = request.form['categoria_id']
 
-        obrigatorios = ["nome", "codigo_original", "preco_base", "categoria_id"] 
-        
-        for campo in obrigatorios: 
-            if campo not in dados or dados[campo] in (None, "", []): return jsonify({"erro": f"Campo obrigatório '{campo}' ausente"}), 400
+    dados = {
+        "nome": nome,
+        "codigo_original": codigo_original,
+        "preco_base": preco_base,
+        "marca": marca,
+        "tamanho": tamanho,
+        "cor": cor,
+        "categoria_id": categoria_id
+    }
 
-        produto_id = insert_produtos(dados)
-        return jsonify({"mensagem": "Produto adicionado com sucesso!", "id": produto_id}), 201
-    except Exception as err:
-        return jsonify({"erro": str(err)}), 400 
-    
-@produto_bp.route("/api/categorias", methods=["GET"])
-def listar_categorias():
-    categorias = get_categorias()
-    return jsonify(categorias)
+    insert_produtos(dados)
+    return redirect(url_for('produto.listar_produtos'))
 
-@produto_bp.route("/api/categorias", methods=["POST"])
-def criar_categoria():
-    data = request.get_json()
-    nome = data.get("nome")
-    descricao = data.get("descricao")
-
-    if not nome:
-        return jsonify({"erro": "O nome da categoria é obrigatório"}), 400
-
-    categoria_id = insert_categoria(nome, descricao)
-    return jsonify({"id": categoria_id, "nome": nome, "descricao": descricao}), 201
 
 @produto_bp.route("/api/produtos/<int:produto_id>", methods=["PUT"])
 def atualizar_produto(produto_id):
@@ -91,12 +81,3 @@ def reativar_produto(produto_id):
         return jsonify({"mensagem": "Produto reativado com sucesso!"}), 200
     except Exception as e:
         return jsonify({"erro": str(e)}), 400
-
-@produto_bp.route("/api/produtos/resumo", methods=["GET"])
-def resumo_produtos():
-    resumo = {
-        "total": get_quantidade_total(),
-        "baixo_estoque": get_baixo_estoque(),
-        "sem_estoque": get_sem_estoque()
-    }
-    return jsonify(resumo)
