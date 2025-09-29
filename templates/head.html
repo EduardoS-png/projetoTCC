@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-Br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tudo no controle</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/painelControle.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/animacoesPainel.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/painelControleRes.css') }}"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <!-- Cabeçalho -->
+    <header>
+      <div class="logo-container">
+        <button id="acessoNav">
+          <img
+            src="{{ url_for('static', filename='assets/icons/menu.svg') }}"
+            alt="menu.svg"
+          />
+        </button>
+        <img
+          id="logoIcone"
+          src="{{ url_for('static', filename='assets/images/logoTdC.png') }}"
+          alt="#"
+        />
+        <h1 id="tituloPrincipal">Tudo no Controle</h1>
+      </div>
+      <div class="perfilUsuario">
+        <button id="btnSpinner" class="spinner" style="display: none"></button>
+        <h2 id="bemVindo"></h2>
+        <button id="btnLogout">Sair</button>
+      </div>
+    </header>
+
+    <!-- Barra de navegação -->
+    <nav>
+      <div class="navSessao">
+        <h2 class="navTitulo">Principal</h2>
+        <a href="#" class="navLink ativo" data-destino="dashboard">
+          <img
+            src="{{ url_for('static', filename='assets/icons/dashboard.svg') }}"
+            alt="dashboard"
+          />
+          <span>Dashboard</span>
+        </a>
+      </div>
+
+      <div class="navSessao">
+        <h2 class="navTitulo">Módulos</h2>
+        {% if session['estado'] == "Administrador" %}
+        <a href="#" class="navLink" data-destino="compras">
+          <img
+            src="{{ url_for('static', filename='assets/icons/compras.svg') }}"
+            alt="compras.svg"
+          />
+          <span>Compras</span>
+        </a>
+        {% endif %}
+        <a href="#" class="navLink" data-destino="vendas">
+          <img
+            src="{{ url_for('static', filename='assets/icons/vendas.svg') }}"
+            alt="vendas.svg"
+          />
+          <span>Vendas</span>
+        </a>
+        {% if session['estado'] == "Administrador" %}
+        <a href="#" class="navLink" data-destino="inventario">
+          <img
+            src="{{ url_for('static', filename='assets/icons/estoque.svg') }}"
+            alt="estoque.svg"
+          />
+          <span>Inventário</span>
+        </a>
+        {% endif %}
+      </div>
+
+      <div class="navSessao">
+        <h2 class="navTitulo">Elementos</h2>
+        {% if session['estado'] == "Administrador" %}
+        <a href="/categoria/lista" class="navLink" data-destino="compras">
+          <img
+            src="{{ url_for('static', filename='assets/icons/compras.svg') }}"
+            alt="compras.svg"
+          />
+          <span>Categorias</span>
+        </a>
+        {% endif %}
+      </div>
+
+      <div class="navSessao">
+        {% if session['estado'] == "Administrador" %}
+        <h2 class="navTitulo">Operacional</h2>
+        <a href="#" class="navLink" data-destino="operacoes">
+          <img
+            src="{{ url_for('static', filename='assets/icons/configuracoes.svg') }}"
+            alt="config.svg"
+          />
+          <span>Configurações</span>
+        </a>
+        {% endif %}
+      </div>
+    </nav>
+  </body>
+</html>

@@ -180,6 +180,12 @@
               alt="novo.svg"
             />Novo fornecedor
           </button>
+          <button id="btnAbrirModalEstoque" class="botaoPrimario">
+            <img
+              src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
+              alt="novo.svg"
+            />Novos produtos
+          </button>
           <div class="filtrarOpcoes">
             <select class="filtroSelecionar">
               <option value="">Todos os status</option>
@@ -295,12 +301,6 @@
         </div>
 
         <div id="controlesInventario">
-          <button id="btnAbrirModalEstoque" class="botaoPrimario">
-            <img
-              src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
-              alt="novo.svg"
-            />Novos produtos
-          </button>
           <button id="btnAbrirModalCategoria" class="botaoPrimario">
             <img
               src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
@@ -509,12 +509,12 @@
         />
 
         <label for="nome_fantasia">Nome Fantasia</label>
-        <input 
-          type="text" 
+        <input
+          type="text"
           id="nome_fantasia"
           name="nome_fantasia"
           placeholder="Digite o nome Fantasia..."
-          />
+        />
 
         <label for="cnpj">CNPJ</label>
         <input
@@ -532,18 +532,10 @@
         />
 
         <label for="telefone1">Telefone1</label>
-        <input
-          type="text"
-          id="telefone1"
-          placeholder="Digite o telefone..."
-        />
+        <input type="text" id="telefone1" placeholder="Digite o telefone..." />
 
         <label for="telefone2">Telefone2</label>
-        <input
-          type="text"
-          id="telefone2"
-          placeholder="Digite o telefone..."
-        />
+        <input type="text" id="telefone2" placeholder="Digite o telefone..." />
 
         <menu>
           <button type="submit" class="botaoPrimario">Salvar</button>
@@ -624,47 +616,6 @@
           <button type="button" id="botaoCancelarVenda" class="botaoSecundario">
             Cancelar
           </button>
-        </menu>
-      </form>
-    </dialog>
-
-    <dialog id="modalCadastroCategoria">
-      <form id="formCadastroCategoria" method="POST">
-        <div class="modalCabecalho">
-          <h2 class="tituloModal">Cadastrar Categoria</h2>
-          <button
-            type="button"
-            aria-label="Fechar formulário"
-            id="botaoFecharCategoria"
-            class="botaoFecharModal"
-          >
-            <img
-              src="{{ url_for('static', filename='assets/icons/fechar.svg')}}"
-              alt="fechar.svg"
-            />
-          </button>
-        </div>
-
-        <label for="nomeCategoria">Nome da Categoria</label>
-        <input
-          type="text"
-          id="nomeCategoria"
-          name="nomeCategoria"
-          placeholder="Digite o nome da categoria..."
-          required
-        />
-
-        <label for="descricaoCategoria">Descrição</label>
-        <textarea
-          id="descricaoCategoria"
-          name="descricaoCategoria"
-          placeholder="Digite a descrição da categoria..."
-          rows="3"
-        ></textarea>
-
-        <menu>
-          <button type="submit" class="botaoPrimario">Salvar</button>
-          <button type="button" id="botaoCancelarCategoria">Cancelar</button>
         </menu>
       </form>
     </dialog>
@@ -851,7 +802,6 @@
       </form>
     </dialog>
 
-    ```html
     <dialog id="modalEditarUsuario">
       <form id="formEditarUsuario" method="POST">
         <!-- Cabeçalho -->
