@@ -450,14 +450,6 @@
           <option value="">Selecione uma opção</option>
         </select>
 
-        <label for="fornecedor_id">Fornecedor_id</label>
-        <input
-          type="text"
-          id="fornecedor_id"
-          placeholder="Digite o id do fornecedor..."
-          required
-        />
-
         <label for="fornecedor_nome">Nome do Fornecedor</label>
         <input
           type="text"
@@ -481,6 +473,76 @@
           type="text"
           id="data_compra"
           placeholder="Digite a data da compra..."
+        />
+
+        <menu>
+          <button type="submit" class="botaoPrimario">Salvar</button>
+          <button type="button" id="botaoCancelarCompra">Cancelar</button>
+        </menu>
+      </form>
+    </dialog>
+
+    <!--Modal para registrar o fornecedor-->
+    <dialog id="modalRegistroFornecedor">
+      <form id="formRegistroFornecedor" method="POST">
+        <div class="modalCabecalho">
+          <h2 class="tituloModal">Registrar Fornecedor</h2>
+          <button
+            type="button"
+            id="botaoFecharFornecedor"
+            class="botaoFecharModalFornecedor"
+          >
+            <img
+              src="{{ url_for('static', filename='assets/icons/fechar.svg')}}"
+              alt="fechar.svg"
+            />
+          </button>
+        </div>
+
+        <!-- Campos do Fornecedor-->
+        <label for="nome">Nome</label>
+        <input
+          type="text"
+          id="nome"
+          placeholder="Digite o nome do fornecedor..."
+          required
+        />
+
+        <label for="nome_fantasia">Nome Fantasia</label>
+        <input 
+          type="text" 
+          id="nome_fantasia"
+          name="nome_fantasia"
+          placeholder="Digite o nome Fantasia..."
+          />
+
+        <label for="cnpj">CNPJ</label>
+        <input
+          type="text"
+          id="cnpj"
+          placeholder="Digite o cnpj do fornecedor..."
+        />
+
+        <label for="endereco">Endereço</label>
+        <input
+          type="text"
+          id="endereco"
+          name="endereco"
+          placeholder="Digite o endereco do fornecedor..."
+        />
+
+        <label for="telefone1">Telefone1</label>
+        <input
+          type="text"
+          id="telefone1"
+          placeholder="Digite o telefone..."
+        />
+
+        <label for="telefone2">Telefone2</label>
+        <input
+          type="text"
+          id="telefone2"
+          placeholder="Digite o telefone..."
         />
 
         <menu>

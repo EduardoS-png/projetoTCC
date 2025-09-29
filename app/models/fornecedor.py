@@ -21,3 +21,29 @@ def get_fornecedor_id(fornecedor_id):
     cursor.close()
     conexao.close()
   return fornecedor
+
+def get_insert_fornecedor(dados: dict):
+    conexao = conexaoBD()
+    try:
+        cursor = conexao.cursor()
+        
+        cursor.execute("""
+            INSERT INTO fornecedor
+            (nome,nome_fantasia, cnpj, endereco, telefone1, telefone2)
+            VALUES (%s, %s, %s, %s, %s, %s)
+        """, (
+            dados['nome'],
+            dados['nome_fantasia'],
+            dados['cnpj'],
+            dados['endereco'],
+            dados['telefone1'],
+            dados['telefone2'],
+        ))
+        
+        cadastro_fornecedor = cursor.lastrowid
+
+        conexao.commit()
+        return cadastro_fornecedor
+    finally:
+        cursor.close()
+        conexao.close()

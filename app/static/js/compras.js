@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('formRegistroCompra');
   const produtoIdInput = document.getElementById('produto_id');
   const produtoNomeInput = document.getElementById('produto_nome');
-  const fornecedorIdInput = document.getElementById('fornecedor_id_input');
+  const fornecedorIdInput = document.getElementById('fornecedor_id');
   const fornecedorNomeInput = document.getElementById('fornecedor_nome');
 
   // Preenche automaticamente o nome do produto ao digitar o ID
@@ -80,4 +80,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
 
