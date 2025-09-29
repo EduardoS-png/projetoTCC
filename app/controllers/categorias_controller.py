@@ -3,7 +3,6 @@ from app.models.produto import  get_categorias, insert_categoria
 
 categoria_bp = Blueprint("categoria", __name__)
 
-    
 @categoria_bp.route("/categoria/lista", methods=["GET"])
 def listar_categorias():
     categorias = get_categorias()
