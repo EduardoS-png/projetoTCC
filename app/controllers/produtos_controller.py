@@ -1,5 +1,5 @@
 from flask import Blueprint, request, render_template, redirect, jsonify, url_for
-from app.models.produto import get_produtos, get_produtos_id, get_produtos_inativos, insert_produtos, update_produto, inative_produto, reative_produto
+from app.models.produto import get_produtos, get_produtos_id, insert_produtos, update_produto, inative_produto, reative_produto
 
 produto_bp = Blueprint("produto", __name__)
 
@@ -8,22 +8,6 @@ def listar_produtos():
     categoria_id = request.args.get("categoria", type=int)
     produtos = get_produtos(categoria_id)
     return render_template("produto.html", produtos= produtos)
-
-@produto_bp.route("/api/produtos/inativos", methods=["GET"])
-def buscar_produtos_inativos():
-    try:
-        produtos = get_produtos_inativos()
-        return jsonify(produtos), 200
-    except Exception as err:
-        return jsonify({"erro": str(err)}), 400
-
-@produto_bp.route("/api/produtos/<int:produto_id>", methods=["GET"])
-def buscar_produto_id(produto_id):
-    produto = get_produtos_id(produto_id)
-    if produto:
-        return jsonify(produto)
-    return jsonify({"erro": "Produto não encontrado"}), 404
-
 
 @produto_bp.route("/cadastrar", methods=["POST"])
 def adicionar_produto():

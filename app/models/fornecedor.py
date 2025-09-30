@@ -22,7 +22,7 @@ def get_fornecedor_id(fornecedor_id):
     conexao.close()
   return fornecedor
 
-def get_insert_fornecedor(dados: dict):
+def insert_fornecedor(dados: dict):
     conexao = conexaoBD()
     try:
         cursor = conexao.cursor()

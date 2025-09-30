@@ -185,36 +185,3 @@ def reative_produto(produto_id):
     finally:
         cursor.close()
         conexao.close()
-
-def get_quantidade_total():
-    conexao = conexaoBD()
-    try:
-        cursor = conexao.cursor(dictionary=True)
-        cursor.execute("SELECT SUM(quantidade) as total FROM estoque")
-        resultado = cursor.fetchone()
-    finally:
-        cursor.close()
-        conexao.close()
-    return resultado["total"] if resultado["total"] else 0
-
-def get_baixo_estoque(limite=30):
-    conexao = conexaoBD()
-    try:
-        cursor = conexao.cursor(dictionary=True)
-        cursor.execute("SELECT COUNT(*) as baixo_estoque FROM estoque WHERE quantidade < %s AND quantidade > 0", (limite,))
-        resultado = cursor.fetchone()
-    finally:
-        cursor.close()
-        conexao.close()
-    return resultado["baixo_estoque"] if resultado["baixo_estoque"] else 0
-
-def get_sem_estoque():
-    conexao = conexaoBD()
-    try:
-        cursor = conexao.cursor(dictionary=True)
-        cursor.execute("SELECT COUNT(*) as sem_estoque FROM estoque WHERE quantidade = 0")
-        resultado = cursor.fetchone()
-    finally:
-        cursor.close()
-        conexao.close()
-    return resultado["sem_estoque"] if resultado["sem_estoque"] else 0
