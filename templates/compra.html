@@ -1,0 +1,60 @@
+{% extends %}
+{% block content %}
+
+<!-- Compras -->
+      <section id="compras" style="display: none">
+        <div id="comprasCabecalho">
+          <h2 class="paginaTitulo">Compras</h2>
+        </div>
+
+        <div id="controlesCompras">
+          <button id="btnAbrirModalCompra" class="botaoPrimario">
+            <img
+              src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
+              alt="novo.svg"
+            />Nova Compra
+          </button>
+          <button id="btnAbrirModalFornecedor" class="botaoPrimario">
+            <img
+              src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
+              alt="novo.svg"
+            />Novo fornecedor
+          </button>
+          <button id="btnAbrirModalEstoque" class="botaoPrimario">
+            <img
+              src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
+              alt="novo.svg"
+            />Novos produtos
+          </button>
+          <div class="filtrarOpcoes">
+            <select class="filtroSelecionar">
+              <option value="">Todos os status</option>
+              <option value="pendente">Pendente</option>
+              <option value="recebido">Recebido</option>
+              <option value="cancelado">Cancelado</option>
+            </select>
+          </div>
+        </div>
+
+        <h3 class="tituloTabela">Compras Registradas</h3>
+        <table id="tabelaCompras">
+          <thead>
+            <tr class="tabelaCabecalho">
+              <th>ID</th>
+              <th>Produto id</th>
+              <th>Nome do produto</th>
+              <th>Id do fornecedor</th>
+              <th>Nome do fornecedor</th>
+              <th>Quantidade comprada</th>
+              <th>Categoria do produto</th>
+              <th>Preço da compra</th>
+              <th>Data da compra</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+
+{% endblock %}
+{% extends %}

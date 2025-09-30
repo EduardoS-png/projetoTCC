@@ -1,46 +1,37 @@
-from flask import Blueprint, request, jsonify
-from app.models.compra import get_compra, get_compra_id, insert_compra
+from flask import Blueprint, request, render_template, redirect, url_for
+from app.models.compra import get_compra, insert_compras
 
 compra_bp = Blueprint("compra", __name__)
 
-@compra_bp.route("/api/compra", methods=["GET"])
-def listar_compras():
-    try:
-        compras = get_compra()
-        return jsonify(compras), 200
-    except Exception as e:
-        return jsonify({"erro": str(e)}), 500
+@compra_bp.route("/compra", methods=["GET"])
+def listar_compra():
+        compra = get_compra()
+        return render_template('compra.html', compra= compra)
 
-@compra_bp.route("/api/compra/<int:compra_id>", methods=["GET"])
-def buscar_compra_id(compra_id):
-    try:
-        compra = get_compra_id(compra_id)
-        if compra:
-            return jsonify(compra), 200
-        return jsonify({"mensagem": "Compra não encontrada"}), 404
-    except Exception as e:
-        return jsonify({"erro": str(e)}), 500
+@compra_bp.route("/cadastrar", methods=["POST"])
+def cadastrar_compra(dados):
+    produto_id = request.form['produto_id']
+    nome_produto = request.form['nome_produto']
+    fornecedor_id = request.form['fornecedor_id']
+    nome_fornecedor = request.form['nome_fornecedor']
+    quantidade = request.form['quantidade']
+    preco_compra = request.form['preco_compra']
+    data_compra = request.form['data_compra']
+    categoria = request.form['categoria']
 
-@compra_bp.route("/api/compra", methods=["POST"])
-def criar_compra():
-    try:
-        dados = request.json
-        compra_id = insert_compra(dados)
-        return jsonify({"mensagem": "Compra registrada com sucesso", "id": compra_id}), 201
-    except Exception as e:
-        return jsonify({"erro": str(e)}), 500
+    dados = {
+        "produto_id": produto_id,
+        "nome_produto": nome_produto,
+        "fornecedor_id": fornecedor_id,
+        "nome_fornecedor": nome_fornecedor,
+        "quantidade": quantidade,
+        "preco_compra": preco_compra,
+        "data_compra": data_compra,
+        "categoria": categoria
+    }
 
-@compra_bp.route("/api/compra/<int:compra_id>", methods=["PUT"])
-def atualizar_compra(compra_id):
-    try: 
-        dados = request.get_json()
-        if not dados:
-            return jsonify({"erro": "JSON inválido ou vazio"}), 400
-        
-        existente = get_compra_id(compra_id)
-        if not existente:
-            return jsonify({"erro": "Produto não encontrado"}), 404
-        
-        return jsonify({"mensagem": "Produto atualizado com sucesso!"})
-    except Exception as err:
-        return jsonify({"erro": str(err)}), 400
+
+    insert_compras(dados)
+    return redirect(url_for('compra.listar_compra'))
+
+ 

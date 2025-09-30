@@ -1,0 +1,66 @@
+{% extends %}
+{% block content %}
+
+<!-- DashBoard-->
+      <section id="dashboard">
+        <div class="cabecalhoPagina">
+          <h2 class="paginaTitulo">Dashboard</h2>
+          <p class="subtitulo">Início / Dashboard</p>
+        </div>
+        <div class="dashboardGrid">
+          <div class="cartao">
+            <div class="cabecalhoCartao">
+              <h3 class="tituloCartao">Vendas Hoje</h3>
+              <div class="iconeCartao">
+                <img
+                  src="{{ url_for('static', filename='assets/icons/vendas.svg') }}"
+                  alt="vendas.svg"
+                />
+              </div>
+            </div>
+            <div class="valorCartao">R$ 45.237,89</div>
+            <div class="descricaoCartao">+12% em relação a ontem</div>
+          </div>
+          <div class="cartao">
+            <div class="cabecalhoCartao">
+              <h3 class="tituloCartao">Pedidos Pendentes</h3>
+              <div class="iconeCartao">
+                <img
+                  src="{{ url_for('static', filename='assets/icons/alerta.svg') }}"
+                  alt="alerta.svg"
+                />
+              </div>
+            </div>
+            <div class="valorCartao">25</div>
+            <div class="descricaoCartao">-2 desde ontem</div>
+          </div>
+          <div class="cartao">
+            <div class="cabecalhoCartao">
+              <h3 class="tituloCartao">Novos fornecedores</h3>
+              <div class="iconeCartao">
+                <img
+                  src="{{ url_for('static', filename='assets/icons/pessoas.svg') }}"
+                  alt="pessoas.svg"
+                />
+              </div>
+            </div>
+            <div class="valorCartao">14</div>
+            <div class="descricaoCartao">+7 novos esta semana</div>
+          </div>
+        </div>
+
+        <div class="dashboardGrid">
+          <div class="graficos">
+            <canvas id="chartContainer1" class="graficoContainer"></canvas>
+          </div>
+          <div class="graficos">
+            <canvas id="chartContainer2" class="graficoContainer"></canvas>
+          </div>
+          <div class="graficos">
+            <canvas id="chartContainer3" class="graficoContainer"></canvas>
+          </div>
+        </div>
+      </section>
+
+{% endblock %}
+{% extends %}

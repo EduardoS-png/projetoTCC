@@ -46,7 +46,7 @@
     <nav>
       <div class="navSessao">
         <h2 class="navTitulo">Principal</h2>
-        <a href="#" class="navLink ativo" data-destino="dashboard">
+        <a href="#" class="navLink ativo">
           <img
             src="{{ url_for('static', filename='assets/icons/dashboard.svg') }}"
             alt="dashboard"
@@ -58,7 +58,7 @@
       <div class="navSessao">
         <h2 class="navTitulo">Módulos</h2>
         {% if session['estado'] == "Administrador" %}
-        <a href="#" class="navLink" data-destino="compras">
+        <a href="url_for('compra.listar_compra')" class="navLink">
           <img
             src="{{ url_for('static', filename='assets/icons/compras.svg') }}"
             alt="compras.svg"
@@ -66,15 +66,10 @@
           <span>Compras</span>
         </a>
         {% endif %}
-        <a href="#" class="navLink" data-destino="vendas">
-          <img
-            src="{{ url_for('static', filename='assets/icons/vendas.svg') }}"
-            alt="vendas.svg"
-          />
-          <span>Vendas</span>
-        </a>
+        
+
         {% if session['estado'] == "Administrador" %}
-        <a href="#" class="navLink" data-destino="inventario">
+        <a href="#" class="navLink">
           <img
             src="{{ url_for('static', filename='assets/icons/estoque.svg') }}"
             alt="estoque.svg"
@@ -87,7 +82,7 @@
       <div class="navSessao">
         <h2 class="navTitulo">Elementos</h2>
         {% if session['estado'] == "Administrador" %}
-        <a href="/categoria/lista" class="navLink" data-destino="compras">
+        <a href="/categoria/lista" class="navLink">
           <img
             src="{{ url_for('static', filename='assets/icons/compras.svg') }}"
             alt="compras.svg"
@@ -100,7 +95,7 @@
       <div class="navSessao">
         {% if session['estado'] == "Administrador" %}
         <h2 class="navTitulo">Operacional</h2>
-        <a href="#" class="navLink" data-destino="operacoes">
+        <a href="url_for('listar_categorias')" class="navLink">
           <img
             src="{{ url_for('static', filename='assets/icons/configuracoes.svg') }}"
             alt="config.svg"

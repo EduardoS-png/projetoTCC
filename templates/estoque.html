@@ -1,0 +1,76 @@
+{% extends %}
+{% block content %}
+
+<!-- Estoque -->
+      <section id="inventario" style="display: none">
+        <div id="inventarioCabecalho">
+          <div id="caixaInventario">
+            <h2 class="paginaTitulo">Inventário</h2>
+            <div id="inventarioSumario">
+              <div class="sumarioEstado total">
+                <span>Produtos Totais</span>
+                <strong id="totalQuant"></strong>
+              </div>
+              <div class="sumarioEstado alerta">
+                <span>Baixo Estoque</span>
+                <strong id="baixoEstoq"></strong>
+              </div>
+              <div class="sumarioEstado perigo">
+                <span>Sem Estoque</span>
+                <strong id="semEstoq"></strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="controlesInventario">
+          <button id="btnAbrirModalCategoria" class="botaoPrimario">
+            <img
+              src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
+              alt="novo.svg"
+            />Nova categoria
+          </button>
+
+          <div class="filtrarOpcoes">
+            <label for="filtroTipo">Filtrar por tipo:</label>
+            <select id="filtroTipo" class="filtroSelecionar">
+              <option value="">Todos</option>
+              <option value="linha">Linha</option>
+              <option value="tecido">Tecido</option>
+              <option value="extra">Extra</option>
+            </select>
+          </div>
+
+          <input
+            type="text"
+            id="campoPesquisa"
+            placeholder="Pesquisar pelo nome..."
+          />
+        </div>
+
+        <h3 class="tituloTabela">Tabela dos produtos</h3>
+        <table id="tabelaProdutos" class="tabelaInventario">
+          <thead>
+            <tr class="tabelaCabecalho">
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Categoria do produto</th>
+              <th>Código Original</th>
+              <th>Preço Base</th>
+              <th>Marca</th>
+              <th>Tamanho</th>
+              <th>Cor</th>
+              <th>Data Cadastro</th>
+              <th>Quantidade</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
+          <tbody></tbody>
+        </table>
+      </section>
+
+{% endblock %}
+{% extends %}
