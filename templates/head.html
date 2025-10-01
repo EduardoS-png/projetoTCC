@@ -58,18 +58,15 @@
       <div class="navSessao">
         <h2 class="navTitulo">Módulos</h2>
         {% if session['estado'] == "Administrador" %}
-        <a href="url_for('compra.listar_compra')" class="navLink">
+        <a href="{url_for('listar_compra')}" class="navLink">
           <img
             src="{{ url_for('static', filename='assets/icons/compras.svg') }}"
             alt="compras.svg"
           />
           <span>Compras</span>
         </a>
-        {% endif %}
-        
-
-        {% if session['estado'] == "Administrador" %}
-        <a href="#" class="navLink">
+        {% endif %} {% if session['estado'] == "Administrador" %}
+        <a href="{url_for(listar_produto)}" class="navLink">
           <img
             src="{{ url_for('static', filename='assets/icons/estoque.svg') }}"
             alt="estoque.svg"
@@ -105,5 +102,7 @@
         {% endif %}
       </div>
     </nav>
+
+    {% block main %} {% include 'footer.html' %}
   </body>
 </html>
