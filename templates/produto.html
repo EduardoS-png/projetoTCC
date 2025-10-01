@@ -1,5 +1,57 @@
 {% extends 'layout.html' %} {% block main %}
 
+<section id="inventario">
+  <div id="inventarioCabecalho">
+    <h2 class="paginaTitulo">Inventário</h2>
+  </div>
+
+  <div id="controlesInventario">
+    <button id="btnAbrirModalCategoria" class="botaoPrimario">
+      <img
+        src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
+        alt="novo.svg"
+      />Nova categoria
+    </button>
+
+    <div class="filtrarOpcoes">
+      <label for="filtroTipo">Filtrar por tipo:</label>
+      <select id="filtroTipo" class="filtroSelecionar">
+        <option value="">Todos</option>
+        <option value="linha">Linha</option>
+        <option value="tecido">Tecido</option>
+        <option value="extra">Extra</option>
+      </select>
+    </div>
+
+    <input
+      type="text"
+      id="campoPesquisa"
+      placeholder="Pesquisar pelo nome..."
+    />
+  </div>
+
+  <h3 class="tituloTabela">Tabela dos produtos cadastrados</h3>
+  <table id="tabelaProdutos" class="tabelaInventario">
+    <thead>
+      <tr class="tabelaCabecalho">
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Categoria do produto</th>
+        <th>Código Original</th>
+        <th>Preço Base</th>
+        <th>Marca</th>
+        <th>Tamanho</th>
+        <th>Cor</th>
+        <th>Data Cadastro</th>
+        <th>Quantidade</th>
+        <th>Status</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</section>
+
 <dialog id="modalCadastroProduto">
   <form id="formCadastroProduto" method="POST" action="/produto/cadastro">
     <div class="modalCabecalho">
