@@ -1,5 +1,5 @@
 from flask import Blueprint, request, redirect, url_for, render_template
-from app.models.fornecedor import get_fornecedores, insert_fornecedor
+from app.models.fornecedor import *
 
 fornecedor_bp = Blueprint("fornecedor", __name__)
 
