@@ -1,5 +1,13 @@
 const modalCategoria = document.getElementById("modalCadastroCategoria");
 
+const btnAbrirModalCategoria = document.getElementById(
+  "btnAbrirModalCategoria"
+);
+
+btnAbrirModalCategoria.addEventListener("click", () => {
+  modalCategoria.showModal();
+  formCadastroCategoria.reset();
+});
 const formCadastroCategoria = document.getElementById("formCadastroCategoria");
 
 const btnFecharModalCategoria = document.getElementById("botaoFecharCategoria");

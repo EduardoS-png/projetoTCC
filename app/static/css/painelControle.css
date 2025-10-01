@@ -29,7 +29,7 @@ body {
     "header header"
     "sidebar main"
     "sidebar main"
-    "sidebar footer";
+    "footer footer";
   min-height: 100vh;
   color: var(--cor-texto);
   background-color: var(--cor-fundo);

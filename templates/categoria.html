@@ -1,4 +1,55 @@
-{% extends 'layout.html' %} {% block modals %}
+{% extends 'layout.html' %} {% block main %}
+
+<section id="compras">
+  <div id="comprasCabecalho">
+    <h2 class="paginaTitulo">Compras</h2>
+  </div>
+  <button id="btnAbrirModalCategoria" class="botaoPrimario">
+    <img src="{{ url_for('static', filename='assets/icons/novo.svg') }}" alt="novo.svg" />Nova Categoria
+  </button>
+
+  <h3 class="tituloTabela">Compras Registradas</h3>
+
+  <div id="controlesCompras">
+    <table id="tabelaCompras">
+      <thead>
+        <tr class="tabelaCabecalho">
+          <th>Id</th>
+          <th>Nome</th>
+          <th>Descrição</th>
+          <th>Status</th>
+          <th>Ação</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        {% for categoria in categorias %}
+        <tr>
+          <td>{{categoria['id']}}</td>
+          <td>{{categoria['nome']}}</td>
+          <td>{{categoria['descricao']}}</td>
+          <td>{{ 'Ativo' if categoria['ativo'] == 1 else 'Inativo'}}</td>
+          <td>
+            <a class="botoesDecisao" href="">
+              <img src="/static/assets/icons/editar.svg" alt="editar.svg" />
+            </a>
+            {% if categoria['ativo'] == 1 %}
+            <a class="botoesDecisao"
+              href="{{url_for('categoria.inativar_categoria',id=categoria['id'])}}">
+              <img src="/static/assets/icons/inativar.svg" alt="inativar.svg" />
+            </a>
+            {% else %}
+            <a class="botoesDecisao"
+              href="{{url_for('categoria.reativar_categoria',id=categoria['id'])}}">
+              <img src="/static/assets/icons/reativar.svg" alt="reativar.svg" />
+            </a>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</section>
 
 <dialog id="modalCadastroCategoria">
   <form id="formCadastroCategoria" method="POST" action="/categoria/cadastrar">

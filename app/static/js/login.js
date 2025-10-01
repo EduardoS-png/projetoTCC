@@ -1,46 +1,10 @@
 const formLogin = document.getElementById("login-caixa");
 const btnSpinner = document.getElementById("btnSpinner");
-const toastContainer = document.getElementById("toastContainer");
+const btnText = document.getElementById("btnText");
 
-formLogin.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const usuario = document.getElementById("usuario").value.trim();
-  const senha = document.getElementById("senha").value.trim();
-  const estado = document.getElementById("estado").value;
-
-  btnSpinner.style.display = "block";
-
-  try {
-    const resposta = await fetch("/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({ usuario, senha, estado }),
-    });
-
-    if (!resposta.ok) {
-      throw new Error(`Erro HTTP: ${resposta.status}`);
-    }
-
-    const dados = await resposta.json();
-
-    if (dados.sucesso) {
-      mostrarToast("Login realizado com sucesso!", "sucesso");
-
-      setTimeout(() => {
-        window.location.href = "/painelPrincipal";
-      }, 1000);
-    } else {
-      mostrarToast(dados.mensagem || "Credenciais inválidas.", "erro");
-    }
-  } catch (erro) {
-    console.error("Erro no login: ", erro);
-    mostrarToast("Erro ao tentar login (Credenciais inválidas).", "erro");
-  } finally {
-    btnText.style.display = "block";
-    btnSpinner.style.display = "none";
-  }
+formLogin.addEventListener("submit", () => {
+  btnText.style.display = "none";
+  btnSpinner.style.display = "inline-block";
 });
 
 function mostrarToast(mensagem, tipo = "sucesso", duracao = 4000) {

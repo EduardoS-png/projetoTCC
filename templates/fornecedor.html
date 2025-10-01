@@ -1,4 +1,5 @@
-{% extends 'layout.html %} {% block modals %}
+{% extends 'layout.html' %} {% block main %}
+
 <dialog id="modalCadastroFornecedor">
   <form id="formCadastroFornecedor" method="POST" action="/fornecedor/listar">
     <div class="modalCabecalho">
@@ -10,7 +11,7 @@
         class="botaoFecharModal"
       >
         <img
-          src="{{ url_for('static', filename='assets/icons/fechar.svg')}}"
+          src="{{ url_for('static', filename='assets/icons/fechar.svg') }}"
           alt="fechar.svg"
         />
       </button>

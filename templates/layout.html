@@ -100,12 +100,12 @@
       </div>
     </nav>
 
-    {% block main %} {% endblock %} {% include 'footer.html' %} {% block
-    javascript %}{% endblock %}
+    <main>{% block main %} {% endblock %}</main>
+    {% include 'footer.html' %} {% block javascript %}{% endblock %}
 
-    <script
+    <!-- <script
       src="{{ url_for('static', filename='js/painelControle.js') }}"
       type="module"
-    ></script>
+    ></script> -->
   </body>
 </html>

@@ -19,20 +19,19 @@ def login():
 
 @usuario_bp.route("/login", methods=["POST"])
 def verificarLogin():
-  data = request.get_json()
-  login = data.get("usuario")
-  senha = data.get("senha")
-  estado = data.get("estado")
+    login = request.form.get("usuario")
+    senha = request.form.get("senha")
+    estado = request.form.get("estado")
 
-  user = verificar_usuario(login, senha, estado)
-  
-  if user:
-    session["usuario"] = login
-    session["usuario_id"] = user["id"]
-    session["estado"] = estado
-    return jsonify({"sucesso": True, "nome": user["nome"]})
-  else:
-    return jsonify({"sucesso": False, "mensagem": "Credenciais inválidas"}), 401
+    user = verificar_usuario(login, senha, estado)
+
+    if user:
+        session["usuario"] = login
+        session["usuario_id"] = user["id"]
+        session["estado"] = estado
+        return redirect("/painelPrincipal")
+    else:
+        return render_template("login.html", erro="Credenciais inválidas")
   
 @usuario_bp.route("/painelPrincipal")
 def painelPrincipal():

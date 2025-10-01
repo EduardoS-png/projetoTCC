@@ -47,11 +47,11 @@ function marcarBotaoAtivo(destino) {
   });
 }
 
-function mostrarSessaoAtiva(destino) {
-  sessoes.forEach((sessao) => {
-    sessao.style.display = sessao.id === destino ? "block" : "none";
-  });
-}
+// function mostrarSessaoAtiva(destino) {
+//   sessoes.forEach((sessao) => {
+//     sessao.style.display = sessao.id === destino ? "block" : "none";
+//   });
+// }
 
 function salvarEstado(destino) {
   localStorage.setItem(chaveEstado, destino);
