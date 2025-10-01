@@ -1,5 +1,5 @@
 from flask import Blueprint, request, render_template, redirect, url_for
-from app.models.compra import get_compra, insert_compras
+from app.models.compra import *
 
 compra_bp = Blueprint("compra", __name__)
 

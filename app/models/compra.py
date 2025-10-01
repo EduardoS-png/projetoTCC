@@ -25,7 +25,7 @@ def get_compra_id(compra_id):
     return compra
 
 
-def insert_compra(dados: dict):
+def insert_compras(dados: dict):
     conexao = conexaoBD()
     try:
         cursor = conexao.cursor()
