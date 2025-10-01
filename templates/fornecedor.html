@@ -1,5 +1,43 @@
 {% extends 'layout.html' %} {% block main %}
 
+<section id="compras">
+        <div id="comprasCabecalho">
+          <h2 class="paginaTitulo">Fornecedores</h2>
+        </div>
+
+        <div id="controlesCompras">
+          <button id="btnAbrirModalFornecedor" class="botaoPrimario">
+            <img
+              src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
+              alt="novo.svg"
+            />Novo fornecedor
+          </button>
+    
+  
+           <input  
+            type="text"
+            id="campoPesquisa"
+            placeholder="Pesquisar pelo nome..."
+           />
+        </div>
+
+        <h3 class="tituloTabela">Fornecedores Registrados</h3>
+        <table id="tabelaCompras">
+          <thead>
+            <tr class="tabelaCabecalho">
+              <th>Nome Do Fornecedor</th>
+              <th>Nome Fantasia</th>
+              <th>CNPJ</th>
+              <th>Endereço</th>
+              <th>Telefone</th>
+              <th>Telefone Reserva</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+
 <dialog id="modalCadastroFornecedor">
   <form id="formCadastroFornecedor" method="POST" action="/fornecedor/listar">
     <div class="modalCabecalho">
