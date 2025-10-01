@@ -1,4 +1,4 @@
-from flask import Blueprint, request, render_template, redirect, jsonify, url_for
+from flask import Blueprint, request, render_template, redirect, url_for
 from app.models.produto import *
 
 produto_bp = Blueprint("produto", __name__)

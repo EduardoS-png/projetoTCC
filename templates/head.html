@@ -46,7 +46,7 @@
     <nav>
       <div class="navSessao">
         <h2 class="navTitulo">Principal</h2>
-        <a href="#" class="navLink ativo">
+        <a href="#" class="navLink ativo" data-destino="dashboard">
           <img
             src="{{ url_for('static', filename='assets/icons/dashboard.svg') }}"
             alt="dashboard"
@@ -56,17 +56,16 @@
       </div>
 
       <div class="navSessao">
-        <h2 class="navTitulo">Módulos</h2>
-        {% if session['estado'] == "Administrador" %}
-        <a href="{url_for('listar_compra')}" class="navLink">
+        <h2 class="navTitulo">Estruturas</h2>
+        <a href="/compra/lista" class="navLink" data-destino="compras">
           <img
             src="{{ url_for('static', filename='assets/icons/compras.svg') }}"
             alt="compras.svg"
           />
           <span>Compras</span>
         </a>
-        {% endif %} {% if session['estado'] == "Administrador" %}
-        <a href="{url_for(listar_produto)}" class="navLink">
+        {% if session['estado'] == "Administrador" %}
+        <a href="/produto/lista" class="navLink" data-destino="inventario">
           <img
             src="{{ url_for('static', filename='assets/icons/estoque.svg') }}"
             alt="estoque.svg"
@@ -78,21 +77,19 @@
 
       <div class="navSessao">
         <h2 class="navTitulo">Elementos</h2>
-        {% if session['estado'] == "Administrador" %}
-        <a href="/categoria/lista" class="navLink">
+        <a href="/categoria/lista" class="navLink" data-destino="operacoes">
           <img
             src="{{ url_for('static', filename='assets/icons/compras.svg') }}"
             alt="compras.svg"
           />
           <span>Categorias</span>
         </a>
-        {% endif %}
       </div>
 
       <div class="navSessao">
         {% if session['estado'] == "Administrador" %}
         <h2 class="navTitulo">Operacional</h2>
-        <a href="url_for('listar_categorias')" class="navLink">
+        <a href="/operacoes/lista" class="navLink">
           <img
             src="{{ url_for('static', filename='assets/icons/configuracoes.svg') }}"
             alt="config.svg"
@@ -103,10 +100,7 @@
       </div>
     </nav>
 
-    {% block main %} {% endblock %}
-
-    {% include 'footer.html' %}
-
-    
+    {% block main %} {% endblock %} {% include 'footer.html' %} {% block
+    javascript %}{% endblock %}
   </body>
 </html>

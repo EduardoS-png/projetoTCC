@@ -1,29 +1,30 @@
 const modalCategoria = document.getElementById("modalCadastroCategoria");
 
+const formCadastroCategoria = document.getElementById("formCadastroCategoria");
+
 const btnAbrirModalCategoria = document.getElementById(
-    "btnAbrirModalCategoria"
+  "btnAbrirModalCategoria"
 );
 
 const btnFecharModalCategoria = document.getElementById("botaoFecharCategoria");
 
 const btnCancelarModalCategoria = document.getElementById(
-    "botaoCancelarCategoria"
+  "botaoCancelarCategoria"
 );
 
 btnAbrirModalCategoria.addEventListener("click", () => {
-    modalCategoria.showModal();
-    formCadastroCategoria.reset();
+  modalCategoria.showModal();
+  formCadastroCategoria.reset();
 });
 
 btnFecharModalCategoria.addEventListener("click", () => {
-    modalCategoria.close();
-    formCadastroCategoria.reset();
+  modalCategoria.close();
+  formCadastroCategoria.reset();
 });
 
 btnCancelarModalCategoria.addEventListener("click", () =>
-    modalCategoria.close()
+  modalCategoria.close()
 );
-
 
 modalCategoria.addEventListener("click", (evento) => {
   const reacao = modalCategoria.getBoundingClientRect();

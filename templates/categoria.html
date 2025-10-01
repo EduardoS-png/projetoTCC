@@ -1,5 +1,4 @@
-{% extends 'head.html %}
-{% block modals %}
+{% extends 'head.html' %} {% block modals %}
 
 <dialog id="modalCadastroCategoria">
   <form id="formCadastroCategoria" method="POST" action="/categoria/cadastrar">
@@ -12,7 +11,7 @@
         class="botaoFecharModal"
       >
         <img
-          src="{{ url_for('static', filename='assets/icons/fechar.svg')}}"
+          src="{{ url_for('static', filename='assets/icons/fechar.svg') }}"
           alt="fechar.svg"
         />
       </button>
@@ -47,22 +46,52 @@
   <form id="formCadastroCategoria" method="POST" action="/categoria/alterar">
     <div class="modalCabecalho">
       <h2 class="tituloModal">Cadastrar Categoria</h2>
-      <button type="button" aria-label="Fechar formulário" id="botaoFecharCategoria" class="botaoFecharModal">
-        <img src="{{ url_for('static', filename='assets/icons/fechar.svg')}}" alt="fechar.svg" />
+      <button
+        type="button"
+        aria-label="Fechar formulário"
+        id="botaoFecharCategoria"
+        class="botaoFecharModal"
+      >
+        <img
+          src="{{ url_for('static', filename='assets/icons/fechar.svg')}}"
+          alt="fechar.svg"
+        />
       </button>
     </div>
 
-    <input type="text" id="nomeCategoria" name="nomeCategoria" placeholder="Digite o nome da categoria..." required />
+    <input
+      type="text"
+      id="nomeCategoria"
+      name="nomeCategoria"
+      placeholder="Digite o nome da categoria..."
+      required
+    />
 
     <label for="nomeCategoria">Nome da Categoria</label>
-    <input type="text" id="nomeCategoria" name="nomeCategoria" placeholder="Digite o nome da categoria..." required />
-    
+    <input
+      type="text"
+      id="nomeCategoria"
+      name="nomeCategoria"
+      placeholder="Digite o nome da categoria..."
+      required
+    />
+
     <label for="descricaoCategoria">Descrição</label>
-    <textarea id="descricaoCategoria" name="descricaoCategoria" placeholder="Digite a descrição da categoria..."
-    rows="3"></textarea>
-    
+    <textarea
+      id="descricaoCategoria"
+      name="descricaoCategoria"
+      placeholder="Digite a descrição da categoria..."
+      rows="3"
+    ></textarea>
+
     <label for="status">status</label>
-    <input type="text" id="nomeCategoria" name="nomeCategoria" placeholder="Digite o nome da categoria..." required />
+    <input
+      type="text"
+      id="nomeCategoria"
+      name="nomeCategoria"
+      placeholder="Digite o nome da categoria..."
+      required
+    />
 
     <menu>
       <button type="submit" class="botaoPrimario">Salvar</button>
@@ -71,8 +100,9 @@
   </form>
 </dialog>
 
-{% endblock %}
-
-{% block javascript %}
-<script type="module" src="{{ url_for('static', filename='js/categoria.js') }}"></script>
+{% endblock %} {% block javascript %}
+<script
+  type="module"
+  src="{{ url_for('static', filename='js/categoria.js') }}"
+></script>
 {% endblock %}
