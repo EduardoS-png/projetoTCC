@@ -1,4 +1,4 @@
-{% extends 'head.html' %} {% block modals %}
+{% extends 'layout.html' %} {% block modals %}
 
 <dialog id="modalCadastroCategoria">
   <form id="formCadastroCategoria" method="POST" action="/categoria/cadastrar">
@@ -6,7 +6,7 @@
       <h2 class="tituloModal">Cadastrar Categoria</h2>
       <button
         type="button"
-        aria-label="Fechar formulário"
+        aria-label="fecharFormulario"
         id="botaoFecharCategoria"
         class="botaoFecharModal"
       >
@@ -41,15 +41,14 @@
   </form>
 </dialog>
 
-<!-- popup cadastrar Categoria -->
 <dialog id="modalAlterarCategoria">
-  <form id="formCadastroCategoria" method="POST" action="/categoria/alterar">
+  <form id="formAlterarCategoria" method="POST" action="/categoria/alterar">
     <div class="modalCabecalho">
       <h2 class="tituloModal">Cadastrar Categoria</h2>
       <button
         type="button"
         aria-label="Fechar formulário"
-        id="botaoFecharCategoria"
+        id="botaoFecharAlterarCategoria"
         class="botaoFecharModal"
       >
         <img
@@ -58,14 +57,6 @@
         />
       </button>
     </div>
-
-    <input
-      type="text"
-      id="nomeCategoria"
-      name="nomeCategoria"
-      placeholder="Digite o nome da categoria..."
-      required
-    />
 
     <label for="nomeCategoria">Nome da Categoria</label>
     <input
@@ -84,18 +75,18 @@
       rows="3"
     ></textarea>
 
-    <label for="status">status</label>
+    <label for="statusCategoria">status</label>
     <input
       type="text"
-      id="nomeCategoria"
-      name="nomeCategoria"
+      id="novoStatusCategoria"
+      name="statusCategoria"
       placeholder="Digite o nome da categoria..."
       required
     />
 
     <menu>
       <button type="submit" class="botaoPrimario">Salvar</button>
-      <button type="button" id="botaoCancelarCategoria">Cancelar</button>
+      <button type="button" id="botaoAlterarCategoria">Cancelar</button>
     </menu>
   </form>
 </dialog>

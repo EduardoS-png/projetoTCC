@@ -57,7 +57,7 @@
 
       <div class="navSessao">
         <h2 class="navTitulo">Estruturas</h2>
-        <a href="/compra/lista" class="navLink" data-destino="compras">
+        <a href="#" class="navLink" data-destino="compras">
           <img
             src="{{ url_for('static', filename='assets/icons/compras.svg') }}"
             alt="compras.svg"
@@ -65,7 +65,7 @@
           <span>Compras</span>
         </a>
         {% if session['estado'] == "Administrador" %}
-        <a href="/produto/lista" class="navLink" data-destino="inventario">
+        <a href="#" class="navLink" data-destino="inventario">
           <img
             src="{{ url_for('static', filename='assets/icons/estoque.svg') }}"
             alt="estoque.svg"
@@ -77,7 +77,7 @@
 
       <div class="navSessao">
         <h2 class="navTitulo">Elementos</h2>
-        <a href="/categoria/lista" class="navLink" data-destino="operacoes">
+        <a href="#" class="navLink" data-destino="categorias">
           <img
             src="{{ url_for('static', filename='assets/icons/compras.svg') }}"
             alt="compras.svg"
@@ -89,7 +89,7 @@
       <div class="navSessao">
         {% if session['estado'] == "Administrador" %}
         <h2 class="navTitulo">Operacional</h2>
-        <a href="/operacoes/lista" class="navLink">
+        <a href="#" class="navLink" data-destino="operacoes">
           <img
             src="{{ url_for('static', filename='assets/icons/configuracoes.svg') }}"
             alt="config.svg"
@@ -102,5 +102,10 @@
 
     {% block main %} {% endblock %} {% include 'footer.html' %} {% block
     javascript %}{% endblock %}
+
+    <script
+      src="{{ url_for('static', filename='js/painelControle.js') }}"
+      type="module"
+    ></script>
   </body>
 </html>

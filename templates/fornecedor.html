@@ -1,4 +1,4 @@
-{% extends 'head.html %} {% block modals %}
+{% extends 'layout.html %} {% block modals %}
 <dialog id="modalCadastroFornecedor">
   <form id="formCadastroFornecedor" method="POST" action="/fornecedor/listar">
     <div class="modalCabecalho">
@@ -15,7 +15,6 @@
         />
       </button>
     </div>
-
 
     <!-- Campos do Fornecedor -->
     <label for="nome">Nome do Fornecedor</label>
@@ -60,8 +59,9 @@
   </form>
 </dialog>
 
-{% endblock %}
-
-{% block javascript %}
-<script type="module" src="{{ url_for('static', filename='js/fornecedor.js') }}"></script>
+{% endblock %} {% block javascript %}
+<script
+  type="module"
+  src="{{ url_for('static', filename='js/fornecedor.js') }}"
+></script>
 {% endblock %}
