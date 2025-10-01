@@ -35,3 +35,45 @@ modalFornecedor.addEventListener("click", (evento) => {
   )
     modalFornecedor.close();
 });
+
+
+//editar fornecedor//
+
+
+const modalEditarFornecedor = document.getElementById("modalEditarFornecedor");
+
+const btnAbrirModalEditarFornecedor = document.getElementById(
+  "btnAbrirModalEditarFornecedor"
+);
+
+btnAbrirModalEditarFornecedor.addEventListener("click", () => {
+  modalEditarFornecedor.showModal();
+  formEditarFornecedor.reset();
+});
+const formEditarFornecedor = document.getElementById("formEditarFornecedor");
+
+const btnFecharModalEditarFornecedor = document.getElementById("botaoFecharEditarFornecedor");
+
+const btnCancelarModalEditarFornecedor = document.getElementById(
+  "botaoCancelarEditarFornecedor"
+);
+
+btnFecharModalEditarFornecedor.addEventListener("click", () => {
+  modalEditarFornecedor.close();
+  formEditarFornecedor.reset();
+});
+
+btnCancelarModalEditarFornecedor.addEventListener("click", () =>
+  modalEditarFornecedor.close()
+);
+
+modalEditarFornecedor.addEventListener("click", (evento) => {
+  const reacao = modalEditarFornecedor.getBoundingClientRect();
+  if (
+    evento.clientX < reacao.left ||
+    evento.clientX > reacao.right ||
+    evento.clientY < reacao.top ||
+    evento.clientY > reacao.bottom
+  )
+    modalEditarFornecedor.close();
+});
