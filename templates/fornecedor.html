@@ -1,6 +1,4 @@
-{% extends 'head.html %}
-
-{% block content %}
+{% extends 'head.html %} {% block modals %}
 <dialog id="modalCadastroFornecedor">
   <form id="formCadastroFornecedor" method="POST">
     <div class="modalCabecalho">
@@ -17,7 +15,6 @@
         />
       </button>
     </div>
-
 
     <label for="nome">Nome do Fornecedor</label>
     <input
@@ -38,11 +35,7 @@
     />
 
     <label for="cnpj">CNPJ</label>
-    <input
-      type="text"
-      id="cnpj"
-      placeholder="Digite o cnpj do fornecedor..."
-    />
+    <input type="text" id="cnpj" placeholder="Digite o cnpj do fornecedor..." />
 
     <label for="endereco">Endereço</label>
     <input
@@ -51,15 +44,12 @@
       name="endereco"
       placeholder="Digite o endereco do fornecedor..."
     />
-    
-    
+
     <label for="telefone1">Telefone1</label>
     <input type="text" id="telefone1" placeholder="Digite o telefone..." />
 
     <label for="telefone2">Telefone2</label>
     <input type="text" id="telefone2" placeholder="Digite o telefone..." />
-
-
 
     <menu>
       <button type="submit" class="botaoPrimario">Salvar</button>
@@ -69,4 +59,3 @@
 </dialog>
 
 {% endblock %}
-{% extends 'footer.html' %}
