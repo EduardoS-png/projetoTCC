@@ -7,7 +7,7 @@ usuario_bp = Blueprint("usuario", __name__)
 @usuario_bp.route("/")
 def home():
   if 'usuario' in session:
-    return render_template("painelControle.html")
+    return render_template("head.html")
   else:
     return redirect("/login")
   
@@ -37,7 +37,7 @@ def verificarLogin():
 @usuario_bp.route("/painelPrincipal")
 def painelPrincipal():
   if 'usuario' in session:
-    return render_template("painelControle.html")
+    return render_template("head.html")
   else:
     return redirect("/login")
   

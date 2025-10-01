@@ -1,4 +1,4 @@
-{% extends %}
+{% extends 'head.html' %}
 {% block content %}
 
 <!-- Compras -->
@@ -52,9 +52,35 @@
               <th>Ações</th>
             </tr>
           </thead>
-          <tbody></tbody>
+          <tbody>
+
+          {% for categoria in categorias %}
+            <tr>
+              <td>{{categoria['id']}}</td>
+              <td>{{categoria['nome']}}</td>
+              <td>{{categoria['descricao']}}</td>
+              <td>{{ 'Ativo' if categoria['ativo'] == 1 else 'Inativo'}}</td>
+              <td>
+                <a class="botoesDecisao" href="{{url_for('categoria.alterar_categoria', id=categoria['id'])}}">
+                   <img src="/static/assets/icons/editar.svg" alt="editar.svg" />
+                </a>
+                {% if categoria['ativo'] == 1 %}
+                <a class="botoesDecisao"
+                  href="{{url_for('categoria.inativar_categoria',id=categoria['id'])}}">
+                  <img src="/static/assets/icons/inativar.svg" alt="inativar.svg" />
+                </a>
+                {% else %}
+                <a class="botoesDecisao"
+                  href="{{url_for('categoria.reativar_categoria',id=categoria['id'])}}">
+                  <img src="/static/assets/icons/reativar.svg" alt="reativar.svg" />
+                </a>
+                {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+
+          </tbody>
         </table>
       </section>
 
 {% endblock %}
-{% extends %}
