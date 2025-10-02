@@ -47,3 +47,50 @@ def insert_fornecedor(dados: dict):
     finally:
         cursor.close()
         conexao.close()
+        
+def inativar(id):
+    conexao = conexaoBD()
+    try:
+        cursor = conexao.cursor()
+        sql = "UPDATE fornecedor set ativo = False WHERE id = %s"
+        cursor.execute(sql, (id,))
+        conexao.commit()
+        return cursor.lastrowid
+    finally:
+        cursor.close()
+        conexao.close()
+
+def reativar(id):
+    conexao = conexaoBD()
+    try:
+        cursor = conexao.cursor()
+        sql = "UPDATE fornecedor set ativo = True WHERE id = %s"
+        cursor.execute(sql, (id,))
+        conexao.commit()
+        return cursor.lastrowid
+    finally:
+        cursor.close()
+        conexao.close()
+
+
+def alterar(id, novoNome, novoNome_fantasia, novoCnpj, novoEndereco, novoTelefone1, novoTelefone2):
+    conexao = conexaoBD()
+    try:
+        cursor = conexao.cursor()
+        sql = """
+            UPDATE fornecedor
+            SET nome = %s,
+                nome_fantasia = %s,
+                cnpj = %s,
+                endereco = %s,
+                telefone1 = %s,
+                telefone2 = %s,
+            WHERE id = %s
+        """
+        cursor.execute(sql, (novoNome, novoNome_fantasia, novoCnpj, novoEndereco, novoTelefone1, novoTelefone2, id))
+        conexao.commit()
+        return cursor.lastrowid
+    finally:
+        cursor.close()
+        conexao.close()
+

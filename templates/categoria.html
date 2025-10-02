@@ -30,7 +30,7 @@
           <td>{{categoria['descricao']}}</td>
           <td>{{ 'Ativo' if categoria['ativo'] == 1 else 'Inativo'}}</td>
           <td>
-            <a class="botoesDecisao" href="">
+            <a class="botoesDecisao" href="btnAbrirAlterarCategoria">
               <img src="/static/assets/icons/editar.svg" alt="editar.svg" />
             </a>
             {% if categoria['ativo'] == 1 %}
@@ -92,10 +92,26 @@
   </form>
 </dialog>
 
+<!-- modal de editar categoria -->
+ 
+
 <dialog id="modalAlterarCategoria">
   <form id="formAlterarCategoria" method="POST" action="/categoria/alterar">
+    <input type="hidden" name="id" id="editar_id">
     <div class="modalCabecalho">
-      <h2 class="tituloModal">Cadastrar Categoria</h2>
+      <h2 class="tituloModal">Editar Categoria</h2>
+
+       <button 
+        type="button" 
+        aria-label="Abrir formulário" 
+        id="botaoAbrirEditarCategoria" 
+        class="botaoAbrirModal">
+        
+        <img
+          src="{{ url_for('static', filename='assets/icons/fechar.svg') }}"
+          alt="fechar.svg"
+        />
+
       <button
         type="button"
         aria-label="Fechar formulário"

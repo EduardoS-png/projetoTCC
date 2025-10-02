@@ -8,14 +8,14 @@ def listar_fornecedor():
   fornecedores = get_fornecedores()
   return render_template('fornecedor.html', fornecedores= fornecedores)
 
-@fornecedor_bp.route("/cadastrar", methods=["POST"])
+@fornecedor_bp.route("/fornecedor/cadastrar", methods=["POST"])
 def cadastro_fornecedor():
   nome = request.form['nomeFornecedor']
   nome_fantasia = request.form['nome_fantasia']
   cnpj = request.form['cnpj']
-  endereco = request.form('endereco')
+  endereco = request.form['endereco']
   telefone1 = request.form['telefone1']
-  telefone2 = request.form('telefone2')
+  telefone2 = request.form['telefone2']
 
   dados = {
     "nome": nome,
@@ -28,3 +28,30 @@ def cadastro_fornecedor():
 
   insert_fornecedor(dados)
   return redirect(url_for('fornecedor.listar_fornecedor'))
+
+@fornecedor_bp.route("/fornecedor/inativar", methods=["GET"])
+def inativar_fornecedor():
+    id = request.args.get('id')
+
+    inativar(id)
+    return redirect(url_for('fornecedor.listar_fornecedor'))
+
+@fornecedor_bp.route("/fornecedor/reativar", methods=["GET"])
+def reativar_fornecedor():
+    id = request.args.get('id')
+
+    reativar(id)
+    return redirect(url_for('fornecedor.listar_fornecedor'))
+
+@fornecedor_bp.route("/fornecedor/alterar", methods=["POST"])
+def alterar_fornecedor():
+    id = request.form['id']
+    novoNome = request.form['novoNomeFornecedor']
+    novoNomefantasia = request.form['novoNome_fantasia']
+    novoCnpj = request.form['novoCnpj']
+    novoEndereco = request.form['novoEndereco']
+    novoTelefone1 = request.form['novoTelefone1']
+    novoTelefone2 = request.form['novoTelefone2']
+
+    alterar_fornecedor(id, novoNome, novoNomefantasia, novoCnpj, novoEndereco, novoTelefone1, novoTelefone2)
+    return redirect(url_for('fornecedor.listar_fornecedor'))
