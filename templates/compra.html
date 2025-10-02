@@ -3,38 +3,17 @@
 <section id="compras">
   <div id="comprasCabecalho">
     <h2 class="paginaTitulo">Compras</h2>
+    <h3 class="paginaTitulo">Produto</h3>
   </div>
 
   <div id="controlesCompras">
-    <button id="btnAbrirModalCompra" class="botaoPrimario">
-      <img
-        src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
-        alt="novo.svg"
-      />Nova Compra
-    </button>
-    <button id="btnAbrirModalFornecedor" class="botaoPrimario">
-      <img
-        src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
-        alt="novo.svg"
-      />Novo fornecedor
-    </button>
-    <button id="btnAbrirModalEstoque" class="botaoPrimario">
-      <img
-        src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
-        alt="novo.svg"
-      />Novos produtos
-    </button>
     <div class="filtrarOpcoes">
       <select class="filtroSelecionar">
-        <option value="">Todos os status</option>
-        <option value="pendente">Pendente</option>
-        <option value="recebido">Recebido</option>
-        <option value="cancelado">Cancelado</option>
+        <option value="">Todos os fornecedores</option>
       </select>
     </div>
   </div>
 
-  <h3 class="tituloTabela">Compras Registradas</h3>
   <table id="tabelaCompras">
     <thead>
       <tr class="tabelaCabecalho">
@@ -45,59 +24,28 @@
         <th>Nome do fornecedor</th>
         <th>Quantidade comprada</th>
         <th>Categoria do produto</th>
+        <th>Valor unitário</th>
         <th>Preço da compra</th>
         <th>Data da compra</th>
         <th>Ações</th>
       </tr>
     </thead>
-    <tbody></tbody>
-  </table>
-
-  <h3 class="tituloTabela">Categorias cadastradas</h3>
-  <table id="tabelaCategorias">
-    <thead>
-      <tr class="tabelaCabecalho">
-        <th>ID</th>
-        <th>Nome</th>
-        <th>Descrição</th>
-        <th>Status</th>
-        <th>Ações</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for categoria in categorias %}
-      <tr>
-        <td>{{categoria['id']}}</td>
-        <td>{{categoria['nome']}}</td>
-        <td>{{categoria['descricao']}}</td>
-        <td>{{ 'Ativo' if categoria['ativo'] == 1 else 'Inativo'}}</td>
-        <td>
-          <a
-            class="botoesDecisao"
-            href="{{ url_for('categoria.alterar_categoria', id=categoria['id']) }}"
-          >
-            <img src="/static/assets/icons/editar.svg" alt="editar.svg" />
-          </a>
-          {% if categoria['ativo'] == 1 %}
-          <a
-            class="botoesDecisao"
-            href="{{ url_for('categoria.inativar_categoria',id=categoria['id']) }}"
-          >
-            <img src="/static/assets/icons/inativar.svg" alt="inativar.svg" />
-          </a>
-          {% else %}
-          <a
-            class="botoesDecisao"
-            href="{{ url_for('categoria.reativar_categoria',id=categoria['id']) }}"
-          >
-            <img src="/static/assets/icons/reativar.svg" alt="reativar.svg" />
-          </a>
-          {% endif %}
-        </td>
-      </tr>
-      {% endfor %}
+    <tbody> 
+      {%for compra in compras%} 
+        <tr> 
+          <td>{{compra.id}}</td>
+          <td>{{compra.data.strftime("%d/%m/%y")}}</td>
+          <td>{{compra.quantidade}}</td>
+          <td>{{compra.valorTotal}}</td>
+        </tr>
+        {%else%} 
+        <tr>
+          <td colspan="4">Nenhuma compra encontrada para este produto</td>
+        </tr>
+        {%endfor%}
     </tbody>
   </table>
+
 </section>
 
 {% endblock %}
