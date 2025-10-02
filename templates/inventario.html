@@ -1,0 +1,65 @@
+{% extends 'layout.html' %} {% block main %}
+<section id="inventario">
+  <div id="inventarioCabecalho">
+    <h2 class="paginaTitulo">Inventário</h2>
+  </div>
+
+  <div id="controlesInventario">
+    <button id="btnAbrirModalProduto" class="botaoPrimario">
+      <img
+        src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
+        alt="novo.svg"
+      />Nova compra
+    </button>
+
+    <input
+      type="text"
+      id="campoPesquisa"
+      placeholder="Pesquisar pelo nome..."
+    />
+  </div>
+
+  <h3 class="tituloTabela">Tabela atual do estoque</h3>
+  <table id="tabelaProdutos" class="tabelaInventario">
+    <thead>
+      <tr class="tabelaCabecalho">
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Categoria</th>
+        <th>Fornecedor</th>
+        <th>Código Original</th>
+        <th>Preço Base</th>
+        <th>Quantidade Total</th>
+        <th>Status</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for produto in produtos %}
+      <tr
+        data-categoria-id="{{ produto['categoria_id'] }}"
+        data-fornecedor-id="{{ produto['fornecedor_id'] }}"
+      >
+        <td>{{ produto['id'] }}</td>
+        <td>{{ produto['nome'] }}</td>
+        <td>{{ produto['categoria'] }}</td>
+        <td>{{ produto['fornecedor'] }}</td>
+        <td>{{ produto['codigo_original'] }}</td>
+        <td>R$ {{ "%.2f"|format(produto['preco_base']) }}</td>
+        <td>{{ produto['quantidade_total'] }}</td>
+        <td>{{ 'Ativo' if produto['ativo'] == 1 else 'Inativo' }}</td>
+        <td>
+          <button
+            class="botoesDecisao btnAbrirModalAlterarProduto"
+            href=""
+            data-id="{{ produto['id'] }}"
+          >
+            Ver detalhado
+          </button>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

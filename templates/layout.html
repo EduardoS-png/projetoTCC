@@ -57,15 +57,8 @@
 
       <div class="navSessao">
         <h2 class="navTitulo">Estruturas</h2>
-        <a href="#" class="navLink">
-          <img
-            src="{{ url_for('static', filename='assets/icons/compras.svg') }}"
-            alt="compras.svg"
-          />
-          <span>Compras</span>
-        </a>
         {% if session['estado'] == "Administrador" %}
-        <a href="#" class="navLink">
+        <a href="/inventario/lista" class="navLink">
           <img
             src="{{ url_for('static', filename='assets/icons/estoque.svg') }}"
             alt="estoque.svg"

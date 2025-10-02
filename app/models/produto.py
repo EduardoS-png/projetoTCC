@@ -18,12 +18,10 @@ def get_produtos():
             p.tamanho,
             p.cor, 
             p.data_cadastro,
-            p.ativo,
-            e.quantidade
+            p.ativo
             FROM produto p
             JOIN categoria c ON p.categoria_id = c.id
             JOIN fornecedor f ON p.fornecedor_id = f.id
-            JOIN estoque e ON p.id = e.produto_id
             ORDER BY p.nome
         """
         
@@ -51,12 +49,10 @@ def get_produtos_id(id):
             c.id AS categoria_id, 
             c.nome AS categoria, 
             f.id AS fornecedor_id,
-            f.nome_fantasia AS fornecedor, 
-            e.quantidade
+            f.nome_fantasia AS fornecedor
             FROM produto p
             JOIN categoria c ON p.categoria_id = c.id
             JOIN fornecedor f ON p.fornecedor_id = f.id
-            JOIN estoque e ON p.id = e.produto_id
             WHERE p.id = %s
         """
 
@@ -88,7 +84,7 @@ def insert_produtos(nome, codigo_original, preco_base, marca, tamanho, cor, data
         conexao.close()
 
 
-def alterar(id, novoNome, novoCodigoOriginal, novoPrecoBase, novaMarca, novoTamanho, novaCor, novaCategoria, novoFornecedor, novaQuantidade):
+def alterar(id, novoNome, novoCodigoOriginal, novoPrecoBase, novaMarca, novoTamanho, novaCor, novaCategoria, novoFornecedor):
     conexao = conexaoBD()
     try:
         cursor = conexao.cursor()
@@ -99,9 +95,6 @@ def alterar(id, novoNome, novoCodigoOriginal, novoPrecoBase, novaMarca, novoTama
             WHERE id = %s
         """
         cursor.execute(sql, (novoNome, novoCodigoOriginal, novoPrecoBase, novaMarca, novoTamanho, novaCor, novoFornecedor, novaCategoria, id))
-
-        sql_estoque = "UPDATE estoque SET quantidade = %s WHERE produto_id = %s"
-        cursor.execute(sql_estoque, (novaQuantidade, id))
 
         conexao.commit()
         return cursor.lastrowid

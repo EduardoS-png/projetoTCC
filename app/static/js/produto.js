@@ -67,8 +67,6 @@ btnAbrirModalAlterarProduto.forEach((botao) => {
       linha.children[8].textContent.trim();
     document.getElementById("dataAlterar").value =
       linha.children[9].textContent.trim();
-    document.getElementById("quantidadeAlterar").value =
-      linha.children[10].textContent.trim();
 
     modalAlterarProduto.showModal();
   });
