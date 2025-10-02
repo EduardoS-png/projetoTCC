@@ -89,7 +89,7 @@ def alterar(id, novoNome, novoNome_fantasia, novoCnpj, novoEndereco, novoTelefon
         """
         cursor.execute(sql, (novoNome, novoNome_fantasia, novoCnpj, novoEndereco, novoTelefone1, novoTelefone2, id))
         conexao.commit()
-        return cursor.rowcount
+        return cursor.lastrowid
     finally:
         cursor.close()
         conexao.close()
