@@ -2,16 +2,16 @@
 
 <section id="compras">
   <div id="comprasCabecalho">
-    <h2 class="paginaTitulo">Compras</h2>
+    <h2 class="paginaTitulo">Categorias</h2>
   </div>
   <button id="btnAbrirModalCategoria" class="botaoPrimario">
     <img src="{{ url_for('static', filename='assets/icons/novo.svg') }}" alt="novo.svg" />Nova Categoria
   </button>
 
-  <h3 class="tituloTabela">Compras Registradas</h3>
+  <h3 class="tituloTabela">Categorias Registradas</h3>
 
-  <div id="controlesCompras">
-    <table id="tabelaCompras">
+  <div id="controlesCategorias">
+    <table id="tabelaCategorias">
       <thead>
         <tr class="tabelaCabecalho">
           <th>Id</th>
@@ -30,9 +30,9 @@
           <td>{{categoria['descricao']}}</td>
           <td>{{ 'Ativo' if categoria['ativo'] == 1 else 'Inativo'}}</td>
           <td>
-            <a class="botoesDecisao" href="btnAbrirAlterarCategoria">
+            <button class="botoesDecisao btnAbrirAlterarCategoria" href="" data-id="{{ categoria['id'] }}">
               <img src="/static/assets/icons/editar.svg" alt="editar.svg" />
-            </a>
+            </button>
             {% if categoria['ativo'] == 1 %}
             <a class="botoesDecisao"
               href="{{url_for('categoria.inativar_categoria',id=categoria['id'])}}">
@@ -93,30 +93,15 @@
 </dialog>
 
 <!-- modal de editar categoria -->
- 
-
 <dialog id="modalAlterarCategoria">
   <form id="formAlterarCategoria" method="POST" action="/categoria/alterar">
-    <input type="hidden" name="id" id="editar_id">
     <div class="modalCabecalho">
       <h2 class="tituloModal">Editar Categoria</h2>
-
-       <button 
-        type="button" 
-        aria-label="Abrir formulário" 
-        id="botaoAbrirEditarCategoria" 
-        class="botaoAbrirModal">
-        
-        <img
-          src="{{ url_for('static', filename='assets/icons/fechar.svg') }}"
-          alt="fechar.svg"
-        />
 
       <button
         type="button"
         aria-label="Fechar formulário"
         id="botaoFecharAlterarCategoria"
-        class="botaoFecharModal"
       >
         <img
           src="{{ url_for('static', filename='assets/icons/fechar.svg')}}"
@@ -125,10 +110,12 @@
       </button>
     </div>
 
+    <input type="hidden" id="idAlterar" name="id" />
+
     <label for="nomeCategoria">Nome da Categoria</label>
     <input
       type="text"
-      id="nomeCategoria"
+      id="nomeAlterar"
       name="nomeCategoria"
       placeholder="Digite o nome da categoria..."
       required
@@ -136,20 +123,11 @@
 
     <label for="descricaoCategoria">Descrição</label>
     <textarea
-      id="descricaoCategoria"
+      id="descricaoAlterar"
       name="descricaoCategoria"
       placeholder="Digite a descrição da categoria..."
       rows="3"
     ></textarea>
-
-    <label for="statusCategoria">status</label>
-    <input
-      type="text"
-      id="novoStatusCategoria"
-      name="statusCategoria"
-      placeholder="Digite o nome da categoria..."
-      required
-    />
 
     <menu>
       <button type="submit" class="botaoPrimario">Salvar</button>

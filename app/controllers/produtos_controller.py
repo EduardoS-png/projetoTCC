@@ -22,11 +22,10 @@ def adicionar_produto():
     cor = request.form.get('cor')
     categoria_id = int(request.form['categoria_id'])
     fornecedor_id = int(request.form['fornecedor_id'])
-    quantidade_inicial = int(request.form.get('quantidade_inicial', 0))
     data_cadastro = request.form.get('data_cadastro') or None
 
     insert_produtos(
-        nome, codigo_original, preco_base, marca, tamanho, cor, data_cadastro, categoria_id, fornecedor_id, quantidade_inicial
+        nome, codigo_original, preco_base, marca, tamanho, cor, data_cadastro, categoria_id, fornecedor_id
     )
 
     return redirect(url_for('produto.listar_produtos'))
@@ -43,11 +42,10 @@ def atualizar_produto():
     cor = request.form.get('cor')
     categoria_id = int(request.form['categoria_id'])
     fornecedor_id = int(request.form['fornecedor_id'])
-    quantidade = int(request.form.get('quantidade_inicial', 0))
     status = int(request.form.get('ativo', 1)) 
 
     alterar(
-        id, nome, codigo_original, preco_base, marca, tamanho, cor, categoria_id, fornecedor_id, quantidade, status
+        id, nome, codigo_original, preco_base, marca, tamanho, cor, categoria_id, fornecedor_id, status
     )
 
     return redirect(url_for('produto.listar_produtos'))

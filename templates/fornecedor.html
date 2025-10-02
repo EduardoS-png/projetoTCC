@@ -1,82 +1,91 @@
 {% extends 'layout.html' %} {% block main %}
 
 <section id="compras">
-        <div id="comprasCabecalho">
-          <h2 class="paginaTitulo">Fornecedores</h2>
-        </div>
+  <div id="comprasCabecalho">
+    <h2 class="paginaTitulo">Fornecedores</h2>
+  </div>
 
-        <div id="controlesCompras">
-          <button id="btnAbrirModalFornecedor" class="botaoPrimario">
-            <img
-              src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
-              alt="novo.svg"
-            />Novo fornecedor
+  <div id="controlesCompras">
+    <button id="btnAbrirModalFornecedor" class="botaoPrimario">
+      <img
+        src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
+        alt="novo.svg"
+      />Novo fornecedor
+    </button>
+
+    <input
+      type="text"
+      id="campoPesquisa"
+      placeholder="Pesquisar pelo nome..."
+    />
+  </div>
+
+  <h3 class="tituloTabela">Fornecedores Registrados</h3>
+  <table id="tabelaCompras">
+    <thead>
+      <tr class="tabelaCabecalho">
+        <th>Nome Do Fornecedor</th>
+        <th>Nome Fantasia</th>
+        <th>CNPJ</th>
+        <th>Endereço</th>
+        <th>Telefone</th>
+        <th>Telefone Reserva</th>
+        <th>Status</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for fornecedor in fornecedores %}
+      <tr>
+        <td>{{fornecedor['nome']}}</td>
+        <td>{{fornecedor['nome_fantasia']}}</td>
+        <td>{{fornecedor['cnpj']}}</td>
+        <td>{{fornecedor['endereco']}}</td>
+        <td>{{fornecedor['telefone1']}}</td>
+        <td>{{fornecedor['telefone2']}}</td>
+        <td>{{ 'Ativo' if fornecedor['ativo'] == 1 else 'Inativo'}}</td>
+        <td>
+          <button
+            class="botoesDecisao btnAbrirModalAlterarFornecedor"
+            href=""
+            data-id="{{ fornecedor['id'] }}"
+          >
+            <img src="/static/assets/icons/editar.svg" alt="editar.svg" />
           </button>
-    
-  
-           <input  
-            type="text"
-            id="campoPesquisa"
-            placeholder="Pesquisar pelo nome..."
-           />
-        </div>
-
-        <h3 class="tituloTabela">Fornecedores Registrados</h3>
-        <table id="tabelaCompras">
-          <thead>
-            <tr class="tabelaCabecalho">
-              <th>Nome Do Fornecedor</th>
-              <th>Nome Fantasia</th>
-              <th>CNPJ</th>
-              <th>Endereço</th>
-              <th>Telefone</th>
-              <th>Telefone Reserva</th>
-              <th>Status</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-
-        {% for fornecedor in fornecedores %}
-        <tr>
-          <td>{{fornecedor['nome']}}</td>
-          <td>{{fornecedor['nome_fantasia']}}</td>
-          <td>{{fornecedor['cnpj']}}</td>
-          <td>{{fornecedor['endereco']}}</td>
-          <td>{{fornecedor['telefone1']}}</td>
-          <td>{{fornecedor['telefone2']}}</td>
-          <td>{{ 'Ativo' if fornecedor['ativo'] == 1 else 'Inativo'}}</td>
-          <td>
-            <a class="botoesDecisao" href="" id="btnAbrirModalEditarFornecedor">
-              <img src="/static/assets/icons/editar.svg" alt="editar.svg" />
-            </a>
-            {% if fornecedor['ativo'] == 1 %}
-            <a class="botoesDecisao"
-              href="{{url_for('fornecedor.inativar_fornecedor',id=fornecedor['id'])}}">
-              <img src="/static/assets/icons/inativar.svg" alt="inativar.svg" />
-            </a>
-            {% else %}
-            <a class="botoesDecisao"
-              href="{{url_for('fornecedor.reativar_fornecedor',id=fornecedor['id'])}}">
-              <img src="/static/assets/icons/reativar.svg" alt="reativar.svg" />
-            </a>
-            {% endif %}
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-        </table>
-      </section>
+          {% if fornecedor['ativo'] == 1 %}
+          <a
+            class="botoesDecisao"
+            href="{{url_for('fornecedor.inativar_fornecedor',id=fornecedor['id'])}}"
+          >
+            <img src="/static/assets/icons/inativar.svg" alt="inativar.svg" />
+          </a>
+          {% else %}
+          <a
+            class="botoesDecisao"
+            href="{{url_for('fornecedor.reativar_fornecedor',id=fornecedor['id'])}}"
+          >
+            <img src="/static/assets/icons/reativar.svg" alt="reativar.svg" />
+          </a>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
 
 <dialog id="modalCadastroFornecedor">
-  <form id="formCadastroFornecedor" method="POST" action="/fornecedor/cadastrar">
+  <form
+    id="formCadastroFornecedor"
+    method="POST"
+    action="/fornecedor/cadastrar"
+  >
     <div class="modalCabecalho">
       <h2 class="tituloModal">Cadastrar Fornecedor</h2>
       <button
         type="button"
         aria-label="Fechar formulário"
         id="botaoFecharFornecedor"
-        class="botaoFecharModal"
       >
         <img
           src="{{ url_for('static', filename='assets/icons/fechar.svg') }}"
@@ -105,7 +114,12 @@
     />
 
     <label for="cnpj">CNPJ</label>
-    <input type="text" id="cnpj" name="cnpj" placeholder="Digite o cnpj do fornecedor..." />
+    <input
+      type="text"
+      id="cnpj"
+      name="cnpj"
+      placeholder="Digite o cnpj do fornecedor..."
+    />
 
     <label for="endereco">Endereço</label>
     <input
@@ -116,10 +130,20 @@
     />
 
     <label for="telefone1">Telefone1</label>
-    <input type="text" id="telefone1" name='telefone1' placeholder="Digite o telefone..." />
+    <input
+      type="text"
+      id="telefone1"
+      name="telefone1"
+      placeholder="Digite o telefone..."
+    />
 
     <label for="telefone2">Telefone2</label>
-    <input type="text" id="telefone2" name='telefone2' placeholder="Digite o telefone..." />
+    <input
+      type="text"
+      id="telefone2"
+      name="telefone2"
+      placeholder="Digite o telefone..."
+    />
 
     <menu>
       <button type="submit" class="botaoPrimario">Salvar</button>
@@ -129,89 +153,80 @@
 </dialog>
 
 <!-- modal editar fornecedor -->
-
-<dialog id="modalEditarFornecedor">
-  <form id="formEditarFornecedor" method="POST" action="/fornecedor/alterar">
-    <input type="hidden" name="id" id="editar_id">
-
+<dialog id="modalAlterarFornecedor">
+  <form id="formAlterarFornecedor" method="POST" action="/fornecedor/alterar">
     <div class="modalCabecalho">
-      <h2 class="tituloModal">Editar Fornecedor</h2>
-      <button 
-        type="button" 
-        aria-label="Abrir formulário" 
-        id="botaoAbrirEditarFornecedor" 
-        class="botaoAbrirModal">
-        
-        <img
-          src="{{ url_for('static', filename='assets/icons/fechar.svg') }}"
-          alt="fechar.svg"
-        />
-        
-      </button>
+      <h2 class="tituloModal">Alterar Fornecedor</h2>
       <button
         type="button"
         aria-label="Fechar formulário"
-        id="botaoFecharEditarFornecedor"
-        class="botaoFecharModal"
+        id="botaoFecharAlterarFornecedor"
       >
         <img
           src="{{ url_for('static', filename='assets/icons/fechar.svg') }}"
-          alt="fechar.svg"
+          alt="fechar"
         />
       </button>
     </div>
 
+    <input type="hidden" id="idAlterar" name="id" />
+
     <!-- Campos do Fornecedor -->
-    <label for="editar_nome">Nome do Fornecedor</label>
+    <label for="nomeAlterar">Nome do Fornecedor</label>
     <input
       type="text"
-      id="editar_nome"
-      name="novoNomeFornecedor"
-      placeholder="Digite o novo nome do Fornecedor..."
+      id="nomeAlterar"
+      name="nome"
+      placeholder="Digite o novo nome do fornecedor..."
       required
     />
 
-    <label for="editarNome_fantasia">Nome Fantasia</label>
+    <label for="nomeFantasiaAlterar">Nome Fantasia</label>
     <input
       type="text"
-      id="editarNome_fantasia"
-      name="novoNome_fantasia"
-      placeholder="Digite o novo nome Fantasia..."
+      id="nomeFantasiaAlterar"
+      name="nome_fantasia"
+      placeholder="Digite o novo nome fantasia..."
       required
     />
 
-    <label for="editar_cnpj">CNPJ</label>
-    <input 
-      type="text" 
-      id="editar_cnpj"
-      name="novoCnpj" 
-      placeholder="Digite o novo cnpj do fornecedor..." />
-
-    <label for="editar_endereco">Endereço</label>
+    <label for="cnpjAlterar">CNPJ</label>
     <input
       type="text"
-      id="editar_endereco"
-      name="novoEndereco"
+      id="cnpjAlterar"
+      name="cnpj"
+      placeholder="Digite o novo CNPJ do fornecedor..."
+    />
+
+    <label for="enderecoAlterar">Endereço</label>
+    <input
+      type="text"
+      id="enderecoAlterar"
+      name="endereco"
       placeholder="Digite o novo endereço do fornecedor..."
     />
 
-    <label for="editar_telefone1">Telefone1</label>
-    <input 
-      type="text" 
-      id="editar_telefone1"
-      name='novoTelefone1' 
-      placeholder="Digite o novo telefone..." />
-
-    <label for="editar_telefone2">Telefone2</label>
-    <input 
+    <label for="telefone1Alterar">Telefone 1</label>
+    <input
       type="text"
-      id="editar_telefone2" 
-      name='novoTelefone2' 
-      placeholder="Digite o  novo telefone..." />
+      id="telefone1Alterar"
+      name="telefone1"
+      placeholder="Digite o novo telefone..."
+    />
+
+    <label for="telefone2Alterar">Telefone 2</label>
+    <input
+      type="text"
+      id="telefone2Alterar"
+      name="telefone2"
+      placeholder="Digite o novo telefone..."
+    />
 
     <menu>
       <button type="submit" class="botaoPrimario">Salvar</button>
-      <button type="button" id="botaoCancelarEditarFornecedor">Cancelar</button>
+      <button type="button" id="botaoCancelarAlterarFornecedor">
+        Cancelar
+      </button>
     </menu>
   </form>
 </dialog>

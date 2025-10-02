@@ -36,28 +36,41 @@ modalCategoria.addEventListener("click", (evento) => {
     modalCategoria.close();
 });
 
-
-
 //editar categoria
-
-
 const modalAlterarCategoria = document.getElementById("modalAlterarCategoria");
 
-const btnAbrirAlterarCategoria = document.getElementById(
-  "btnAbrirAlterarCategoria"
+const btnAbrirAlterarCategoria = document.querySelectorAll(
+  ".btnAbrirAlterarCategoria"
 );
 
 const formAlterarCategoria = document.getElementById("formAlterarCategoria");
 
-const btnFecharAlterarCategoria = document.getElementById("botaoAlterarCategoria");
+const btnFecharAlterarCategoria = document.getElementById(
+  "botaoFecharAlterarCategoria"
+);
 
 const btnCancelarAlterarCategoria = document.getElementById(
   "botaoAlterarCategoria"
 );
 
+btnAbrirAlterarCategoria.forEach((botao) => {
+  botao.addEventListener("click", () => {
+    const linha = botao.closest("tr");
+
+    formAlterarCategoria.reset();
+
+    document.getElementById("idAlterar").value = botao.dataset.id;
+    document.getElementById("nomeAlterar").value =
+      linha.children[1].textContent.trim();
+    document.getElementById("descricaoAlterar").value =
+      linha.children[2].textContent.trim();
+
+    modalAlterarCategoria.showModal();
+  });
+});
+
 btnFecharAlterarCategoria.addEventListener("click", () => {
   modalAlterarCategoria.close();
-  formAlterarCategoria.reset();
 });
 
 btnCancelarAlterarCategoria.addEventListener("click", () =>
@@ -65,7 +78,7 @@ btnCancelarAlterarCategoria.addEventListener("click", () =>
 );
 
 modalAlterarCategoria.addEventListener("click", (evento) => {
-  const reacao = modaAlterarlCategoria.getBoundingClientRect();
+  const reacao = modalAlterarCategoria.getBoundingClientRect();
   if (
     evento.clientX < reacao.left ||
     evento.clientX > reacao.right ||
@@ -74,4 +87,3 @@ modalAlterarCategoria.addEventListener("click", (evento) => {
   )
     modalAlterarCategoria.close();
 });
-
