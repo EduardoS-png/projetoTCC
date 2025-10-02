@@ -6,9 +6,14 @@ def get_produtos():
     try: 
         cursor = conexao.cursor(dictionary=True)
         sql = """
-            SELECT p.id, p.nome, c.id AS categoria_id, c.nome AS categoria, p.codigo_original, p.preco_base, p.marca, p.tamanho, p.cor, p.data_cadastro, e.quantidade
+            SELECT p.id, p.nome, c.id AS categoria_id, 
+            c.nome AS categoria, f.id AS fornecedor_id,
+            f.nome_fantasia AS fornecedor, p.codigo_original, 
+            p.preco_base, p.marca, p.tamanho, p.cor, 
+            p.data_cadastro, e.quantidade
             FROM produto p
             JOIN categoria c ON p.categoria_id = c.id
+            JOIN fornecedor f ON p.fornecedor_id = f.id
             JOIN estoque e ON p.id = e.produto_id
             ORDER BY p.nome
         """
@@ -25,10 +30,14 @@ def get_produtos_id(id):
     try:
         cursor = conexao.cursor(dictionary=True)
         sql = """
-            SELECT p.id, p.nome, p.codigo_original, p.preco_base, p.marca, 
-                p.tamanho, p.cor, p.data_cadastro, p.ativo, c.id AS categoria_id, c.nome AS categoria, e.quantidade
+            SELECT p.id, p.nome, p.codigo_original, 
+            p.preco_base, p.marca, p.tamanho, p.cor, 
+            p.data_cadastro, p.ativo, c.id AS categoria_id, 
+            c.nome AS categoria, f.id AS fornecedor_id,
+            f.nome_fantasia AS fornecedor, e.quantidade
             FROM produto p
             JOIN categoria c ON p.categoria_id = c.id
+            JOIN fornecedor f ON p.fornecedor_id = f.id
             JOIN estoque e ON p.id = e.produto_id
             WHERE p.id = %s
         """
@@ -40,7 +49,7 @@ def get_produtos_id(id):
         conexao.close()
     return produto
 
-def insert_produtos(nome, codigo_original, preco_base, marca, tamanho, cor, data_cadastro, categoria_id, quantidade_inicial=0):
+def insert_produtos(nome, codigo_original, preco_base, marca, tamanho, cor, data_cadastro, categoria_id, fornecedor_id, quantidade_inicial=0):
     conexao = conexaoBD()
     try: 
         cursor = conexao.cursor()
@@ -48,11 +57,11 @@ def insert_produtos(nome, codigo_original, preco_base, marca, tamanho, cor, data
             data_cadastro = date.today()
 
         sql = """
-            INSERT INTO produto (nome, codigo_original, preco_base, marca, tamanho, cor, data_cadastro, categoria_id)
-            VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
+            INSERT INTO produto (nome, codigo_original, preco_base, marca, tamanho, cor, data_cadastro, categoria_id, fornecedor_id)
+            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
         """
 
-        cursor.execute(sql, (nome, codigo_original, preco_base, marca, tamanho, cor, data_cadastro, categoria_id))
+        cursor.execute(sql, (nome, codigo_original, preco_base, marca, tamanho, cor, data_cadastro, categoria_id, fornecedor_id))
         produto_id = cursor.lastrowid
 
         sql_estoque = "INSERT INTO estoque (produto_id, quantidade) VALUES (%s, %s)"
@@ -65,17 +74,17 @@ def insert_produtos(nome, codigo_original, preco_base, marca, tamanho, cor, data
         conexao.close()
 
 
-def alterar(id, novoNome, novoCodigoOriginal, novoPrecoBase, novaMarca, novoTamanho, novaCor, novaCategoria, novaQuantidade, novoStatus):
+def alterar(id, novoNome, novoCodigoOriginal, novoPrecoBase, novaMarca, novoTamanho, novaCor, novaCategoria, novoFornecedor, novaQuantidade, novoStatus):
     conexao = conexaoBD()
     try:
         cursor = conexao.cursor()
         sql = """
             UPDATE produto
             SET nome = %s, codigo_original = %s, preco_base = %s, marca = %s, tamanho = %s, 
-                cor = %s, categoria_id = %s, ativo = %s
+                cor = %s, categoria_id = %s, fornecedor_id = %s, ativo = %s
             WHERE id = %s
         """
-        cursor.execute(sql, (novoNome, novoCodigoOriginal, novoPrecoBase, novaMarca, novoTamanho, novaCor, novaCategoria, novoStatus, id))
+        cursor.execute(sql, (novoNome, novoCodigoOriginal, novoPrecoBase, novaMarca, novoTamanho, novaCor, novoFornecedor, novaCategoria, novoStatus, id))
 
         sql_estoque = "UPDATE estoque SET quantidade = %s WHERE produto_id = %s"
         cursor.execute(sql_estoque, (novaQuantidade, id))
@@ -91,7 +100,7 @@ def inativar(id):
     conexao = conexaoBD()
     try:
         cursor = conexao.cursor()
-        sql = "UPDATE produto SET ativo = FALSE WHERE id = %s"
+        sql = "UPDATE produto set ativo = False WHERE id = %s"
         cursor.execute(sql, (id,))
         conexao.commit()
         return cursor.lastrowid
@@ -103,7 +112,7 @@ def reativar(id):
     conexao = conexaoBD()
     try:
         cursor = conexao.cursor()
-        sql = "UPDATE produto SET ativo = TRUE WHERE id = %s"
+        sql = "UPDATE produto set ativo = True WHERE id = %s"
         cursor.execute(sql, (id,))
         conexao.commit()
         return cursor.lastrowid

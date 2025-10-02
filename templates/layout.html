@@ -46,7 +46,7 @@
     <nav>
       <div class="navSessao">
         <h2 class="navTitulo">Principal</h2>
-        <a href="#" class="navLink ativo" data-destino="dashboard">
+        <a href="#" class="navLink ativo">
           <img
             src="{{ url_for('static', filename='assets/icons/dashboard.svg') }}"
             alt="dashboard"
@@ -57,7 +57,7 @@
 
       <div class="navSessao">
         <h2 class="navTitulo">Estruturas</h2>
-        <a href="#" class="navLink" data-destino="compras">
+        <a href="#" class="navLink">
           <img
             src="{{ url_for('static', filename='assets/icons/compras.svg') }}"
             alt="compras.svg"
@@ -65,7 +65,7 @@
           <span>Compras</span>
         </a>
         {% if session['estado'] == "Administrador" %}
-        <a href="#" class="navLink" data-destino="inventario">
+        <a href="#" class="navLink">
           <img
             src="{{ url_for('static', filename='assets/icons/estoque.svg') }}"
             alt="estoque.svg"
@@ -77,33 +77,33 @@
 
       <div class="navSessao">
         <h2 class="navTitulo">Elementos</h2>
-        <a href="#" class="navLink" data-destino="categorias">
+        <a href="/categoria/lista" class="navLink">
           <img
             src="{{ url_for('static', filename='assets/icons/compras.svg') }}"
             alt="compras.svg"
           />
           <span>Categorias</span>
         </a>
-        <a href="#" class="navLink" data-destino="fornecedores">
+        <a href="/fornecedor/lista" class="navLink">
           <img
             src="{{ url_for('static', filename='assets/icons/compras.svg') }}"
             alt="compras.svg"
           />
           <span>Fornecedores</span>
         </a>
-        <a href="#" class="navLink" data-destino="produtos">
+        <a href="/produto/lista" class="navLink">
           <img
             src="{{ url_for('static', filename='assets/icons/compras.svg') }}"
             alt="compras.svg"
           />
-          <span>produtos</span>
+          <span>Produtos</span>
         </a>
       </div>
 
       <div class="navSessao">
         {% if session['estado'] == "Administrador" %}
         <h2 class="navTitulo">Operacional</h2>
-        <a href="#" class="navLink" data-destino="operacoes">
+        <a href="#" class="navLink">
           <img
             src="{{ url_for('static', filename='assets/icons/configuracoes.svg') }}"
             alt="config.svg"
@@ -117,9 +117,9 @@
     <main>{% block main %} {% endblock %}</main>
     {% include 'footer.html' %} {% block javascript %}{% endblock %}
 
-    <!-- <script
+    <script
       src="{{ url_for('static', filename='js/painelControle.js') }}"
       type="module"
-    ></script> -->
+    ></script>
   </body>
 </html>
