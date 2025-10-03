@@ -4,53 +4,67 @@
   <div id="configuracaoCabecalho">
     <h2 class="paginaTitulo">Configuração</h2>
   </div>
-  <button id="btnAbrirModalConfiguracao" class="botaoPrimario">
-    <img src="{{ url_for('static', filename='assets/icons/novo.svg') }}" alt="novo.svg" />Novo Funcionario
-  </button>
+
+  <div id="controlesInventario">
+    <button id="btnAbrirModalFuncionario" class="botaoPrimario">
+      <img
+        src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
+        alt="novo.svg"
+      />Novo Funcionário
+    </button>
+
+    <div class="filtros">
+      <input type="text" id="filtroNome" placeholder="Filtrar por nome..." />
+    </div>
+  </div>
 
   <h3 class="tituloTabela">Funcionarios Registrados</h3>
-
-  <div id="controlesOperacoes">
-    <table id="tabelaOperacoes">
-      <thead>
-        <tr class="tabelaOperacoes">
-          <th>Id</th>
-          <th>Nome</th>
-          <th>Email</th>
-          <th>Senha</th>
-          <th>Status</th>
-          <th>Ação</th>
-        </tr>
-      </thead>
-      <tbody>
-
-        {% for configuracao in configuracoes %}
-        <tr>
-          <td>{{configuracao['id']}}</td>
-          <td>{{configuracao['nome']}}</td>
-          <td>{{configuracao['email']}}</td>
-          <td>{{configuracao['senha']}}</td>
-          <td>{{configuracao['status']}}</td>
-          <td>
-            <button class="botoesDecisao btnAbrirAlterarConfiguracao" href="" data-id="{{ configuracao['id'] }}">
-              <img src="/static/assets/icons/editar.svg" alt="editar.svg" />
-            </button>
-            {% if configuracao['delete'] == 1 %}
-            <a class="botoesDecisao"
-              href="{{url_for('configuracao.delete_configuracao',id=configuracao['id'])}}">
-              <img src="/static/assets/icons/delete.svg" alt="delete.svg" />
-            </a>
-            {% else %}
-            {% endif %}
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  <table id="tabelaOperacoes">
+    <thead>
+      <tr class="tabelaOperacoes">
+        <th>Id</th>
+        <th>Nome</th>
+        <th>Email</th>
+        <th>Senha</th>
+        <th>Status</th>
+        <th>Ação</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for configuracao in configuracoes %}
+      <tr>
+        <td>{{configuracao['id']}}</td>
+        <td>{{configuracao['nome']}}</td>
+        <td>{{configuracao['email']}}</td>
+        <td>{{configuracao['senha']}}</td>
+        <td>{{configuracao['status']}}</td>
+        <td>
+          <button
+            class="botoesDecisao btnAbrirAlterarConfiguracao"
+            href=""
+            data-id="{{ configuracao['id'] }}"
+          >
+            <img src="/static/assets/icons/editar.svg" alt="editar.svg" />
+          </button>
+          <a
+            class="botoesDecisao"
+            href="{{url_for('configuracao.deletar_configuracao',id=configuracao['id'])}}"
+          >
+            <img src="/static/assets/icons/lixeira.svg" alt="lixeira.svg" />
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </section>
 
 <dialog id="modalCadastroFuncionario">
-  <form id="formCadastroFuncionario" method="POST" action="/funcionario/cadastrar">
+  <form
+    id="formCadastroFuncionario"
+    method="POST"
+    action="/configuracoes/cadastrar"
+  >
     <div class="modalCabecalho">
       <h2 class="tituloModal">Cadastrar Usuário</h2>
       <button
@@ -94,13 +108,7 @@
     />
 
     <label for="status">Status do funcionario</label>
-    <input
-      type="text"
-      id="status"
-      name="status"
-      required
-    />
-
+    <input type="text" id="status" name="status" required />
 
     <menu>
       <button type="submit" class="botaoPrimario">Salvar</button>
@@ -156,17 +164,13 @@
     />
 
     <label for="status">Status do funcionario</label>
-    <input
-      type="text"
-      id="status"
-      name="status"
-      required
-    />
-
+    <input type="text" id="status" name="status" required />
 
     <menu>
       <button type="submit" class="botaoPrimario">Salvar</button>
-      <button type="button" id="botaoCancelarEditarFuncionario">Cancelar</button>
+      <button type="button" id="botaoCancelarEditarFuncionario">
+        Cancelar
+      </button>
     </menu>
   </form>
 </dialog>

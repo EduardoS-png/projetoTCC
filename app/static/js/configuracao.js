@@ -1,20 +1,24 @@
 const modalConfiguracao = document.getElementById("modalCadastroConfiguracao");
 
-const btnAbrirModalConfiguracao = document.getElementById("btnAbrirModalConfiguracao");
+const btnAbrirModalConfiguracao = document.getElementById(
+  "btnAbrirModalConfiguracao"
+);
 
 const formCadastroUsuario = document.getElementById("formCadastroUsuario");
 
-const btnFecharUsuario = document.getElementById(
-  "botaoFecharUsuario"
-);
+const btnFecharUsuario = document.getElementById("botaoFecharUsuario");
 
 btnAbrirModalConfiguracao.addEventListener("click", () => {
   modalConfiguracao.showModal();
   formCadastroUsuario.reset();
 });
-const formCadastroFuncionario = document.getElementById("formCadastroFuncionario");
+const formCadastroFuncionario = document.getElementById(
+  "formCadastroFuncionario"
+);
 
-const btnFecharModalFuncionario = document.getElementById("botaoFecharConfiguracao");
+const btnFecharModalFuncionario = document.getElementById(
+  "botaoFecharConfiguracao"
+);
 
 const btnCancelarModalFuncionario = document.getElementById(
   "botaoCancelarFuncionario"
@@ -23,10 +27,6 @@ const btnCancelarModalFuncionario = document.getElementById(
 btnFecharModalFuncionario.addEventListener("click", () => {
   modalConfiguracao.close();
   formCadastroUsuario.reset();
-});
-
-btnFecharUsuario.addEventListener("click", () => {
-  modalEditarUsuario.close();
 });
 
 modalConfiguracao.addEventListener("click", (evento) => {
@@ -41,7 +41,9 @@ modalConfiguracao.addEventListener("click", (evento) => {
 });
 
 //editar funcionario
-const modalEditarFuncionario = document.getElementById("modalEditarFuncionario");
+const modalEditarFuncionario = document.getElementById(
+  "modalEditarFuncionario"
+);
 
 const btnAbrirEditarUsuario = document.querySelectorAll(
   ".btnAbrirEditarUsuario"
