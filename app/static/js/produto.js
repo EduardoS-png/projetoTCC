@@ -1,3 +1,4 @@
+
 // MODAL CADASTRO
 const modalProduto = document.getElementById("modalCadastroProduto");
 const btnAbrirModalProduto = document.getElementById("btnAbrirModalProduto");

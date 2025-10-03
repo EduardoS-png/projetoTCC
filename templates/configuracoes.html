@@ -1,14 +1,14 @@
 {% extends 'layout.html' %} {% block main %}
 
-<section id="configuracao">
+<section id="modalconfiguracao">
   <div id="configuracaoCabecalho">
     <h2 class="paginaTitulo">Configuração</h2>
   </div>
   <button id="btnAbrirModalConfiguracao" class="botaoPrimario">
-    <img src="{{ url_for('static', filename='assets/icons/novo.svg') }}" alt="novo.svg" />Novo Funcionario
+    <img src="{{ url_for('static', filename='assets/icons/novo.svg') }}" alt="novo.svg" />Novo Usuário
   </button>
 
-  <h3 class="tituloTabela">Funcionarios Registrados</h3>
+  <h3 class="tituloTabela">Usuários Registrados</h3>
 
   <div id="controlesOperacoes">
     <table id="tabelaOperacoes">
@@ -51,15 +51,15 @@
 
 
 
-<dialog id="modalCadastroFuncionario">
-  <form id="formCadastroFuncionario" method="POST" action="/funcionario/cadastrar">
+<dialog id="modalCadastroConfiguracao">
+  <form id="formCadastroUsuario" method="POST" action="/configuracao/cadastrar">
     <div class="modalCabecalho">
-      <h2 class="tituloModal">Cadastrar Funcionario</h2>
+      <h2 class="tituloModal">Cadastrar Usuário</h2>
       <button
         type="button"
-        aria-label="fecharFormulario"
-        id="botaoFecharConfiguracxao"
-        class="botaoFecharModal"
+        aria-label="CancelarFormulario"
+        id="botaoFecharUsuario"
+        class="botaoCancelarModal"
       >
         <img
           src="{{ url_for('static', filename='assets/icons/fechar.svg') }}"
@@ -68,34 +68,34 @@
       </button>
     </div>
 
-    <label for="nome">Nome do funcionario</label>
+    <label for="nome">Nome do Usuário</label>
     <input
       type="text"
       id="nome"
       name="nome"
-      placeholder="Digite o nome do funcionario..."
+      placeholder="Digite o nome do Usuário..."
       required
     />
 
-    <label for="email">Email do funcionario</label>
+    <label for="email">Email do Usuário</label>
     <input
       type="text"
       id="email"
       name="email"
-      placeholder="Digite o email do funcionario..."
+      placeholder="Digite o email do Usuário..."
       required
     />
 
-    <label for="senha">Senha do funcionario</label>
+    <label for="senha">Senha do Usuário</label>
     <input
       type="text"
       id="senha"
       name="senha"
-      placeholder="Digite a senha do funcionario..."
+      placeholder="Digite a senha do Usuário..."
       required
     />
 
-    <label for="status">Status do funcionario</label>
+    <label for="status">Status do Usuário</label>
     <input
       type="text"
       id="status"
@@ -106,21 +106,21 @@
 
     <menu>
       <button type="submit" class="botaoPrimario">Salvar</button>
-      <button type="button" id="botaoCancelarFuncionario">Cancelar</button>
+      <button type="button" id="botaoCancelarUsuario">Cancelar</button>
     </menu>
   </form>
 </dialog>
 
 <!-- modal de editar configuracao -->
 
-<dialog id="modalEditarFuncionario">
-  <form id="formEditarFuncionario" method="POST" action="/funcionario/Editar">
+<dialog id="modalEditarUsuario">
+  <form id="formEditarUsuario" method="POST" action="/usuario/Editar">
     <div class="modalCabecalho">
-      <h2 class="tituloModal">Cadastrar Funcionario</h2>
+      <h2 class="tituloModal">Cadastrar Usuário</h2>
       <button
         type="button"
         aria-label="fecharFormulario"
-        id="botaoFecharEditarConfiguracao"
+        id="botaoFecharEditarUsuario"
         class="botaoFecharModal"
       >
         <img
@@ -130,34 +130,34 @@
       </button>
     </div>
 
-    <label for="nome">Nome do funcionario</label>
+    <label for="nome">Nome do Usuário</label>
     <input
       type="text"
       id="nome"
       name="nome"
-      placeholder="Digite o nome do funcionario..."
+      placeholder="Digite o nome do Usuário..."
       required
     />
 
-    <label for="email">Email do funcionario</label>
+    <label for="email">Email do Usuário</label>
     <input
       type="text"
       id="email"
       name="email"
-      placeholder="Digite o email do funcionario..."
+      placeholder="Digite o email do Usuário..."
       required
     />
 
-    <label for="senha">Senha do funcionario</label>
+    <label for="senha">Senha do Usuário</label>
     <input
       type="text"
       id="senha"
       name="senha"
-      placeholder="Digite a senha do funcionario..."
+      placeholder="Digite a senha do Usuário..."
       required
     />
 
-    <label for="status">Status do funcionario</label>
+    <label for="status">Status do Usuário</label>
     <input
       type="text"
       id="status"
@@ -168,7 +168,7 @@
 
     <menu>
       <button type="submit" class="botaoPrimario">Salvar</button>
-      <button type="button" id="botaoCancelarEditarFuncionario">Cancelar</button>
+      <button type="button" id="botaoCancelarEditarUsuario">Cancelar</button>
     </menu>
   </form>
 </dialog>
@@ -176,6 +176,6 @@
 {% endblock %} {% block javascript %}
 <script
   type="module"
-  src="{{ url_for('static', filename='js/categoria.js') }}"
+  src="{{ url_for('static', filename='js/configuracao.js') }}"
 ></script>
 {% endblock %}

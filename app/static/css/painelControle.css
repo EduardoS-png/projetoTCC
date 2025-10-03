@@ -854,7 +854,8 @@ form textarea {
 #botaoCancelarFornecedor,
 #botaoAlterarCategoria,
 #botaoCancelarCadastro,
-#botaoCancelarAlterar {
+#botaoCancelarAlterar,
+#botaoCancelarUsuario {
   padding: 0.85rem 1.2rem;
   background: var(--cor-terciaria);
   color: #fff;
@@ -877,7 +878,8 @@ form textarea {
 #botaoCancelarFornecedor:hover,
 #botaoAlterarCategoria:hover,
 #botaoCancelarCadastro:hover,
-#botaoCancelarAlterar:hover {
+#botaoCancelarAlterar:hover,
+#botaoCancelarUsuario:hover {
   background: var(--cor-apoio2);
   color: var(--corTexto-inversa);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
@@ -891,7 +893,8 @@ form textarea {
 #botaoCancelarFornecedor:active,
 #botaoCancelarModalEditar:active,
 #botaoCancelarCadastro:active,
-#botaoCancelarAlterar:active {
+#botaoCancelarAlterar:active,
+#botaoCancelarUsuario:active {
   transform: scale(0.97);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
@@ -904,7 +907,8 @@ form textarea {
 #botaoFecharAlterarFornecedor,
 #botaoFecharAlterarCategoria,
 #botaoFecharProduto,
-#botaoFecharAlterar {
+#botaoFecharAlterar,
+#botaoFecharUsuario {
   all: unset;
   cursor: pointer;
   display: flex;
@@ -921,7 +925,8 @@ form textarea {
 #botaoFecharAlterarFornecedor img,
 #botaoFecharAlterarCategoria img,
 #botaoFecharProduto img,
-#botaoFecharAlterar img {
+#botaoFecharAlterar img,
+#botaoFecharUsuario img {
   width: 1.6rem;
   height: 1.6rem;
   transition: transform 0.2s ease;
@@ -935,7 +940,8 @@ form textarea {
 #botaoFecharAlterarFornecedor:hover img,
 #botaoFecharAlterarCategoria:hover img,
 #botaoFecharProduto:hover img,
-#botaoFecharAlterar:hover img {
+#botaoFecharAlterar:hover img,
+#botaoFecharUsuario:hover img {
   transform: rotate(90deg) scale(1.1);
 }
 
