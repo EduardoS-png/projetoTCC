@@ -1,0 +1,182 @@
+{% extends 'layout.html' %} {% block main %}
+
+<section id="configuracao">
+  <div id="configuracaoCabecalho">
+    <h2 class="paginaTitulo">configuração</h2>
+  </div>
+  <button id="btnAbrirModalConfiguracao" class="botaoPrimario">
+    <img src="{{ url_for('static', filename='assets/icons/novo.svg') }}" alt="novo.svg" />Novo Funcionario
+  </button>
+
+  <h3 class="tituloTabela">Funcionarios Registrados</h3>
+
+  <div id="controlesConfiguracao">
+    <table id="tabelaConfiguracao">
+      <thead>
+        <tr class="tabelaConfiguracao">
+          <th>Id</th>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Senha</th>
+          <th>Status</th>
+          <th>Ação</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        {% for configuracao in configuracoes %}
+        <tr>
+          <td>{{configuracao['id']}}</td>
+          <td>{{configuracao['nome']}}</td>
+          <td>{{configuracao['email']}}</td>
+          <td>{{configuracao['senha']}}</td>
+          <td>{{configuracao['status']}}</td>
+          <td>{{configuracao['açao']}}</Td>
+          <td>
+            <button class="botoesDecisao btnAbrirAlterarConfiguracao" href="" data-id="{{ configuracao['id'] }}">
+              <img src="/static/assets/icons/editar.svg" alt="editar.svg" />
+            </button>
+            {% if configuracao['delete'] == 1 %}
+            <a class="botoesDecisao"
+              href="{{url_for('configuracao.delete_configuracao',id=configuracao['id'])}}">
+              <img src="/static/assets/icons/delete.svg" alt="delete.svg" />
+            </a>
+            {% else %}
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</section>
+
+
+
+<dialog id="modalCadastroFuncionario">
+  <form id="formCadastroFuncionario" method="POST" action="/funcionario/cadastrar">
+    <div class="modalCabecalho">
+      <h2 class="tituloModal">Cadastrar Funcionario</h2>
+      <button
+        type="button"
+        aria-label="fecharFormulario"
+        id="botaoFecharConfiguracxao"
+        class="botaoFecharModal"
+      >
+        <img
+          src="{{ url_for('static', filename='assets/icons/fechar.svg') }}"
+          alt="fechar.svg"
+        />
+      </button>
+    </div>
+
+    <label for="nome">Nome do funcionario</label>
+    <input
+      type="text"
+      id="nome"
+      name="nome"
+      placeholder="Digite o nome do funcionario..."
+      required
+    />
+
+    <label for="email">Email do funcionario</label>
+    <input
+      type="text"
+      id="email"
+      name="email"
+      placeholder="Digite o email do funcionario..."
+      required
+    />
+
+    <label for="senha">Senha do funcionario</label>
+    <input
+      type="text"
+      id="senha"
+      name="senha"
+      placeholder="Digite a senha do funcionario..."
+      required
+    />
+
+    <label for="status">Status do funcionario</label>
+    <input
+      type="text"
+      id="status"
+      name="status"
+      required
+    />
+
+
+    <menu>
+      <button type="submit" class="botaoPrimario">Salvar</button>
+      <button type="button" id="botaoCancelarFuncionario">Cancelar</button>
+    </menu>
+  </form>
+</dialog>
+
+<!-- modal de editar configuracao -->
+
+<dialog id="modalEditarFuncionario">
+  <form id="formEditarFuncionario" method="POST" action="/funcionario/Editar">
+    <div class="modalCabecalho">
+      <h2 class="tituloModal">Cadastrar Funcionario</h2>
+      <button
+        type="button"
+        aria-label="fecharFormulario"
+        id="botaoFecharEditarConfiguracao"
+        class="botaoFecharModal"
+      >
+        <img
+          src="{{ url_for('static', filename='assets/icons/fechar.svg') }}"
+          alt="fechar.svg"
+        />
+      </button>
+    </div>
+
+    <label for="nome">Nome do funcionario</label>
+    <input
+      type="text"
+      id="nome"
+      name="nome"
+      placeholder="Digite o nome do funcionario..."
+      required
+    />
+
+    <label for="email">Email do funcionario</label>
+    <input
+      type="text"
+      id="email"
+      name="email"
+      placeholder="Digite o email do funcionario..."
+      required
+    />
+
+    <label for="senha">Senha do funcionario</label>
+    <input
+      type="text"
+      id="senha"
+      name="senha"
+      placeholder="Digite a senha do funcionario..."
+      required
+    />
+
+    <label for="status">Status do funcionario</label>
+    <input
+      type="text"
+      id="status"
+      name="status"
+      required
+    />
+
+
+    <menu>
+      <button type="submit" class="botaoPrimario">Salvar</button>
+      <button type="button" id="botaoCancelarEditarFuncionario">Cancelar</button>
+    </menu>
+  </form>
+</dialog>
+
+{% endblock %} {% block javascript %}
+<script
+  type="module"
+  src="{{ url_for('static', filename='js/categoria.js') }}"
+></script>
+{% endblock %}
