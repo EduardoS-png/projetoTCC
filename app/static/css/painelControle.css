@@ -874,7 +874,7 @@ form#formAlterarFornecedor,
 form#formCadastroCategoria,
 form#formAlterarCategoria,
 form#formEditarProduto,
-form#formRegistroCompra {
+form#formCadastroCompra {
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
@@ -991,7 +991,7 @@ form textarea {
 
 #botaoFecharModal,
 #botaoFecharCategoria,
-#BotaoFecharCompra,
+#botaoFecharCompra,
 #botaoFecharModalEditar,
 #botaoFecharFornecedor,
 #botaoFecharAlterarFornecedor,
