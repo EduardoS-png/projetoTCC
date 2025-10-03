@@ -13,21 +13,23 @@
       />Novo produto
     </button>
 
-    <div class="filtrarOpcoes">
-      <label for="filtroTipo">Filtrar por categoria:</label>
-      <select id="filtroTipo" class="filtroSelecionar">
-        <option value="">Todos</option>
-        <option value="linha">Linha</option>
-        <option value="tecido">Tecido</option>
-        <option value="extra">Extra</option>
+    <div class="filtros">
+      <input type="text" id="filtroNome" placeholder="Filtrar por nome..." />
+
+      <select id="filtroCategoria">
+        <option value="">Todas as categorias</option>
+        {% for categoria in categorias %}
+        <option value="{{ categoria['id'] }}">{{ categoria['nome'] }}</option>
+        {% endfor %}
+      </select>
+
+      <select id="filtroFornecedor">
+        <option value="">Todos os fornecedores</option>
+        {% for fornecedor in fornecedores %}
+        <option value="{{ fornecedor['id'] }}">{{ fornecedor['nome'] }}</option>
+        {% endfor %}
       </select>
     </div>
-
-    <input
-      type="text"
-      id="campoPesquisa"
-      placeholder="Pesquisar pelo nome..."
-    />
   </div>
 
   <h3 class="tituloTabela">Tabela dos produtos cadastrados</h3>

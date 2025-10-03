@@ -1,5 +1,5 @@
 from flask import Blueprint, request, render_template, redirect, url_for
-from app.models.configuracao import *   # importa as funções do seu model
+from app.models.configuracao import *  
 
 configuracao_bp = Blueprint("configuracao", __name__)
 

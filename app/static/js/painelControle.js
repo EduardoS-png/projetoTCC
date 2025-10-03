@@ -57,3 +57,15 @@ btnLogout.addEventListener("click", async () => {
     console.error(erro);
   }
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const alerts = document.querySelectorAll("#flash-container .alert");
+
+  alerts.forEach((alert) => {
+    setTimeout(() => alert.classList.add("show"), 50);
+    setTimeout(() => {
+      alert.classList.add("fade-out");
+      setTimeout(() => alert.remove(), 600);
+    }, 3000);
+  });
+});

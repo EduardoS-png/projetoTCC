@@ -7,6 +7,13 @@ const btnFecharModalProduto = document.getElementById("botaoFecharProduto");
 const btnCancelarModalProduto = document.getElementById(
   "botaoCancelarCadastro"
 );
+const filtroNome = document.getElementById("filtroNome");
+const filtroCategoria = document.getElementById("filtroCategoria");
+const filtroFornecedor = document.getElementById("filtroFornecedor");
+const tabela = document.getElementById("tabelaProdutos");
+const linhas = tabela
+  .getElementsByTagName("tbody")[0]
+  .getElementsByTagName("tr");
 
 btnAbrirModalProduto.addEventListener("click", () => {
   modalProduto.showModal();
@@ -92,3 +99,59 @@ modalAlterarProduto.addEventListener("click", (evento) => {
   )
     modalAlterarProduto.close();
 });
+
+function filtrarPorNome() {
+  const nomeValue = filtroNome.value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+
+  for (let linha of linhas) {
+    const nomeProduto = linha.cells[1].textContent
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+
+    // Armazena se a linha deve ser mostrada ou não
+    linha.dataset.filtronome = nomeProduto.includes(nomeValue) ? "1" : "0";
+  }
+}
+
+function filtrarPorCategoria() {
+  const categoriaValue = filtroCategoria.value;
+
+  for (let linha of linhas) {
+    const categoriaId = linha.dataset.categoriaId;
+    linha.dataset.filtrocategoria =
+      categoriaValue === "" || categoriaId === categoriaValue ? "1" : "0";
+  }
+}
+
+function filtrarPorFornecedor() {
+  const fornecedorValue = filtroFornecedor.value;
+
+  for (let linha of linhas) {
+    const fornecedorId = linha.dataset.fornecedorId;
+    linha.dataset.filtrofornecedor =
+      fornecedorValue === "" || fornecedorId === fornecedorValue ? "1" : "0";
+  }
+}
+
+function aplicarTodosFiltros() {
+  filtrarPorNome();
+  filtrarPorCategoria();
+  filtrarPorFornecedor();
+
+  for (let linha of linhas) {
+    const mostra =
+      linha.dataset.filtronome === "1" &&
+      linha.dataset.filtrocategoria === "1" &&
+      linha.dataset.filtrofornecedor === "1";
+
+    linha.style.display = mostra ? "" : "none";
+  }
+}
+
+filtroNome.addEventListener("input", aplicarTodosFiltros);
+filtroCategoria.addEventListener("change", aplicarTodosFiltros);
+filtroFornecedor.addEventListener("change", aplicarTodosFiltros);

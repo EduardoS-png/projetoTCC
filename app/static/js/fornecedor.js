@@ -19,6 +19,11 @@ const btnFecharModalFornecedor = document.getElementById(
 const btnCancelarModalFornecedor = document.getElementById(
   "botaoCancelarFornecedor"
 );
+const filtroNome = document.getElementById("filtroNomeFornecedor");
+const tabela = document.getElementById("tabelaFornecedores");
+const linhas = tabela
+  .getElementsByTagName("tbody")[0]
+  .getElementsByTagName("tr");
 
 btnFecharModalFornecedor.addEventListener("click", () => {
   modalFornecedor.close();
@@ -102,3 +107,32 @@ modalAlterarFornecedor.addEventListener("click", (evento) => {
   )
     modalAlterarFornecedor.close();
 });
+
+function filtrarPorNomeFornecedor() {
+  const nomeValue = filtroNome.value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+
+  for (let linha of linhas) {
+    const nomeProduto = linha.cells[1].textContent
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+
+    // Armazena se a linha deve ser mostrada ou não
+    linha.dataset.filtronome = nomeProduto.includes(nomeValue) ? "1" : "0";
+  }
+}
+
+function aplicarTodosFiltros() {
+  filtrarPorNomeFornecedor();
+
+  for (let linha of linhas) {
+    const mostra = linha.dataset.filtronome === "1";
+
+    linha.style.display = mostra ? "" : "none";
+  }
+}
+
+filtroNome.addEventListener("input", aplicarTodosFiltros);

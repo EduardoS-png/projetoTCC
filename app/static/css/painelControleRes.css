@@ -19,6 +19,31 @@
   nav.ativo {
     left: 0;
   }
+  main {
+    margin: 1rem;
+  }
+  #btnMenu {
+    display: block;
+  }
+  #btnMenu.ativo {
+    background-color: var(--cor-secundaria);
+  }
+  header h1 {
+    font-size: 1.5rem;
+  }
+  .filtros {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .filtros input[type="text"],
+  .filtros select {
+    min-width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  #controlesInventario {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
 
 @media (max-width: 600px) {

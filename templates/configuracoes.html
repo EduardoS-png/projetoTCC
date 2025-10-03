@@ -5,10 +5,10 @@
     <h2 class="paginaTitulo">Configuração</h2>
   </div>
   <button id="btnAbrirModalConfiguracao" class="botaoPrimario">
-    <img src="{{ url_for('static', filename='assets/icons/novo.svg') }}" alt="novo.svg" />Novo Usuário
+    <img src="{{ url_for('static', filename='assets/icons/novo.svg') }}" alt="novo.svg" />Novo Funcionario
   </button>
 
-  <h3 class="tituloTabela">Usuários Registrados</h3>
+  <h3 class="tituloTabela">Funcionarios Registrados</h3>
 
   <div id="controlesOperacoes">
     <table id="tabelaOperacoes">
@@ -49,10 +49,8 @@
     </table>
 </section>
 
-
-
-<dialog id="modalCadastroConfiguracao">
-  <form id="formCadastroUsuario" method="POST" action="/configuracao/cadastrar">
+<dialog id="modalCadastroFuncionario">
+  <form id="formCadastroFuncionario" method="POST" action="/funcionario/cadastrar">
     <div class="modalCabecalho">
       <h2 class="tituloModal">Cadastrar Usuário</h2>
       <button
@@ -95,7 +93,7 @@
       required
     />
 
-    <label for="status">Status do Usuário</label>
+    <label for="status">Status do funcionario</label>
     <input
       type="text"
       id="status"
@@ -157,7 +155,7 @@
       required
     />
 
-    <label for="status">Status do Usuário</label>
+    <label for="status">Status do funcionario</label>
     <input
       type="text"
       id="status"
@@ -168,7 +166,7 @@
 
     <menu>
       <button type="submit" class="botaoPrimario">Salvar</button>
-      <button type="button" id="botaoCancelarEditarUsuario">Cancelar</button>
+      <button type="button" id="botaoCancelarEditarFuncionario">Cancelar</button>
     </menu>
   </form>
 </dialog>

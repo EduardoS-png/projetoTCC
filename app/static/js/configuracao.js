@@ -12,10 +12,15 @@ btnAbrirModalConfiguracao.addEventListener("click", () => {
   modalConfiguracao.showModal();
   formCadastroUsuario.reset();
 });
+const formCadastroFuncionario = document.getElementById("formCadastroFuncionario");
 
-const btnCancelarModalUsuario = document.getElementById("botaoCancelarUsuario");
+const btnFecharModalFuncionario = document.getElementById("botaoFecharConfiguracao");
 
-btnCancelarModalUsuario.addEventListener("click", () => {
+const btnCancelarModalFuncionario = document.getElementById(
+  "botaoCancelarFuncionario"
+);
+
+btnFecharModalFuncionario.addEventListener("click", () => {
   modalConfiguracao.close();
   formCadastroUsuario.reset();
 });
@@ -36,7 +41,7 @@ modalConfiguracao.addEventListener("click", (evento) => {
 });
 
 //editar funcionario
-const modalEditarUsuario = document.getElementById("modalEditarUsuario");
+const modalEditarFuncionario = document.getElementById("modalEditarFuncionario");
 
 const btnAbrirEditarUsuario = document.querySelectorAll(
   ".btnAbrirEditarUsuario"
@@ -90,3 +95,35 @@ modalEditarUsuario.addEventListener("click", (evento) => {
   )
     modalEditarUsuario.close();
 });
+
+function filtrarPorNome() {
+  const nomeValue = filtroNome.value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+
+  for (let linha of linhas) {
+    const nomeProduto = linha.cells[1].textContent
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+
+    // Armazena se a linha deve ser mostrada ou não
+    linha.dataset.filtronome = nomeProduto.includes(nomeValue) ? "1" : "0";
+  }
+}
+
+function aplicarTodosFiltros() {
+  filtrarPorNome();
+
+  for (let linha of linhas) {
+    const mostra =
+      linha.dataset.filtronome === "1" &&
+      linha.dataset.filtrocategoria === "1" &&
+      linha.dataset.filtrofornecedor === "1";
+
+    linha.style.display = mostra ? "" : "none";
+  }
+}
+
+filtroNome.addEventListener("input", aplicarTodosFiltros);

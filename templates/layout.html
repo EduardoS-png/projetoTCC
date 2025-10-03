@@ -107,6 +107,13 @@
       </div>
     </nav>
 
+    <div id="flash-container">
+      {% with mensagens = get_flashed_messages(with_categories=true) %} {% if
+      mensagens %} {% for tipo, msg in mensagens %}
+      <div class="alert alert-{{ tipo }}">{{ msg }}</div>
+      {% endfor %} {% endif %} {% endwith %}
+    </div>
+
     <main>{% block main %} {% endblock %}</main>
     {% include 'footer.html' %} {% block javascript %}{% endblock %}
 
