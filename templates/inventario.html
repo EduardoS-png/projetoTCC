@@ -28,7 +28,6 @@
         <th>Categoria</th>
         <th>Fornecedor</th>
         <th>Código Original</th>
-        <th>Preço Base</th>
         <th>Quantidade Total</th>
         <th>Status</th>
         <th>Ações</th>
@@ -45,7 +44,6 @@
         <td>{{ produto['categoria'] }}</td>
         <td>{{ produto['fornecedor'] }}</td>
         <td>{{ produto['codigo_original'] }}</td>
-        <td>R$ {{ "%.2f"|format(produto['preco_base']) }}</td>
         <td>{{ produto['quantidade_total'] }}</td>
         <td>
           <span

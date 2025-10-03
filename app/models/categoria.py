@@ -47,12 +47,12 @@ def reativar(id):
         cursor.close()
         conexao.close()
 
-def alterar(id, novoNome, novaDescricao, novoStatus):
+def alterar(id, novoNome, novaDescricao):
     conexao = conexaoBD()
     try:
         cursor = conexao.cursor()
-        sql = "UPDATE categoria set nome = %s , descricao = %s ,ativo = %s WHERE id = %s"
-        cursor.execute(sql, (novoNome, novaDescricao, novoStatus, id))
+        sql = "UPDATE categoria set nome = %s , descricao = %s WHERE id = %s"
+        cursor.execute(sql, (novoNome, novaDescricao, id))
         conexao.commit()
         return cursor.lastrowid
     finally:

@@ -54,14 +54,12 @@ def alterar_categoria():
         nome = request.form['nomeCategoria']
         descricao = request.form['descricaoCategoria']
 
-        # Atualizando a categoria (não inserir de novo)
-        alterar_categoria(id, nome, descricao)
+        alterar(id, nome, descricao)
         flash("✏️ Categoria alterada com sucesso!", "info")
     except Exception as e:
         flash(f"❌ Erro ao alterar categoria: {str(e)}", "danger")
 
     return redirect(url_for('categoria.listar_categorias'))
-
 
 
 

@@ -12,8 +12,7 @@ def get_produtos():
             c.nome AS categoria,
             f.id AS fornecedor_id,
             f.nome_fantasia AS fornecedor,
-            p.codigo_original, 
-            p.preco_base,
+            p.codigo_original,
             p.marca,
             p.tamanho,
             p.cor, 
@@ -39,8 +38,7 @@ def get_produtos_id(id):
         sql = """
             SELECT p.id, 
             p.nome, 
-            p.codigo_original, 
-            p.preco_base, 
+            p.codigo_original,
             p.marca, 
             p.tamanho, 
             p.cor, 
@@ -63,7 +61,7 @@ def get_produtos_id(id):
         conexao.close()
     return produto
 
-def insert_produtos(nome, codigo_original, preco_base, marca, tamanho, cor, data_cadastro, categoria_id, fornecedor_id):
+def insert_produtos(nome, codigo_original, marca, tamanho, cor, data_cadastro, categoria_id, fornecedor_id):
     conexao = conexaoBD()
     try: 
         cursor = conexao.cursor()
@@ -71,11 +69,11 @@ def insert_produtos(nome, codigo_original, preco_base, marca, tamanho, cor, data
             data_cadastro = date.today()
 
         sql = """
-            INSERT INTO produto (nome, codigo_original, preco_base, marca, tamanho, cor, data_cadastro, categoria_id, fornecedor_id)
-            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
+            INSERT INTO produto (nome, codigo_original, marca, tamanho, cor, data_cadastro, categoria_id, fornecedor_id)
+            VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
         """
 
-        cursor.execute(sql, (nome, codigo_original, preco_base, marca, tamanho, cor, data_cadastro, categoria_id, fornecedor_id))
+        cursor.execute(sql, (nome, codigo_original, marca, tamanho, cor, data_cadastro, categoria_id, fornecedor_id))
         produto_id = cursor.lastrowid
         conexao.commit()
         return produto_id
@@ -84,17 +82,16 @@ def insert_produtos(nome, codigo_original, preco_base, marca, tamanho, cor, data
         conexao.close()
 
 
-def alterar(id, novoNome, novoCodigoOriginal, novoPrecoBase, novaMarca, novoTamanho, novaCor, novaCategoria, novoFornecedor):
+def alterar(id, novoNome, novoCodigoOriginal, novaMarca, novoTamanho, novaCor, novaCategoria, novoFornecedor):
     conexao = conexaoBD()
     try:
         cursor = conexao.cursor()
         sql = """
             UPDATE produto
-            SET nome = %s, codigo_original = %s, preco_base = %s, marca = %s, tamanho = %s, 
-                cor = %s, categoria_id = %s, fornecedor_id = %s
+            SET nome = %s, codigo_original = %s, marca = %s, tamanho = %s, cor = %s, categoria_id = %s, fornecedor_id = %s
             WHERE id = %s
         """
-        cursor.execute(sql, (novoNome, novoCodigoOriginal, novoPrecoBase, novaMarca, novoTamanho, novaCor, novoFornecedor, novaCategoria, id))
+        cursor.execute(sql, (novoNome, novoCodigoOriginal, novaMarca, novoTamanho, novaCor, novoFornecedor, novaCategoria, id))
 
         conexao.commit()
         return cursor.lastrowid

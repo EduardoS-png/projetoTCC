@@ -18,7 +18,6 @@ def adicionar_produto():
     try:
         nome = request.form['nome']
         codigo_original = request.form['codigo_original']
-        preco_base = float(request.form['preco_base'])
         marca = request.form.get('marca')
         tamanho = request.form.get('tamanho')
         cor = request.form.get('cor')
@@ -27,7 +26,7 @@ def adicionar_produto():
         data_cadastro = request.form.get('data_cadastro') or None
 
         insert_produtos(
-            nome, codigo_original, preco_base, marca, tamanho, cor, data_cadastro, categoria_id, fornecedor_id
+            nome, codigo_original, marca, tamanho, cor, data_cadastro, categoria_id, fornecedor_id
         )
 
         flash("✅ Produto cadastrado com sucesso!", "success")
@@ -43,16 +42,14 @@ def atualizar_produto():
         id = int(request.form['id'])
         nome = request.form['nome']
         codigo_original = request.form['codigo_original']
-        preco_base = float(request.form['preco_base'])
         marca = request.form.get('marca')
         tamanho = request.form.get('tamanho')
         cor = request.form.get('cor')
         categoria_id = int(request.form['categoria_id'])
         fornecedor_id = int(request.form['fornecedor_id'])
-        status = int(request.form.get('ativo', 1)) 
 
         alterar(
-            id, nome, codigo_original, preco_base, marca, tamanho, cor, categoria_id, fornecedor_id, status
+            id, nome, codigo_original, marca, tamanho, cor, categoria_id, fornecedor_id
         )
 
         flash("✏️ Produto atualizado com sucesso!", "info")
