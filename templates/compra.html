@@ -28,18 +28,8 @@
       </div>
     </div>
 
-    <div class="infoCard preco">
-      <div class="icon"></div>
-      <div class="infoText">
-        <span class="infoLabel">Preço Base</span>
-        <span class="infoValue"
-          >R$ {{ "%.2f"|format(produto.preco_base) }}</span
-        >
-      </div>
-    </div>
-
     <div
-      class="infoCard status {{ 'ativo' if produto.ativo == 1 else 'inativo' }}"
+      class="infoCard status {{ 'Ativo' if produto.ativo == 1 else 'Inativo' }}"
     >
       <div class="icon"></div>
       <div class="infoText">
@@ -68,7 +58,6 @@
         <td>{{ compra.id }}</td>
         <td>{{ compra.fornecedor }}</td>
         <td>{{ compra.quantidade }}</td>
-        <td>R$ {{ "%.2f"|format(compra.preco_compra) }}</td>
         <td>{{ compra.data_compra.strftime("%d/%m/%Y") }}</td>
       </tr>
       {% else %}

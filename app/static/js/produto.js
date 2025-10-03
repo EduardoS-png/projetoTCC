@@ -1,4 +1,3 @@
-
 // MODAL CADASTRO
 const modalProduto = document.getElementById("modalCadastroProduto");
 const btnAbrirModalProduto = document.getElementById("btnAbrirModalProduto");
@@ -112,7 +111,6 @@ function filtrarPorNome() {
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "");
 
-    // Armazena se a linha deve ser mostrada ou não
     linha.dataset.filtronome = nomeProduto.includes(nomeValue) ? "1" : "0";
   }
 }

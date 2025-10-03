@@ -12,15 +12,17 @@
       />Nova compra
     </button>
 
-    <input
-      type="text"
-      id="campoPesquisa"
-      placeholder="Pesquisar pelo nome..."
-    />
+    <div class="filtros">
+      <input
+        type="text"
+        id="filtroNomeInventario"
+        placeholder="Filtrar por nome..."
+      />
+    </div>
   </div>
 
   <h3 class="tituloTabela">Tabela atual do estoque</h3>
-  <table id="tabelaProdutos" class="tabelaInventario">
+  <table id="tabelaInventario" class="tabelaInventario">
     <thead>
       <tr class="tabelaCabecalho">
         <th>ID</th>
@@ -131,4 +133,9 @@
   </form>
 </dialog>
 
+{% endblock %} {% block javascript %}
+<script
+  type="module"
+  src="{{ url_for('static', filename='js/inventario.js') }}"
+></script>
 {% endblock %}
