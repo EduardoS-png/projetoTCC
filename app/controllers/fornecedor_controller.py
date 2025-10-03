@@ -65,13 +65,13 @@ def alterar_fornecedor():
     try:
         id = request.form['id']
         novoNome = request.form['novoNomeFornecedor']
-        novoNomefantasia = request.form['novoNome_fantasia']
+        novoNome_fantasia = request.form['novoNome_fantasia']
         novoCnpj = request.form['novoCnpj']
         novoEndereco = request.form['novoEndereco']
         novoTelefone1 = request.form['novoTelefone1']
         novoTelefone2 = request.form['novoTelefone2']
 
-        alterar_fornecedor(id, novoNome, novoNomefantasia, novoCnpj, novoEndereco, novoTelefone1, novoTelefone2)
+        alterar(id, novoNome, novoNome_fantasia, novoCnpj, novoEndereco, novoTelefone1, novoTelefone2)
         flash("✏️ Fornecedor alterado com sucesso!", "info")
     except Exception as e:
         flash(f"❌ Erro ao alterar fornecedor: {str(e)}", "danger")

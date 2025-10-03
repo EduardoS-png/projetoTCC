@@ -33,73 +33,74 @@
   </div>
 
   <h3 class="tituloTabela">Tabela dos produtos cadastrados</h3>
-  <table id="tabelaProdutos" class="tabelaInventario">
-    <thead>
-      <tr class="tabelaCabecalho">
-        <th>ID</th>
-        <th>Nome</th>
-        <th>Categoria</th>
-        <th>Fornecedor</th>
-        <th>Código Original</th>
-        <th>Marca</th>
-        <th>Tamanho</th>
-        <th>Cor</th>
-        <th>Data Cadastro</th>
-        <th>Status</th>
-        <th>Ações</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for produto in produtos %}
-      <tr
-        data-categoria-id="{{ produto['categoria_id'] }}"
-        data-fornecedor-id="{{ produto['fornecedor_id'] }}"
-      >
-        <td>{{ produto['id'] }}</td>
-        <td>{{ produto['nome'] }}</td>
-        <td>{{ produto['categoria'] }}</td>
-        <td>{{ produto['fornecedor'] }}</td>
-        <td>{{ produto['codigo_original'] }}</td>
-        <td>{{ produto['marca'] }}</td>
-        <td>{{ produto['tamanho'] }}</td>
-        <td>{{ produto['cor'] }}</td>
-        <td>{{ produto['data_cadastro'] }}</td>
-        <td>
-          <span
-            class="badge-status {{ 'badge-ativo' if produto.ativo == 1 else 'badge-inativo' }}"
-          >
-            {{ 'Ativo' if produto.ativo == 1 else 'Inativo' }}
-          </span>
-        </td>
-        <td>
-          <button
-            class="botoesDecisao btnAbrirModalAlterarProduto"
-            href=""
-            data-id="{{ produto['id'] }}"
-          >
-            <img src="/static/assets/icons/editar.svg" alt="editar" />
-          </button>
-
-          {% if produto['ativo'] == 1 %}
-          <a
-            class="botoesDecisao"
-            href="{{url_for('produto.inativar_produto',id=produto['id'])}}"
-          >
-            <img src="/static/assets/icons/inativar.svg" alt="inativar" />
-          </a>
-          {% else %}
-          <a
-            class="botoesDecisao"
-            href="{{url_for('produto.reativar_produto',id=produto['id'])}}"
-          >
-            <img src="/static/assets/icons/reativar.svg" alt="reativar" />
-          </a>
-          {% endif %}
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <div class="table-container">
+    <table id="tabelaProdutos" class="tabelaInventario">
+      <thead>
+        <tr class="tabelaCabecalho">
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Categoria</th>
+          <th>Fornecedor</th>
+          <th>Código Original</th>
+          <th>Marca</th>
+          <th>Tamanho</th>
+          <th>Cor</th>
+          <th>Data Cadastro</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for produto in produtos %}
+        <tr
+          data-categoria-id="{{ produto['categoria_id'] }}"
+          data-fornecedor-id="{{ produto['fornecedor_id'] }}"
+        >
+          <td>{{ produto['id'] }}</td>
+          <td title="{{ produto['nome'] }}">{{ produto['nome'] }}</td>
+          <td>{{ produto['categoria'] }}</td>
+          <td>{{ produto['fornecedor'] }}</td>
+          <td>{{ produto['codigo_original'] }}</td>
+          <td>{{ produto['marca'] }}</td>
+          <td>{{ produto['tamanho'] }}</td>
+          <td>{{ produto['cor'] }}</td>
+          <td>{{ produto['data_cadastro'] }}</td>
+          <td>
+            <span
+              class="badge-status {{ 'badge-ativo' if produto.ativo == 1 else 'badge-inativo' }}"
+            >
+              {{ 'Ativo' if produto.ativo == 1 else 'Inativo' }}
+            </span>
+          </td>
+          <td>
+            <button
+              class="botoesDecisao btnAbrirModalAlterarProduto"
+              href=""
+              data-id="{{ produto['id'] }}"
+            >
+              <img src="/static/assets/icons/editar.svg" alt="editar" />
+            </button>
+            {% if produto['ativo'] == 1 %}
+            <a
+              class="botoesDecisao"
+              href="{{url_for('produto.inativar_produto',id=produto['id'])}}"
+            >
+              <img src="/static/assets/icons/inativar.svg" alt="inativar" />
+            </a>
+            {% else %}
+            <a
+              class="botoesDecisao"
+              href="{{url_for('produto.reativar_produto',id=produto['id'])}}"
+            >
+              <img src="/static/assets/icons/reativar.svg" alt="reativar" />
+            </a>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </section>
 
 <!-- MODAL CADASTRO -->
@@ -177,17 +178,6 @@
       placeholder="Digite a cor..."
     />
 
-    <label for="precoCadastro">Preço Base</label>
-    <input
-      type="number"
-      id="precoCadastro"
-      name="preco_base"
-      placeholder="Digite o preço base..."
-      step="0.01"
-      min="0"
-      required
-    />
-
     <label for="dataCadastro">Data de Cadastro</label>
     <input type="date" id="dataCadastro" name="data_cadastro" required />
 
@@ -247,16 +237,6 @@
 
     <label for="corAlterar">Cor</label>
     <input type="text" id="corAlterar" name="cor" />
-
-    <label for="precoAlterar">Preço Base</label>
-    <input
-      type="number"
-      id="precoAlterar"
-      name="preco_base"
-      step="0.01"
-      min="0"
-      required
-    />
 
     <label for="dataAlterar">Data de Cadastro</label>
     <input type="date" id="dataAlterar" name="data_cadastro" required />

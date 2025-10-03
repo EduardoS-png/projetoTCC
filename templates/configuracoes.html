@@ -19,44 +19,46 @@
   </div>
 
   <h3 class="tituloTabela">Usuários Registrados</h3>
-  <table id="tabelaOperacoes">
-    <thead>
-      <tr class="tabelaOperacoes">
-        <th>Id</th>
-        <th>Nome</th>
-        <th>Email</th>
-        <th>Senha</th>
-        <th>Status</th>
-        <th>Ação</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for configuracao in configuracoes %}
-      <tr>
-        <td>{{configuracao['id']}}</td>
-        <td>{{configuracao['nome']}}</td>
-        <td>{{configuracao['email']}}</td>
-        <td>{{configuracao['senha']}}</td>
-        <td>{{configuracao['status']}}</td>
-        <td>
-          <button
-            class="botoesDecisao btnAbrirEditarUsuario"
-            href=""
-            data-id="{{ configuracao['id'] }}"
-          >
-            <img src="/static/assets/icons/editar.svg" alt="editar.svg" />
-          </button>
-          <a
-            class="botoesDecisao"
-            href="{{url_for('configuracao.deletar_configuracao',id=configuracao['id'])}}"
-          >
-            <img src="/static/assets/icons/lixeira.svg" alt="lixeira.svg" />
-          </a>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <div class="table-container">
+    <table id="tabelaOperacoes">
+      <thead>
+        <tr class="tabelaCabecalho">
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Senha</th>
+          <th>Status</th>
+          <th>Ação</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for configuracao in configuracoes %}
+        <tr>
+          <td>{{configuracao['id']}}</td>
+          <td>{{configuracao['nome']}}</td>
+          <td>{{configuracao['email']}}</td>
+          <td>{{configuracao['senha']}}</td>
+          <td title="{{configuracao['status']}}">{{configuracao['status']}}</td>
+          <td>
+            <button
+              class="botoesDecisao btnAbrirEditarUsuario"
+              href=""
+              data-id="{{ configuracao['id'] }}"
+            >
+              <img src="/static/assets/icons/editar.svg" alt="editar.svg" />
+            </button>
+            <a
+              class="botoesDecisao"
+              href="{{url_for('configuracao.deletar_configuracao',id=configuracao['id'])}}"
+            >
+              <img src="/static/assets/icons/lixeira.svg" alt="lixeira.svg" />
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </section>
 
 <dialog id="modalCadastroConfiguracao">
@@ -174,9 +176,7 @@
 
     <menu>
       <button type="submit" class="botaoPrimario">Salvar</button>
-      <button type="button" id="botaoCancelarEditarUsuario">
-        Cancelar
-      </button>
+      <button type="button" id="botaoCancelarEditarUsuario">Cancelar</button>
     </menu>
   </form>
 </dialog>

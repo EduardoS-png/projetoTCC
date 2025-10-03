@@ -42,31 +42,34 @@
   </div>
 
   <h3 class="tituloTabela">Compras registradas</h3>
-  <table id="tabelaCompras" class="tabelaInventario">
-    <thead>
-      <tr class="tabelaCabecalho">
-        <th>ID Compra</th>
-        <th>Fornecedor</th>
-        <th>Quantidade</th>
-        <th>Preço Unitário</th>
-        <th>Data da Compra</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for compra in compras %}
-      <tr>
-        <td>{{ compra.id }}</td>
-        <td>{{ compra.fornecedor }}</td>
-        <td>{{ compra.quantidade }}</td>
-        <td>{{ compra.data_compra.strftime("%d/%m/%Y") }}</td>
-      </tr>
-      {% else %}
-      <tr>
-        <td colspan="5">Nenhuma compra registrada para este produto.</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <div class="table-container">
+    <table id="tabelaCompras" class="tabelaInventario">
+      <thead>
+        <tr class="tabelaCabecalho">
+          <th>ID Compra</th>
+          <th>Fornecedor</th>
+          <th>Quantidade comprada</th>
+          <th>Total de Compra</th>
+          <th>Preço Unitário</th>
+          <th>Data da Compra</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for compra in compras %}
+        <tr>
+          <td>{{ compra.id }}</td>
+          <td>{{ compra.fornecedor }}</td>
+          <td>{{ compra.quantidade }}</td>
+          <td>{{ compra.data_compra.strftime("%d/%m/%Y") }}</td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="5">Nenhuma compra registrada para este produto.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 
   <a
     id="btnVoltarInventario"
