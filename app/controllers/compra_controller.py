@@ -1,11 +1,11 @@
-from flask import Blueprint,render_template
-from app.models.compra import *
+from flask import Blueprint, render_template
+from app.models.compra import get_compras_por_produto
+from app.models.produto import get_produtos_id
 
 compra_bp = Blueprint("compra", __name__)
 
-@compra_bp.route("/produto/<int:produto_id>/compras")
+@compra_bp.route("/compra/produto/<int:produto_id>", methods=["GET"])
 def compras_por_produto(produto_id):
-    compras = compras.query.filter_by(produto_id  = produto_id).all()
-     
-    return render_template("compras.html", compras = compras)
- 
+    produto = get_produtos_id(produto_id)
+    compras = get_compras_por_produto(produto_id)
+    return render_template("compra.html", produto=produto, compras=compras)

@@ -5,7 +5,7 @@
   </div>
 
   <div id="controlesInventario">
-    <button id="btnAbrirModalProduto" class="botaoPrimario">
+    <button id="btnAbrirModalCompra" class="botaoPrimario">
       <img
         src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
         alt="novo.svg"
@@ -47,19 +47,90 @@
         <td>{{ produto['codigo_original'] }}</td>
         <td>R$ {{ "%.2f"|format(produto['preco_base']) }}</td>
         <td>{{ produto['quantidade_total'] }}</td>
-        <td>{{ 'Ativo' if produto['ativo'] == 1 else 'Inativo' }}</td>
         <td>
-          <button
-            class="botoesDecisao btnAbrirModalAlterarProduto"
-            href=""
-            data-id="{{ produto['id'] }}"
+          <span
+            class="badge-status {{ 'badge-ativo' if produto.ativo == 1 else 'badge-inativo' }}"
           >
-            Ver detalhado
-          </button>
+            {{ 'Ativo' if produto.ativo == 1 else 'Inativo' }}
+          </span>
+        </td>
+        <td>
+          <a
+            class="btn-ver-detalhado"
+            href="{{ url_for('compra.compras_por_produto', produto_id=produto['id']) }}"
+          >
+            <span class="icon-ver">&#128065;</span> Ver detalhado
+          </a>
         </td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
 </section>
+
+<dialog id="modalCadastroCompra">
+  <form id="formCadastroCompra" method="POST" action="/compra/cadastrar">
+    <div class="modalCabecalho">
+      <h2 class="tituloModal">Nova Compra</h2>
+      <button
+        type="button"
+        aria-label="fecharFormulario"
+        id="botaoFecharCompra"
+        class="botaoFecharModal"
+      >
+        <img
+          src="{{ url_for('static', filename='assets/icons/fechar.svg') }}"
+          alt="fechar.svg"
+        />
+      </button>
+    </div>
+
+    <label for="produto_id">Produto</label>
+    <select id="produto_id" name="produto_id" required>
+      <option value="">Selecione a categoria</option>
+      {% for produto in produtos_lista %}
+      <option value="{{ produto.id }}">{{ produto.nome }}</option>
+      {% endfor %}
+    </select>
+
+    <label for="fornecedor_id">Fornecedor</label>
+    <select id="fornecedor_id" name="fornecedor_id" required>
+      <option value="">Selecione o fornecedor</option>
+      {% for fornecedor in fornecedores %}
+      <option value="{{ fornecedor.id }}">
+        {{ fornecedor.nome_fantasia }}
+      </option>
+      {% endfor %}
+    </select>
+
+    <label for="quantidade">Quantidade</label>
+    <input
+      type="number"
+      id="quantidade"
+      name="quantidade"
+      placeholder="Digite a quantidade comprada..."
+      min="1"
+      required
+    />
+
+    <label for="preco_compra">Preço de Compra</label>
+    <input
+      type="number"
+      step="0.01"
+      id="preco_compra"
+      name="preco_compra"
+      placeholder="Digite o preço unitário..."
+      required
+    />
+
+    <label for="data_compra">Data da Compra</label>
+    <input type="date" id="data_compra" name="data_compra" />
+
+    <menu>
+      <button type="submit" class="botaoPrimario">Salvar</button>
+      <button type="button" id="botaoCancelarCompra">Cancelar</button>
+    </menu>
+  </form>
+</dialog>
+
 {% endblock %}

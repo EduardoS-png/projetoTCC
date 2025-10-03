@@ -21,7 +21,7 @@
   </div>
 
   <h3 class="tituloTabela">Fornecedores Registrados</h3>
-  <table id="tabelaCompras">
+  <table id="tabelaFornecedores" class="tabelaInventario">
     <thead>
       <tr class="tabelaCabecalho">
         <th>Nome Do Fornecedor</th>
@@ -43,7 +43,13 @@
         <td>{{fornecedor['endereco']}}</td>
         <td>{{fornecedor['telefone1']}}</td>
         <td>{{fornecedor['telefone2']}}</td>
-        <td>{{ 'Ativo' if fornecedor['ativo'] == 1 else 'Inativo'}}</td>
+        <td>
+          <span
+            class="badge-status {{ 'badge-ativo' if fornecedor.ativo == 1 else 'badge-inativo' }}"
+          >
+            {{ 'Ativo' if fornecedor.ativo == 1 else 'Inativo' }}
+          </span>
+        </td>
         <td>
           <button
             class="botoesDecisao btnAbrirModalAlterarFornecedor"

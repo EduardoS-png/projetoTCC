@@ -10,11 +10,11 @@
       <img
         src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
         alt="novo.svg"
-      />Nova categoria
+      />Novo produto
     </button>
 
     <div class="filtrarOpcoes">
-      <label for="filtroTipo">Filtrar por tipo:</label>
+      <label for="filtroTipo">Filtrar por categoria:</label>
       <select id="filtroTipo" class="filtroSelecionar">
         <option value="">Todos</option>
         <option value="linha">Linha</option>
@@ -64,7 +64,13 @@
         <td>{{ produto['tamanho'] }}</td>
         <td>{{ produto['cor'] }}</td>
         <td>{{ produto['data_cadastro'] }}</td>
-        <td>{{ 'Ativo' if produto['ativo'] == 1 else 'Inativo' }}</td>
+        <td>
+          <span
+            class="badge-status {{ 'badge-ativo' if produto.ativo == 1 else 'badge-inativo' }}"
+          >
+            {{ 'Ativo' if produto.ativo == 1 else 'Inativo' }}
+          </span>
+        </td>
         <td>
           <button
             class="botoesDecisao btnAbrirModalAlterarProduto"

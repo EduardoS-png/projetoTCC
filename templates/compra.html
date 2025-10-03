@@ -1,51 +1,96 @@
 {% extends 'layout.html' %} {% block main %}
 
-<section id="compras">
-  <div id="comprasCabecalho">
-    <h2 class="paginaTitulo">Compras</h2>
-    <h3 class="paginaTitulo">Produto</h3>
-  </div>
+<section id="comprasProduto">
+  <h2 class="paginaTitulo">Histórico de Compras - {{ produto.nome }}</h2>
 
-  <div id="controlesCompras">
-    <div class="filtrarOpcoes">
-      <select class="filtroSelecionar">
-        <option value="">Todos os fornecedores</option>
-      </select>
+  <div class="produtoInfoDashboard">
+    <div class="infoCard codigo">
+      <div class="icon"></div>
+      <div class="infoText">
+        <span class="infoLabel">Código Original</span>
+        <span class="infoValue">{{ produto.codigo_original }}</span>
+      </div>
+    </div>
+
+    <div class="infoCard categoria">
+      <div class="icon"></div>
+      <div class="infoText">
+        <span class="infoLabel">Categoria</span>
+        <span class="infoValue">{{ produto.categoria }}</span>
+      </div>
+    </div>
+
+    <div class="infoCard fornecedor">
+      <div class="icon"></div>
+      <div class="infoText">
+        <span class="infoLabel">Fornecedor</span>
+        <span class="infoValue">{{ produto.fornecedor }}</span>
+      </div>
+    </div>
+
+    <div class="infoCard preco">
+      <div class="icon"></div>
+      <div class="infoText">
+        <span class="infoLabel">Preço Base</span>
+        <span class="infoValue"
+          >R$ {{ "%.2f"|format(produto.preco_base) }}</span
+        >
+      </div>
+    </div>
+
+    <div
+      class="infoCard status {{ 'ativo' if produto.ativo == 1 else 'inativo' }}"
+    >
+      <div class="icon"></div>
+      <div class="infoText">
+        <span class="infoLabel">Status</span>
+        <span class="infoValue"
+          >{{ 'Ativo' if produto.ativo == 1 else 'Inativo' }}</span
+        >
+      </div>
     </div>
   </div>
 
-  <table id="tabelaCompras">
+  <h3 class="tituloTabela">Compras registradas</h3>
+  <table id="tabelaCompras" class="tabelaInventario">
     <thead>
       <tr class="tabelaCabecalho">
-        <th>ID</th>
-        <th>Produto id</th>
-        <th>Nome do produto</th>
-        <th>Id do fornecedor</th>
-        <th>Nome do fornecedor</th>
-        <th>Quantidade comprada</th>
-        <th>Categoria do produto</th>
-        <th>Valor unitário</th>
-        <th>Preço da compra</th>
-        <th>Data da compra</th>
-        <th>Ações</th>
+        <th>ID Compra</th>
+        <th>Fornecedor</th>
+        <th>Quantidade</th>
+        <th>Preço Unitário</th>
+        <th>Data da Compra</th>
       </tr>
     </thead>
-    <tbody> 
-      {%for compra in compras%} 
-        <tr> 
-          <td>{{compra.id}}</td>
-          <td>{{compra.data.strftime("%d/%m/%y")}}</td>
-          <td>{{compra.quantidade}}</td>
-          <td>{{compra.valorTotal}}</td>
-        </tr>
-        {%else%} 
-        <tr>
-          <td colspan="4">Nenhuma compra encontrada para este produto</td>
-        </tr>
-        {%endfor%}
+    <tbody>
+      {% for compra in compras %}
+      <tr>
+        <td>{{ compra.id }}</td>
+        <td>{{ compra.fornecedor }}</td>
+        <td>{{ compra.quantidade }}</td>
+        <td>R$ {{ "%.2f"|format(compra.preco_compra) }}</td>
+        <td>{{ compra.data_compra.strftime("%d/%m/%Y") }}</td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="5">Nenhuma compra registrada para este produto.</td>
+      </tr>
+      {% endfor %}
     </tbody>
   </table>
 
+  <a
+    id="btnVoltarInventario"
+    href="{{ url_for('inventario.listar_inventario') }}"
+  >
+    <span class="icon">&#x2B05;</span>
+    Voltar ao Inventário
+  </a>
 </section>
 
+{% endblock %} {% block javascript %}
+<script
+  type="module"
+  src="{{ url_for('static', filename='js/inventario.js') }}"
+></script>
 {% endblock %}

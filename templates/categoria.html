@@ -28,7 +28,11 @@
           <td>{{categoria['id']}}</td>
           <td>{{categoria['nome']}}</td>
           <td>{{categoria['descricao']}}</td>
-          <td>{{ 'Ativo' if categoria['ativo'] == 1 else 'Inativo'}}</td>
+          <td>
+            <span class="badge-status {{ 'badge-ativo' if categoria.ativo == 1 else 'badge-inativo' }}">
+              {{ 'Ativo' if categoria.ativo == 1 else 'Inativo' }}
+            </span>
+          </td>
           <td>
             <button class="botoesDecisao btnAbrirAlterarCategoria" href="" data-id="{{ categoria['id'] }}">
               <img src="/static/assets/icons/editar.svg" alt="editar.svg" />

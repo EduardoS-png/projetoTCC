@@ -20,3 +20,13 @@
     left: 0;
   }
 }
+
+@media (max-width: 600px) {
+  .produtoInfo {
+    flex-direction: column;
+  }
+
+  .infoCard {
+    flex: 1 1 100%;
+  }
+}
