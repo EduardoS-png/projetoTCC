@@ -6,11 +6,11 @@
   </div>
 
   <div id="controlesInventario">
-    <button id="btnAbrirModalFuncionario" class="botaoPrimario">
+    <button id="btnAbrirModalConfiguracao" class="botaoPrimario">
       <img
         src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
         alt="novo.svg"
-      />Novo Funcionário
+      />Novo Usuário
     </button>
 
     <div class="filtros">
@@ -18,7 +18,7 @@
     </div>
   </div>
 
-  <h3 class="tituloTabela">Funcionarios Registrados</h3>
+  <h3 class="tituloTabela">Usuários Registrados</h3>
   <table id="tabelaOperacoes">
     <thead>
       <tr class="tabelaOperacoes">
@@ -40,7 +40,7 @@
         <td>{{configuracao['status']}}</td>
         <td>
           <button
-            class="botoesDecisao btnAbrirAlterarConfiguracao"
+            class="botoesDecisao btnAbrirEditarUsuario"
             href=""
             data-id="{{ configuracao['id'] }}"
           >
@@ -59,9 +59,9 @@
   </table>
 </section>
 
-<dialog id="modalCadastroFuncionario">
+<dialog id="modalCadastroConfiguracao">
   <form
-    id="formCadastroFuncionario"
+    id="formCadastroUsuario"
     method="POST"
     action="/configuracoes/cadastrar"
   >
@@ -79,6 +79,8 @@
         />
       </button>
     </div>
+
+    <input type="hidden" id="idAlterar" name="id" />
 
     <label for="nome">Nome do Usuário</label>
     <input
@@ -120,9 +122,9 @@
 <!-- modal de editar configuracao -->
 
 <dialog id="modalEditarUsuario">
-  <form id="formEditarUsuario" method="POST" action="/usuario/Editar">
+  <form id="formEditarUsuario" method="POST" action="/configuracao/alterar">
     <div class="modalCabecalho">
-      <h2 class="tituloModal">Cadastrar Usuário</h2>
+      <h2 class="tituloModal">Alterar Usuário</h2>
       <button
         type="button"
         aria-label="fecharFormulario"
@@ -136,39 +138,43 @@
       </button>
     </div>
 
-    <label for="nome">Nome do Usuário</label>
+    <label for="nomeAlterar">Nome do Usuário</label>
     <input
       type="text"
-      id="nome"
-      name="nome"
+      id="nomeAlterar"
+      name="nomeAlterar"
       placeholder="Digite o nome do Usuário..."
       required
     />
 
-    <label for="email">Email do Usuário</label>
+    <label for="emailAlterar">Email do Usuário</label>
     <input
       type="text"
-      id="email"
-      name="email"
+      id="emailAlterar"
+      name="emailAlterar"
       placeholder="Digite o email do Usuário..."
       required
     />
 
-    <label for="senha">Senha do Usuário</label>
+    <label for="senhaAlterar">Senha do Usuário</label>
     <input
       type="text"
-      id="senha"
-      name="senha"
+      id="senhaAlterar"
+      name="senhaAlterar"
       placeholder="Digite a senha do Usuário..."
       required
     />
 
-    <label for="status">Status do funcionario</label>
-    <input type="text" id="status" name="status" required />
+    <label for="statusAlterar">Status do Usuário</label>
+    <select name="statusAlterar" id="statusAlterar">
+      <option value="">Selecione o status</option>
+      <option value="administrador">Administrador</option>
+      <option value="funcionario">Funcionário</option>
+    </select>
 
     <menu>
       <button type="submit" class="botaoPrimario">Salvar</button>
-      <button type="button" id="botaoCancelarEditarFuncionario">
+      <button type="button" id="botaoCancelarEditarUsuario">
         Cancelar
       </button>
     </menu>

@@ -4,30 +4,33 @@ const btnAbrirModalConfiguracao = document.getElementById(
   "btnAbrirModalConfiguracao"
 );
 
-const formCadastroUsuario = document.getElementById("formCadastroUsuario");
-
 const btnFecharUsuario = document.getElementById("botaoFecharUsuario");
 
 btnAbrirModalConfiguracao.addEventListener("click", () => {
   modalConfiguracao.showModal();
   formCadastroUsuario.reset();
 });
-const formCadastroFuncionario = document.getElementById(
-  "formCadastroFuncionario"
+
+const formCadastroUsuario = document.getElementById(
+  "formCadastroUsuario"
 );
 
-const btnFecharModalFuncionario = document.getElementById(
-  "botaoFecharConfiguracao"
+const btnFecharModalUsuario = document.getElementById(
+  "botaoFecharUsuario"
 );
 
-const btnCancelarModalFuncionario = document.getElementById(
-  "botaoCancelarFuncionario"
+const btnCancelarModalUsuario = document.getElementById(
+  "botaoCancelarUsuario"
 );
 
-btnFecharModalFuncionario.addEventListener("click", () => {
+btnFecharModalUsuario.addEventListener("click", () => {
   modalConfiguracao.close();
   formCadastroUsuario.reset();
 });
+
+btnCancelarModalUsuario.addEventListener("click", () =>
+  modalEditarUsuario.close()
+);
 
 modalConfiguracao.addEventListener("click", (evento) => {
   const reacao = modalConfiguracao.getBoundingClientRect();
@@ -41,18 +44,18 @@ modalConfiguracao.addEventListener("click", (evento) => {
 });
 
 //editar funcionario
-const modalEditarFuncionario = document.getElementById(
-  "modalEditarFuncionario"
+const modalEditarUsuario = document.getElementById(
+  "modalEditarUsuario"
 );
 
 const btnAbrirEditarUsuario = document.querySelectorAll(
   ".btnAbrirEditarUsuario"
 );
 
-const formEditarUsuario = document.getElementById("formEditarUsuario");
+const formAlterarUsuario = document.getElementById("formEditarUsuario");
 
 const btnFecharEditarUsuario = document.getElementById(
-  "botaoCancelarEditarUsuario"
+  "botaoFecharEditarUsuario"
 );
 
 const btnCancelarEditarUsuario = document.getElementById(
@@ -81,6 +84,7 @@ btnAbrirEditarUsuario.forEach((botao) => {
 
 btnFecharEditarUsuario.addEventListener("click", () => {
   modalEditarUsuario.close();
+  formAlterarUsuario.reset();
 });
 
 btnCancelarEditarUsuario.addEventListener("click", () =>
