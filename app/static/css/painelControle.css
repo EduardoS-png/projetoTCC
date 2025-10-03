@@ -385,18 +385,18 @@ main {
 #tabelaFornecedores,
 #tabelaOperacoes,
 #tabelaCategorias {
-  width: 100%;
   margin-bottom: 2rem;
   border-collapse: separate;
   border-spacing: 0;
   border-radius: 12px;
-  background: #ffffff;
+  background: #FFFFFF;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
   display: block;
   max-height: 500px;
   overflow-y: auto;
   overflow-x: auto;
   transition: box-shadow 0.3s ease;
+  
 }
 
 #tabelaCompras::-webkit-scrollbar,
@@ -430,8 +430,8 @@ main {
 #tabelaFornecedores thead,
 #tabelaOperacoes thead,
 #tabelaCategorias thead {
-  background-color: #f0f2f5;
-  color: #264653;
+  background-color: #0762eb;
+  color: #fdfdfd;
   font-weight: 600;
   position: sticky;
   top: 0;
@@ -502,7 +502,7 @@ main {
 }
 
 #operacoesSumario .sumarioEstado {
-  background: white;
+  background: rgb(rgb(247, 244, 244), rgb(245, 248, 245), rgb(248, 248, 250));
   padding: 1rem;
   border-radius: var(--raio-borda);
   box-shadow: var(--sombra-pequena);

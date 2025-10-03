@@ -2,7 +2,7 @@
 
 <section id="configuracao">
   <div id="configuracaoCabecalho">
-    <h2 class="paginaTitulo">configuração</h2>
+    <h2 class="paginaTitulo">Configuração</h2>
   </div>
   <button id="btnAbrirModalConfiguracao" class="botaoPrimario">
     <img src="{{ url_for('static', filename='assets/icons/novo.svg') }}" alt="novo.svg" />Novo Funcionario
@@ -10,10 +10,10 @@
 
   <h3 class="tituloTabela">Funcionarios Registrados</h3>
 
-  <div id="controlesConfiguracao">
-    <table id="tabelaConfiguracao">
+  <div id="controlesOperacoes">
+    <table id="tabelaOperacoes">
       <thead>
-        <tr class="tabelaConfiguracao">
+        <tr class="tabelaOperacoes">
           <th>Id</th>
           <th>Nome</th>
           <th>Email</th>
@@ -31,7 +31,6 @@
           <td>{{configuracao['email']}}</td>
           <td>{{configuracao['senha']}}</td>
           <td>{{configuracao['status']}}</td>
-          <td>{{configuracao['açao']}}</Td>
           <td>
             <button class="botoesDecisao btnAbrirAlterarConfiguracao" href="" data-id="{{ configuracao['id'] }}">
               <img src="/static/assets/icons/editar.svg" alt="editar.svg" />
