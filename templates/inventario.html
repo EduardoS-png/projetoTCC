@@ -88,8 +88,8 @@
     <label for="produto_id">Produto</label>
     <select id="produto_id" name="produto_id" required>
       <option value="">Selecione a categoria</option>
-      {% for produto in produtos_lista %}
-      <option value="{{ produto.id }}">{{ produto.nome }}</option>
+      {% for produto in produtos %}
+      <option value="{{ produto['id'] }}">{{ produto['nome'] }}</option>
       {% endfor %}
     </select>
 
@@ -97,8 +97,8 @@
     <select id="fornecedor_id" name="fornecedor_id" required>
       <option value="">Selecione o fornecedor</option>
       {% for fornecedor in fornecedores %}
-      <option value="{{ fornecedor.id }}">
-        {{ fornecedor.nome_fantasia }}
+      <option value="{{ fornecedor['id'] }}">
+        {{ fornecedor['nome_fantasia'] }}
       </option>
       {% endfor %}
     </select>
@@ -119,7 +119,19 @@
       step="0.01"
       id="preco_compra"
       name="preco_compra"
+      placeholder="Digite o preço da compra..."
+      readonly
+      required
+    />
+
+    <label for="preco_unitario">Preço unitário</label>
+    <input
+      type="number"
+      name="preco_unitario"
+      id="preco_unitario"
       placeholder="Digite o preço unitário..."
+      step="0.01"
+      readonly
       required
     />
 
