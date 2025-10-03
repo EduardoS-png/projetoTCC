@@ -1,12 +1,12 @@
 from flask import Blueprint, request, jsonify, session, redirect, render_template, flash
-from app.models.usuario import get_usuario, get_usuario_id, verificar_usuario
+from app.models.usuario import * 
 
 usuario_bp = Blueprint("usuario", __name__)
 
 @usuario_bp.route("/")
 def home():
     if 'usuario' in session:
-        return render_template("layout.html")
+        return render_template("layout.html", usuario_nome=session["usuario_nome"])
     else:
         flash("🔒 Faça login para acessar o sistema", "warning")
         return redirect("/login")
@@ -29,8 +29,9 @@ def verificarLogin():
     if user:
         session["usuario"] = login
         session["usuario_id"] = user["id"]
+        session["usuario_nome"] = user["nome"]
         session["estado"] = estado
-        flash(f"✅ Bem-vindo, {login}!", "success")
+        flash(f"✅ Bem-vindo, {user['nome']}!", "success")
         return redirect("/painelPrincipal")
     else:
         flash("❌ Credenciais inválidas", "danger")
@@ -39,7 +40,7 @@ def verificarLogin():
 @usuario_bp.route("/painelPrincipal")
 def painelPrincipal():
     if 'usuario' in session:
-        return render_template("layout.html")
+        return render_template("layout.html", usuario_nome= session["usuario_nome"])
     else:
         flash("🔒 Faça login para acessar o painel", "warning")
         return redirect("/login")
