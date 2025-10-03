@@ -7,7 +7,7 @@ configuracao_bp = Blueprint("configuracao", __name__)
 @configuracao_bp.route("/configuracao/lista", methods=["GET"])
 def listar_configuracoes():
     configuracoes = get_configuracao()
-    return render_template("configuracao.html", configuracoes=configuracoes)
+    return render_template("configuracoes.html", configuracoes=configuracoes)
 
 
 # Rota para cadastrar uma nova configuração

@@ -4,7 +4,7 @@ const btnAbrirModalConfiguracao = document.getElementById(
   "btnAbrirModalConfiguracxao"
 );
 
-btnAbrirModalCategoria.addEventListener("click", () => {
+btnAbrirModalConfiguracao.addEventListener("click", () => {
   modalConfiguracao.showModal();
   formCadastroFuncionario.reset();
 });
@@ -36,7 +36,7 @@ modalConfiguracao.addEventListener("click", (evento) => {
     modalConfiguracao.close();
 });
 
-//editar categoria
+//editar funcionario
 const modalEditarFuncionario = document.getElementById("modalEditarFuncionario");
 
 const btnAbrirEditarFuncionario = document.querySelectorAll(

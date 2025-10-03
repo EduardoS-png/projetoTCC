@@ -96,7 +96,7 @@
       <div class="navSessao">
         {% if session['estado'] == "Administrador" %}
         <h2 class="navTitulo">Operacional</h2>
-        <a href="#" class="navLink">
+        <a href="/configuracao/lista" class="navLink">
           <img
             src="{{ url_for('static', filename='assets/icons/configuracoes.svg') }}"
             alt="config.svg"
