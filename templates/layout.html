@@ -37,7 +37,7 @@
       </div>
       <div class="perfilUsuario">
         <button id="btnSpinner" class="spinner" style="display: none"></button>
-        <h2 id="bemVindo"></h2>
+        <h2 id="bemVindo">Bem-vindo, {{ usuario_nome }}!</h2>
         <button id="btnLogout">Sair</button>
       </div>
     </header>
@@ -46,7 +46,7 @@
     <nav>
       <div class="navSessao">
         <h2 class="navTitulo">Principal</h2>
-        <a href="#" class="navLink ativo">
+        <a href="/dashboard/lista" class="navLink ativo">
           <img
             src="{{ url_for('static', filename='assets/icons/dashboard.svg') }}"
             alt="dashboard"

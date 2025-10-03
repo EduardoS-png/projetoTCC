@@ -1,4 +1,7 @@
-from app.controllers import conexaoBD
-from flask import Flask, jsonify
+from flask import Blueprint, render_template
 
-app = Flask(__name__)
+dashboard_bp = Blueprint("dashboard", __name__)
+
+@dashboard_bp.route("/dashboard/lista", methods=["GET"])
+def carregar_dashboard():
+    return render_template("dashboard.html")
