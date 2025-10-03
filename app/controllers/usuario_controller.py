@@ -1,21 +1,22 @@
-from flask import Blueprint, request, jsonify, session, redirect, render_template
+from flask import Blueprint, request, jsonify, session, redirect, render_template, flash
 from app.models.usuario import get_usuario, get_usuario_id, verificar_usuario
 
 usuario_bp = Blueprint("usuario", __name__)
 
-# rotas de controle de usuário
 @usuario_bp.route("/")
 def home():
-  if 'usuario' in session:
-    return render_template("layout.html")
-  else:
-    return redirect("/login")
+    if 'usuario' in session:
+        return render_template("layout.html")
+    else:
+        flash("🔒 Faça login para acessar o sistema", "warning")
+        return redirect("/login")
   
 @usuario_bp.route("/login", methods=["GET"])
 def login():
-  if 'usuario' in session:
-    return redirect("/painelPrincipal")
-  return render_template("login.html")
+    if 'usuario' in session:
+        flash("✅ Você já está logado!", "info")
+        return redirect("/painelPrincipal")
+    return render_template("login.html")
 
 @usuario_bp.route("/login", methods=["POST"])
 def verificarLogin():
@@ -29,45 +30,23 @@ def verificarLogin():
         session["usuario"] = login
         session["usuario_id"] = user["id"]
         session["estado"] = estado
+        flash(f"✅ Bem-vindo, {login}!", "success")
         return redirect("/painelPrincipal")
     else:
-        return render_template("login.html", erro="Credenciais inválidas")
-  
+        flash("❌ Credenciais inválidas", "danger")
+        return render_template("login.html")
+
 @usuario_bp.route("/painelPrincipal")
 def painelPrincipal():
-  if 'usuario' in session:
-    return render_template("layout.html")
-  else:
-    return redirect("/login")
-  
+    if 'usuario' in session:
+        return render_template("layout.html")
+    else:
+        flash("🔒 Faça login para acessar o painel", "warning")
+        return redirect("/login")
+
 @usuario_bp.route("/logout", methods=["POST"])
 def logout():
-  session.clear()
-  return jsonify({"sucesso": True})
-
-# rotas de consumo da api
-@usuario_bp.route("/api/usuario", methods=["GET"])
-def buscar_usuario():
-  usuario = get_usuario()
-
-  if usuario:
-    return jsonify(usuario)
-  return jsonify({"erro": "Usuário não encontrado"}), 404
-
-@usuario_bp.route("/api/usuario/<int:usuario_id>", methods=["GET"])
-def buscar_usuario_id(usuario_id):
-  usuario = get_usuario_id(usuario_id)
-
-  if usuario:
-    return jsonify(usuario)
-  return jsonify({"erro": "Usuário não encontrado"}), 404
-
-@usuario_bp.route("/api/usuarioLogado", methods=["GET"])
-def usuario_logado():
-  if "usuario_id" not in session:
-    return jsonify({"erro": "Usuário não encontrado"}), 401
-  
-  usuario = get_usuario_id(session["usuario_id"])
-  if usuario:
-    return jsonify({"id": usuario["id"], "nome": usuario["nome"]})
-  return jsonify({"erro": "Usuário não encontrado"}), 404
+    usuario = session.get("usuario")
+    session.clear()
+    flash(f"✅ {usuario} deslogado com sucesso!", "success")
+    return jsonify({"sucesso": True})

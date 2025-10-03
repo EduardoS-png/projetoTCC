@@ -190,6 +190,67 @@ nav {
   transform: translateY(-2px) scale(1.03);
 }
 
+#flash-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 320px;
+  z-index: 9999;
+  font-family: "Roboto", sans-serif;
+  pointer-events: none;
+}
+
+.alert {
+  padding: 14px 18px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  opacity: 0;
+  transform: translateX(120%);
+  transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.3s ease;
+  pointer-events: auto;
+}
+
+.alert.show {
+  opacity: 1; /* visível */
+  transform: translateX(0);
+}
+
+.alert.fade-out {
+  opacity: 0;
+  transform: translateX(120%);
+}
+
+.alert:hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+.alert-success {
+  background: linear-gradient(135deg, #d4edda, #c3e6cb);
+  color: #155724;
+  border-left: 6px solid #28a745;
+}
+
+.alert-danger {
+  background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+  color: #721c24;
+  border-left: 6px solid #dc3545;
+}
+
+.alert-warning {
+  background: linear-gradient(135deg, #fff3cd, #ffeeba);
+  color: #856404;
+  border-left: 6px solid #ffc107;
+}
+
+.alert-info {
+  background: linear-gradient(135deg, #d1ecf1, #bee5eb);
+  color: #0c5460;
+  border-left: 6px solid #17a2b8;
+}
+
 main {
   grid-area: main;
   padding: 1.5rem;
@@ -1000,7 +1061,8 @@ form textarea {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  margin-top: 20px;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .infoCard {
