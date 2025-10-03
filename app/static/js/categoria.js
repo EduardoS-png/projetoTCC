@@ -16,6 +16,13 @@ const btnCancelarModalCategoria = document.getElementById(
   "botaoCancelarCategoria"
 );
 
+const filtroNome = document.getElementById("filtroNomeCategoria");
+
+const tabela = document.getElementById("tabelaCategorias");
+const linhas = tabela
+  .getElementsByTagName("tbody")[0]
+  .getElementsByTagName("tr");
+
 btnFecharModalCategoria.addEventListener("click", () => {
   modalCategoria.close();
   formCadastroCategoria.reset();
@@ -87,3 +94,31 @@ modalAlterarCategoria.addEventListener("click", (evento) => {
   )
     modalAlterarCategoria.close();
 });
+
+function filtrarPorNome() {
+  const nomeValue = filtroNome.value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+
+  for (let linha of linhas) {
+    const nomeProduto = linha.cells[1].textContent
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+
+    linha.dataset.filtronome = nomeProduto.includes(nomeValue) ? "1" : "0";
+  }
+}
+
+function aplicarTodosFiltros() {
+  filtrarPorNome();
+
+  for (let linha of linhas) {
+    const mostra = linha.dataset.filtronome === "1";
+
+    linha.style.display = mostra ? "" : "none";
+  }
+}
+
+filtroNome.addEventListener("input", aplicarTodosFiltros);

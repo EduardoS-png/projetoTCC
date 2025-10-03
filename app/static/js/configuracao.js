@@ -8,13 +8,24 @@ btnAbrirModalConfiguracao.addEventListener("click", () => {
   modalConfiguracao.showModal();
   formCadastroFuncionario.reset();
 });
-const formCadastroFuncionario = document.getElementById("formCadastroFuncionario");
+const formCadastroFuncionario = document.getElementById(
+  "formCadastroFuncionario"
+);
 
-const btnFecharModalFuncionario = document.getElementById("botaoFecharConfiguracao");
+const btnFecharModalFuncionario = document.getElementById(
+  "botaoFecharConfiguracao"
+);
 
 const btnCancelarModalFuncionario = document.getElementById(
   "botaoCancelarFuncionario"
 );
+
+const filtroNome = document.getElementById("filtroNome");
+
+const tabela = document.getElementById("tabelaProdutos");
+const linhas = tabela
+  .getElementsByTagName("tbody")[0]
+  .getElementsByTagName("tr");
 
 btnFecharModalFuncionario.addEventListener("click", () => {
   modalConfiguracao.close();
@@ -37,7 +48,9 @@ modalConfiguracao.addEventListener("click", (evento) => {
 });
 
 //editar funcionario
-const modalEditarFuncionario = document.getElementById("modalEditarFuncionario");
+const modalEditarFuncionario = document.getElementById(
+  "modalEditarFuncionario"
+);
 
 const btnAbrirEditarFuncionario = document.querySelectorAll(
   ".btnAbrirEditarFuncionario"
@@ -91,3 +104,35 @@ modalEditarFuncionario.addEventListener("click", (evento) => {
   )
     modalEditarFuncionario.close();
 });
+
+function filtrarPorNome() {
+  const nomeValue = filtroNome.value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+
+  for (let linha of linhas) {
+    const nomeProduto = linha.cells[1].textContent
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+
+    // Armazena se a linha deve ser mostrada ou não
+    linha.dataset.filtronome = nomeProduto.includes(nomeValue) ? "1" : "0";
+  }
+}
+
+function aplicarTodosFiltros() {
+  filtrarPorNome();
+
+  for (let linha of linhas) {
+    const mostra =
+      linha.dataset.filtronome === "1" &&
+      linha.dataset.filtrocategoria === "1" &&
+      linha.dataset.filtrofornecedor === "1";
+
+    linha.style.display = mostra ? "" : "none";
+  }
+}
+
+filtroNome.addEventListener("input", aplicarTodosFiltros);

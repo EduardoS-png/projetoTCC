@@ -4,55 +4,76 @@
   <div id="comprasCabecalho">
     <h2 class="paginaTitulo">Categorias</h2>
   </div>
-  <button id="btnAbrirModalCategoria" class="botaoPrimario">
-    <img src="{{ url_for('static', filename='assets/icons/novo.svg') }}" alt="novo.svg" />Nova Categoria
-  </button>
+
+  <div id="controlesCompras">
+    <button id="btnAbrirModalCategoria" class="botaoPrimario">
+      <img
+        src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
+        alt="novo.svg"
+      />Nova Categoria
+    </button>
+
+    <div class="filtros">
+      <input
+        type="text"
+        id="filtroNomeCategoria"
+        placeholder="Filtrar por nome..."
+      />
+    </div>
+  </div>
 
   <h3 class="tituloTabela">Categorias Registradas</h3>
-
-  <div id="controlesCategorias">
-    <table id="tabelaCategorias">
-      <thead>
-        <tr class="tabelaCabecalho">
-          <th>Id</th>
-          <th>Nome</th>
-          <th>Descrição</th>
-          <th>Status</th>
-          <th>Ação</th>
-        </tr>
-      </thead>
-      <tbody>
-
-        {% for categoria in categorias %}
-        <tr>
-          <td>{{categoria['id']}}</td>
-          <td>{{categoria['nome']}}</td>
-          <td>{{categoria['descricao']}}</td>
-          <td>
-            <span class="badge-status {{ 'badge-ativo' if categoria.ativo == 1 else 'badge-inativo' }}">
-              {{ 'Ativo' if categoria.ativo == 1 else 'Inativo' }}
-            </span>
-          </td>
-          <td>
-            <button class="botoesDecisao btnAbrirAlterarCategoria" href="" data-id="{{ categoria['id'] }}">
-              <img src="/static/assets/icons/editar.svg" alt="editar.svg" />
-            </button>
-            {% if categoria['ativo'] == 1 %}
-            <a class="botoesDecisao"
-              href="{{url_for('categoria.inativar_categoria',id=categoria['id'])}}">
-              <img src="/static/assets/icons/inativar.svg" alt="inativar.svg" />
-            </a>
-            {% else %}
-            <a class="botoesDecisao"
-              href="{{url_for('categoria.reativar_categoria',id=categoria['id'])}}">
-              <img src="/static/assets/icons/reativar.svg" alt="reativar.svg" />
-            </a>
-            {% endif %}
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  <table id="tabelaCategorias">
+    <thead>
+      <tr class="tabelaCabecalho">
+        <th>Id</th>
+        <th>Nome</th>
+        <th>Descrição</th>
+        <th>Status</th>
+        <th>Ação</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for categoria in categorias %}
+      <tr>
+        <td>{{categoria['id']}}</td>
+        <td>{{categoria['nome']}}</td>
+        <td>{{categoria['descricao']}}</td>
+        <td>
+          <span
+            class="badge-status {{ 'badge-ativo' if categoria.ativo == 1 else 'badge-inativo' }}"
+          >
+            {{ 'Ativo' if categoria.ativo == 1 else 'Inativo' }}
+          </span>
+        </td>
+        <td>
+          <button
+            class="botoesDecisao btnAbrirAlterarCategoria"
+            href=""
+            data-id="{{ categoria['id'] }}"
+          >
+            <img src="/static/assets/icons/editar.svg" alt="editar.svg" />
+          </button>
+          {% if categoria['ativo'] == 1 %}
+          <a
+            class="botoesDecisao"
+            href="{{url_for('categoria.inativar_categoria',id=categoria['id'])}}"
+          >
+            <img src="/static/assets/icons/inativar.svg" alt="inativar.svg" />
+          </a>
+          {% else %}
+          <a
+            class="botoesDecisao"
+            href="{{url_for('categoria.reativar_categoria',id=categoria['id'])}}"
+          >
+            <img src="/static/assets/icons/reativar.svg" alt="reativar.svg" />
+          </a>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </section>
 
 <dialog id="modalCadastroCategoria">
