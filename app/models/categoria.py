@@ -1,4 +1,28 @@
 from app.models import conexaoBD
+import unicodedata
+import mysql.connector
+
+def normalizar_texto(texto):
+    return ''.join(
+        categoria for categoria in unicodedata.normalize('NFD', texto)
+        if unicodedata.category(categoria) != 'Mn'
+    ).lower()
+
+def categoria_existe(nome):
+    conexao = conexaoBD()
+    try:
+        cursor = conexao.cursor()
+        cursor.execute("SELECT nome FROM categoria")
+        categorias = cursor.fetchall()
+
+        nome_normalizado = normalizar_texto(nome)
+        for (nome_existente,) in categorias:
+            if normalizar_texto(nome_existente) == nome_normalizado:
+                return True
+        return False
+    finally:
+        cursor.close()
+        conexao.close()
 
 def get_categorias():
     conexao = conexaoBD()
@@ -12,6 +36,9 @@ def get_categorias():
     return categorias
 
 def insert_categoria(nome, descricao=None):
+    if categoria_existe(nome):
+        raise ValueError(f"A categoria '{nome}' já existe.")
+
     conexao = conexaoBD()
     try:
         cursor = conexao.cursor()
@@ -19,6 +46,11 @@ def insert_categoria(nome, descricao=None):
         cursor.execute(sql, (nome, descricao))
         conexao.commit()
         return cursor.lastrowid
+    except mysql.connector.errors.IntegrityError as e:
+        if e.errno == 1062:
+            raise ValueError(f"A categoria '{nome}' já existe (ou é muito semelhante).")
+        else:
+            raise
     finally:
         cursor.close()
         conexao.close()

@@ -15,7 +15,7 @@ def home():
 def login():
     if 'usuario' in session:
         flash("✅ Você já está logado!", "info")
-        return redirect("/painelPrincipal")
+        return redirect("/inventario/lista")
     return render_template("login.html")
 
 @usuario_bp.route("/login", methods=["POST"])
@@ -32,7 +32,7 @@ def verificarLogin():
         session["usuario_nome"] = user["nome"]
         session["estado"] = estado
         flash(f"✅ Bem-vindo, {user['nome']}!", "success")
-        return redirect("/painelPrincipal")
+        return redirect("/inventario/lista")
     else:
         flash("❌ Credenciais inválidas", "danger")
         return render_template("login.html")

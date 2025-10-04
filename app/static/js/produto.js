@@ -153,3 +153,38 @@ function aplicarTodosFiltros() {
 filtroNome.addEventListener("input", aplicarTodosFiltros);
 filtroCategoria.addEventListener("change", aplicarTodosFiltros);
 filtroFornecedor.addEventListener("change", aplicarTodosFiltros);
+
+document.addEventListener("DOMContentLoaded", () => {
+  const filtroStatus = document.getElementById("filtroStatus");
+  const linhas = document.querySelectorAll("#tabelaProdutos tbody tr");
+
+  aplicarFiltro(filtroStatus.value);
+
+  filtroStatus.addEventListener("change", () => {
+    const valorFiltro = filtroStatus.value;
+    aplicarFiltro(valorFiltro);
+
+    const novaUrl = new URL(window.location);
+    novaUrl.searchParams.set("status", valorFiltro);
+    window.history.replaceState({}, "", novaUrl);
+  });
+
+  function aplicarFiltro(valorFiltro) {
+    linhas.forEach((linha) => {
+      const statusSpan = linha.querySelector(".badge-status");
+      const statusTexto = statusSpan
+        ? statusSpan.textContent.trim().toLowerCase()
+        : "";
+
+      if (
+        valorFiltro === "todos" ||
+        (valorFiltro === "ativo" && statusTexto === "ativo") ||
+        (valorFiltro === "inativo" && statusTexto === "inativo")
+      ) {
+        linha.style.display = "";
+      } else {
+        linha.style.display = "none";
+      }
+    });
+  }
+});

@@ -17,6 +17,8 @@ def criar_categoria():
 
         insert_categoria(nome, descricao)
         flash("✅ Categoria cadastrada com sucesso!", "success")
+    except ValueError as e:
+        flash(f"⚠️ {str(e)}", "warning")
     except Exception as e:
         flash(f"❌ Erro ao cadastrar categoria: {str(e)}", "danger")
 
