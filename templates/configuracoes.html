@@ -1,5 +1,6 @@
-{% extends 'layout.html' %} {% block main %}
+{% extends 'layout.html' %}
 
+{% block main %}
 <section id="modalconfiguracao">
   <div id="configuracaoCabecalho">
     <h2 class="paginaTitulo">Configuração</h2>
@@ -7,10 +8,7 @@
 
   <div id="controlesInventario">
     <button id="btnAbrirModalConfiguracao" class="botaoPrimario">
-      <img
-        src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
-        alt="novo.svg"
-      />Novo Usuário
+      <img src="{{ url_for('static', filename='assets/icons/novo.svg') }}" alt="novo.svg" />Novo Usuário
     </button>
 
     <div class="filtros">
@@ -34,23 +32,16 @@
       <tbody>
         {% for configuracao in configuracoes %}
         <tr>
-          <td>{{configuracao['id']}}</td>
-          <td>{{configuracao['nome']}}</td>
-          <td>{{configuracao['email']}}</td>
-          <td>{{configuracao['senha']}}</td>
-          <td title="{{configuracao['status']}}">{{configuracao['status']}}</td>
+          <td>{{ configuracao['id'] }}</td>
+          <td>{{ configuracao['nome'] }}</td>
+          <td>{{ configuracao['email'] }}</td>
+          <td>{{ configuracao['senha'] }}</td>
+          <td title="{{ configuracao['status'] }}">{{ configuracao['status'] }}</td>
           <td>
-            <button
-              class="botoesDecisao btnAbrirEditarUsuario"
-              href=""
-              data-id="{{ configuracao['id'] }}"
-            >
+            <button class="botoesDecisao btnAbrirEditarUsuario" data-id="{{ configuracao['id'] }}">
               <img src="/static/assets/icons/editar.svg" alt="editar.svg" />
             </button>
-            <a
-              class="botoesDecisao"
-              href="{{url_for('configuracao.deletar_configuracao',id=configuracao['id'])}}"
-            >
+            <a class="botoesDecisao" href="{{ url_for('configuracao.deletar_configuracao', id=configuracao['id']) }}">
               <img src="/static/assets/icons/lixeira.svg" alt="lixeira.svg" />
             </a>
           </td>
@@ -61,57 +52,26 @@
   </div>
 </section>
 
+<!-- Modal Cadastro -->
 <dialog id="modalCadastroConfiguracao">
-  <form
-    id="formCadastroUsuario"
-    method="POST"
-    action="/configuracoes/cadastrar"
-  >
+  <form id="formCadastroUsuario" method="POST" action="/configuracao/cadastrar">
     <div class="modalCabecalho">
       <h2 class="tituloModal">Cadastrar Usuário</h2>
-      <button
-        type="button"
-        aria-label="CancelarFormulario"
-        id="botaoFecharUsuario"
-        class="botaoCancelarModal"
-      >
-        <img
-          src="{{ url_for('static', filename='assets/icons/fechar.svg') }}"
-          alt="fechar.svg"
-        />
+      <button type="button" aria-label="CancelarFormulario" id="botaoFecharUsuario" class="botaoCancelarModal">
+        <img src="{{ url_for('static', filename='assets/icons/fechar.svg') }}" alt="fechar.svg" />
       </button>
     </div>
 
-    <input type="hidden" id="idAlterar" name="id" />
-
     <label for="nome">Nome do Usuário</label>
-    <input
-      type="text"
-      id="nome"
-      name="nome"
-      placeholder="Digite o nome do Usuário..."
-      required
-    />
+    <input type="text" id="nome" name="nome" placeholder="Digite o nome do Usuário..." required />
 
     <label for="email">Email do Usuário</label>
-    <input
-      type="text"
-      id="email"
-      name="email"
-      placeholder="Digite o email do Usuário..."
-      required
-    />
+    <input type="text" id="email" name="email" placeholder="Digite o email do Usuário..." required />
 
     <label for="senha">Senha do Usuário</label>
-    <input
-      type="text"
-      id="senha"
-      name="senha"
-      placeholder="Digite a senha do Usuário..."
-      required
-    />
+    <input type="text" id="senha" name="senha" placeholder="Digite a senha do Usuário..." required />
 
-    <label for="status">Status do funcionario</label>
+    <label for="status">Status do Usuário</label>
     <input type="text" id="status" name="status" required />
 
     <menu>
@@ -121,54 +81,29 @@
   </form>
 </dialog>
 
-<!-- modal de editar configuracao -->
-
+<!-- Modal Editar -->
 <dialog id="modalEditarUsuario">
   <form id="formEditarUsuario" method="POST" action="/configuracao/alterar">
     <div class="modalCabecalho">
       <h2 class="tituloModal">Alterar Usuário</h2>
-      <button
-        type="button"
-        aria-label="fecharFormulario"
-        id="botaoFecharEditarUsuario"
-        class="botaoFecharModal"
-      >
-        <img
-          src="{{ url_for('static', filename='assets/icons/fechar.svg') }}"
-          alt="fechar.svg"
-        />
+      <button type="button" aria-label="fecharFormulario" id="botaoFecharEditarUsuario" class="botaoFecharModal">
+        <img src="{{ url_for('static', filename='assets/icons/fechar.svg') }}" alt="fechar.svg" />
       </button>
     </div>
 
+    <input type="hidden" id="idAlterar" name="id" />
+
     <label for="nomeAlterar">Nome do Usuário</label>
-    <input
-      type="text"
-      id="nomeAlterar"
-      name="nomeAlterar"
-      placeholder="Digite o nome do Usuário..."
-      required
-    />
+    <input type="text" id="nomeAlterar" name="nomeAlterar" required />
 
     <label for="emailAlterar">Email do Usuário</label>
-    <input
-      type="text"
-      id="emailAlterar"
-      name="emailAlterar"
-      placeholder="Digite o email do Usuário..."
-      required
-    />
+    <input type="text" id="emailAlterar" name="emailAlterar" required />
 
     <label for="senhaAlterar">Senha do Usuário</label>
-    <input
-      type="text"
-      id="senhaAlterar"
-      name="senhaAlterar"
-      placeholder="Digite a senha do Usuário..."
-      required
-    />
+    <input type="text" id="senhaAlterar" name="senhaAlterar" required />
 
     <label for="statusAlterar">Status do Usuário</label>
-    <select name="statusAlterar" id="statusAlterar">
+    <select name="statusAlterar" id="statusAlterar" required>
       <option value="">Selecione o status</option>
       <option value="administrador">Administrador</option>
       <option value="funcionario">Funcionário</option>
@@ -180,10 +115,8 @@
     </menu>
   </form>
 </dialog>
+{% endblock %}
 
-{% endblock %} {% block javascript %}
-<script
-  type="module"
-  src="{{ url_for('static', filename='js/configuracao.js') }}"
-></script>
+{% block javascript %}
+<script type="module" src="{{ url_for('static', filename='js/configuracao.js') }}"></script>
 {% endblock %}

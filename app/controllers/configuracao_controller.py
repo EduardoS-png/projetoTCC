@@ -1,43 +1,36 @@
 from flask import Blueprint, request, render_template, redirect, url_for
-from app.models.configuracao import *  
+from app.models.configuracao import *
 
 configuracao_bp = Blueprint("configuracao", __name__)
 
-# Rota para listar as configurações
-@configuracao_bp.route("/configuracao/lista", methods=["GET"])
+@configuracao_bp.route("/configuracao/lista")
 def listar_configuracoes():
     configuracoes = get_configuracao()
     return render_template("configuracoes.html", configuracoes=configuracoes)
 
-
-# Rota para cadastrar uma nova configuração
 @configuracao_bp.route("/configuracao/cadastrar", methods=["POST"])
 def criar_configuracao():
-    nome = request.form['nomeConfiguracao']
-    email = request.form['emailConfiguracao']
-    senha = request.form['senhaConfiguracao']
-    status = request.form['statusConfiguracao']
+    nome = request.form["nome"]
+    email = request.form["email"]
+    senha = request.form["senha"]
+    status = request.form["status"]
 
     insert_configuracao(nome, email, senha, status)
     return redirect(url_for("configuracao.listar_configuracoes"))
 
-
-# Rota para deletar configuração
-@configuracao_bp.route("/configuracao/deletar", methods=["GET"])
+@configuracao_bp.route("/configuracao/deletar")
 def deletar_configuracao():
     id = request.args.get("id")
     delete(id)
     return redirect(url_for("configuracao.listar_configuracoes"))
 
-
-# Rota para alterar dados da configuração
 @configuracao_bp.route("/configuracao/alterar", methods=["POST"])
 def alterar_configuracao():
     id = request.form["id"]
-    nome = request.form["nomeConfiguracao"]
-    email = request.form["emailConfiguracao"]
-    senha = request.form["senhaConfiguracao"]
-    status = request.form["statusConfiguracao"]
+    nome = request.form["nomeAlterar"]
+    email = request.form["emailAlterar"]
+    senha = request.form["senhaAlterar"]
+    status = request.form["statusAlterar"]
 
     alterar(id, nome, email, senha, status)
     return redirect(url_for("configuracao.listar_configuracoes"))
