@@ -72,17 +72,17 @@ btnAbrirModalAlterarFornecedor.forEach((botao) => {
 
     document.getElementById("idAlterar").value = botao.dataset.id;
     document.getElementById("nomeAlterar").value =
-      linha.children[1].textContent.trim();
+      linha.children[0].textContent.trim();
     document.getElementById("nomeFantasiaAlterar").value =
-      linha.children[2].textContent.trim();
+      linha.children[1].textContent.trim();
     document.getElementById("cnpjAlterar").value =
-      linha.children[3].textContent.trim();
+      linha.children[2].textContent.trim();
     document.getElementById("enderecoAlterar").value =
-      linha.children[4].textContent.trim();
+      linha.children[3].textContent.trim();
     document.getElementById("telefone1Alterar").value =
-      linha.children[5].textContent.trim();
+      linha.children[4].textContent.trim();
     document.getElementById("telefone2Alterar").value =
-      linha.children[6].textContent.trim();
+      linha.children[5].textContent.trim();
 
     modalAlterarFornecedor.showModal();
   });

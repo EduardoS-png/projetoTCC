@@ -73,7 +73,7 @@ def reativar(id):
         conexao.close()
 
 
-def alterar(id, novoNome, novoNome_fantasia, novoCnpj, novoEndereco, novoTelefone1, novoTelefone2):
+def alterar(id, nome, nome_fantasia, cnpj, endereco, telefone1, telefone2):
     conexao = conexaoBD()
     try:
         cursor = conexao.cursor()
@@ -84,13 +84,13 @@ def alterar(id, novoNome, novoNome_fantasia, novoCnpj, novoEndereco, novoTelefon
                 cnpj = %s,
                 endereco = %s,
                 telefone1 = %s,
-                telefone2 = %s,
+                telefone2 = %s
             WHERE id = %s
         """
-        cursor.execute(sql, (novoNome, novoNome_fantasia, novoCnpj, novoEndereco, novoTelefone1, novoTelefone2, id))
+        cursor.execute(sql, (nome, nome_fantasia, cnpj, endereco, telefone1, telefone2, id))
         conexao.commit()
-        return cursor.lastrowid
     finally:
         cursor.close()
         conexao.close()
+
 
