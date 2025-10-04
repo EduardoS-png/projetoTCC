@@ -631,7 +631,6 @@ main {
   text-align: left;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .table-container tbody tr {
@@ -653,8 +652,6 @@ main {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 180px;
-  position: relative;
 }
 
 .table-container td[title]:hover::after {
@@ -664,8 +661,8 @@ main {
   left: 50%;
   transform: translateX(-50%);
   white-space: normal;
-  background: #333;
-  color: #fff;
+  background: #db6464;
+  color: #b9b0b0;
   font-size: 12px;
   padding: 6px 10px;
   border-radius: 6px;
@@ -677,169 +674,225 @@ main {
   animation: fadeIn 0.25s forwards;
 }
 
-/* Compras */
-#tabelaCompras th:nth-child(1) {
-  width: 80px;
-}
-#tabelaCompras th:nth-child(2) {
-  width: 220px;
-}
-#tabelaCompras th:nth-child(3) {
-  width: 140px;
-  text-align: right;
-}
-#tabelaCompras th:nth-child(4) {
-  width: 160px;
-  text-align: right;
-}
-#tabelaCompras th:nth-child(5) {
-  width: 160px;
-  text-align: right;
-}
-#tabelaCompras th:nth-child(6) {
-  width: 160px;
-}
-
-/* Produtos */
-#tabelaProdutos th:nth-child(1) {
+#tabelaOperacoes th:nth-child(1),
+#tabelaOperacoes td:nth-child(1) {
   width: 70px;
-}
-#tabelaProdutos th:nth-child(2) {
-  min-width: 220px;
-}
-#tabelaProdutos th:nth-child(3) {
-  width: 160px;
-}
-#tabelaProdutos th:nth-child(4) {
-  width: 160px;
-}
-#tabelaProdutos th:nth-child(5) {
-  width: 160px;
-}
-#tabelaProdutos th:nth-child(6) {
-  width: 130px;
-}
-#tabelaProdutos th:nth-child(7) {
-  width: 110px;
-}
-#tabelaProdutos th:nth-child(8) {
-  width: 110px;
-}
-#tabelaProdutos th:nth-child(9) {
-  width: 160px;
-}
-#tabelaProdutos th:nth-child(10) {
-  width: 110px;
   text-align: center;
 }
-#tabelaProdutos th:nth-child(11) {
+
+#tabelaOperacoes th:nth-child(2),
+#tabelaOperacoes td:nth-child(2) {
+  width: 160px;
+}
+
+#tabelaOperacoes th:nth-child(3),
+#tabelaOperacoes td:nth-child(3) {
+  width: 160px;
+  text-align: left;
+}
+
+#tabelaOperacoes th:nth-child(4),
+#tabelaOperacoes td:nth-child(4) {
+  width: 140px;
+  text-align: left;
+}
+
+#tabelaOperacoes th:nth-child(5),
+#tabelaOperacoes td:nth-child(5) {
   width: 140px;
   text-align: center;
 }
 
-/* Fornecedores */
-#tabelaFornecedores th:nth-child(1) {
-  min-width: 240px;
+#tabelaOperacoes th:nth-child(6),
+#tabelaOperacoes td:nth-child(6) {
+  width: 120px;
+  text-align: center;
 }
-#tabelaFornecedores th:nth-child(2) {
-  min-width: 200px;
+
+#tabelaCompras th:nth-child(1),
+#tabelaCompras td:nth-child(1) {
+  width: 70px;
+  text-align: center;
 }
-#tabelaFornecedores th:nth-child(3) {
-  width: 180px;
+#tabelaCompras th:nth-child(2),
+#tabelaCompras td:nth-child(2) {
+  width: 200px;
 }
-#tabelaFornecedores th:nth-child(4) {
-  min-width: 280px;
+#tabelaCompras th:nth-child(3),
+#tabelaCompras td:nth-child(3) {
+  width: 130px;
+  text-align: right;
+}
+#tabelaCompras th:nth-child(4),
+#tabelaCompras td:nth-child(4) {
+  width: 140px;
+  text-align: right;
+}
+#tabelaCompras th:nth-child(5),
+#tabelaCompras td:nth-child(5) {
+  width: 140px;
+  text-align: right;
+}
+#tabelaCompras th:nth-child(6),
+#tabelaCompras td:nth-child(6) {
+  width: 130px;
+  text-align: center;
+}
+
+/* PRODUTOS */
+#tabelaProdutos th:nth-child(1),
+#tabelaProdutos td:nth-child(1) {
+  width: 70px;
+  text-align: center;
+}
+#tabelaProdutos th:nth-child(2),
+#tabelaProdutos td:nth-child(2) {
+  width: 140px;
+}
+#tabelaProdutos th:nth-child(3),
+#tabelaProdutos td:nth-child(3),
+#tabelaProdutos th:nth-child(4),
+#tabelaProdutos td:nth-child(4),
+#tabelaProdutos th:nth-child(5),
+#tabelaProdutos td:nth-child(5) {
+  width: 140px;
+  text-align: center;
+}
+#tabelaProdutos th:nth-child(6),
+#tabelaProdutos td:nth-child(6) {
+  width: 120px;
+}
+#tabelaProdutos th:nth-child(7),
+#tabelaProdutos td:nth-child(7) {
+  width: 100px;
+  text-align: center;
+}
+#tabelaProdutos th:nth-child(8),
+#tabelaProdutos td:nth-child(8) {
+  width: 100px;
+  text-align: center;
+}
+#tabelaProdutos th:nth-child(9),
+#tabelaProdutos td:nth-child(9) {
+  width: 140px;
+  text-align: center;
+}
+#tabelaProdutos th:nth-child(10),
+#tabelaProdutos td:nth-child(10) {
+  width: 100px;
+  text-align: center;
+}
+#tabelaProdutos th:nth-child(11),
+#tabelaProdutos td:nth-child(11) {
+  width: 120px;
+  text-align: center;
+}
+
+/* FORNECEDORES */
+#tabelaFornecedores th:nth-child(1),
+#tabelaFornecedores td:nth-child(1) {
+  width: 140px;
+}
+#tabelaFornecedores th:nth-child(2),
+#tabelaFornecedores td:nth-child(2) {
+  width: 140px;
+}
+#tabelaFornecedores th:nth-child(3),
+#tabelaFornecedores td:nth-child(3) {
+  width: 160px;
+}
+#tabelaFornecedores th:nth-child(4),
+#tabelaFornecedores td:nth-child(4) {
+  width: 200px;
 }
 #tabelaFornecedores th:nth-child(5),
-#tabelaFornecedores th:nth-child(6) {
-  width: 150px;
-}
-#tabelaFornecedores th:nth-child(7) {
-  width: 110px;
-  text-align: center;
-}
-#tabelaFornecedores th:nth-child(8) {
+#tabelaFornecedores td:nth-child(5),
+#tabelaFornecedores th:nth-child(6),
+#tabelaFornecedores td:nth-child(6) {
   width: 140px;
   text-align: center;
 }
-
-/* Operações */
-#tabelaOperacoes th:nth-child(1) {
-  width: 70px;
-}
-#tabelaOperacoes th:nth-child(2) {
-  min-width: 200px;
-}
-#tabelaOperacoes th:nth-child(3) {
-  min-width: 240px;
-}
-#tabelaOperacoes th:nth-child(4) {
-  width: 160px;
-}
-#tabelaOperacoes th:nth-child(5) {
-  width: 110px;
+#tabelaFornecedores th:nth-child(7),
+#tabelaFornecedores td:nth-child(7) {
+  width: 100px;
   text-align: center;
 }
-#tabelaOperacoes th:nth-child(6) {
-  width: 140px;
+#tabelaFornecedores th:nth-child(8),
+#tabelaFornecedores td:nth-child(8) {
+  width: 120px;
   text-align: center;
 }
 
-/* Categorias */
-#tabelaCategorias th:nth-child(1) {
+/* CATEGORIAS */
+#tabelaCategorias th:nth-child(1),
+#tabelaCategorias td:nth-child(1) {
   width: 70px;
-}
-#tabelaCategorias th:nth-child(2) {
-  min-width: 220px;
-}
-#tabelaCategorias th:nth-child(3) {
-  min-width: 280px;
-}
-#tabelaCategorias th:nth-child(4) {
-  width: 110px;
   text-align: center;
 }
-#tabelaCategorias th:nth-child(5) {
-  width: 140px;
+#tabelaCategorias th:nth-child(2),
+#tabelaCategorias td:nth-child(2) {
+  width: 100px;
+}
+#tabelaCategorias th:nth-child(3),
+#tabelaCategorias td:nth-child(3) {
+  width: 400px;
+}
+#tabelaCategorias th:nth-child(4),
+#tabelaCategorias td:nth-child(4) {
+  width: 100px;
+  text-align: center;
+}
+#tabelaCategorias th:nth-child(5),
+#tabelaCategorias td:nth-child(5) {
+  width: 100px;
   text-align: center;
 }
 
-/* Inventário */
-#tabelaInventario th:nth-child(1) {
+/* INVENTÁRIO */
+#tabelaInventario th:nth-child(1),
+#tabelaInventario td:nth-child(1) {
   width: 70px;
+  text-align: center;
 }
-#tabelaInventario th:nth-child(2) {
-  min-width: 220px;
+#tabelaInventario th:nth-child(2),
+#tabelaInventario td:nth-child(2) {
+  min-width: 100px;
 }
-#tabelaInventario th:nth-child(3) {
-  width: 160px;
-}
-#tabelaInventario th:nth-child(4) {
-  width: 160px;
-}
-#tabelaInventario th:nth-child(5) {
-  width: 160px;
-}
-#tabelaInventario th:nth-child(6) {
-  width: 160px;
-  text-align: right;
-}
-#tabelaInventario th:nth-child(7) {
+#tabelaInventario th:nth-child(3),
+#tabelaInventario td:nth-child(3),
+#tabelaInventario th:nth-child(4),
+#tabelaInventario td:nth-child(4),
+#tabelaInventario th:nth-child(5),
+#tabelaInventario td:nth-child(5),
+#tabelaInventario th:nth-child(6),
+#tabelaInventario td:nth-child(6) {
   width: 200px;
-  text-align: right;
+  text-align: left;
 }
-#tabelaInventario th:nth-child(8) {
-  width: 110px;
+#tabelaInventario th:nth-child(7),
+#tabelaInventario td:nth-child(7) {
+  width: 160px;
+  text-align: left;
+}
+#tabelaInventario th:nth-child(8),
+#tabelaInventario td:nth-child(8) {
+  width: 100px;
   text-align: center;
 }
-#tabelaInventario th:nth-child(9) {
-  width: 140px;
+#tabelaInventario th:nth-child(9),
+#tabelaInventario td:nth-child(9) {
+  width: 160px;
   text-align: center;
 }
 
-.tabelaCabecalho {
+.tabelaCabecalho th {
   background: #0846ff;
+  padding: 0.8rem 1rem;
   color: #ffffff;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-weight: 600;
   font-size: 0.9rem;
   text-transform: uppercase;
@@ -852,9 +905,9 @@ main {
   cursor: pointer;
   width: 2rem;
   height: 2rem;
+  margin: 0 4px;
+  padding: 6px;
   border-radius: 50%;
-  display: grid;
-  place-items: center;
   transition: background 0.3s ease, transform 0.2s ease;
 }
 

@@ -1,4 +1,5 @@
 from app.models import conexaoBD
+from datetime import date
 
 def get_inventario():
     conexao = conexaoBD()

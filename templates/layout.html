@@ -45,7 +45,7 @@
     <!-- Barra de navegação -->
     <nav>
       <div class="navSessao">
-        <h2 class="navTitulo">Principal</h2>
+        <h2 class="navTitulo">Estruturas</h2>
         <a href="/dashboard/lista" class="navLink ativo">
           <img
             src="{{ url_for('static', filename='assets/icons/dashboard.svg') }}"
@@ -53,10 +53,6 @@
           />
           <span>Dashboard</span>
         </a>
-      </div>
-
-      <div class="navSessao">
-        <h2 class="navTitulo">Estruturas</h2>
         {% if session['estado'] == "Administrador" %}
         <a href="/inventario/lista" class="navLink">
           <img

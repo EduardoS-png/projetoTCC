@@ -49,6 +49,7 @@
           <td>{{ produto['fornecedor'] }}</td>
           <td>{{ produto['codigo_original'] }}</td>
           <td>{{ produto['quantidade_total'] }}</td>
+          <td>R$ 120000</td>
           <td>
             <span
               class="badge-status {{ 'badge-ativo' if produto.ativo == 1 else 'badge-inativo' }}"
@@ -72,7 +73,7 @@
 </section>
 
 <dialog id="modalCadastroCompra">
-  <form id="formCadastroCompra" method="POST" action="/compra/cadastrar">
+  <form id="formCadastroCompra" method="POST" action="/inventario/cadastrar">
     <div class="modalCabecalho">
       <h2 class="tituloModal">Nova Compra</h2>
       <button
@@ -90,7 +91,7 @@
 
     <label for="produto_id">Produto</label>
     <select id="produto_id" name="produto_id" required>
-      <option value="">Selecione a categoria</option>
+      <option value="">Selecione o produto</option>
       {% for produto in produtos %}
       <option value="{{ produto['id'] }}">{{ produto['nome'] }}</option>
       {% endfor %}
@@ -111,35 +112,42 @@
       type="number"
       id="quantidade"
       name="quantidade"
-      placeholder="Digite a quantidade comprada..."
-      min="1"
-      required
-    />
-
-    <label for="preco_compra">Preço total da Compra</label>
-    <input
-      type="number"
+      placeholder="Digite a quantidade..."
+      min="0.01"
       step="0.01"
-      id="preco_compra"
-      name="preco_compra"
-      placeholder="Digite o preço da compra..."
-      readonly
       required
     />
 
     <label for="preco_unitario">Preço unitário</label>
     <input
       type="number"
-      name="preco_unitario"
       id="preco_unitario"
-      placeholder="Digite o preço unitário..."
+      name="preco_unitario"
+      placeholder="R$ 0,00"
       step="0.01"
-      readonly
+      min="0"
       required
     />
 
-    <label for="data_compra">Data da Compra</label>
-    <input type="date" id="data_compra" name="data_compra" />
+    <label for="preco_compra">Preço total da compra</label>
+    <input
+      type="number"
+      id="preco_compra"
+      name="preco_compra"
+      placeholder="R$ 0,00"
+      step="0.01"
+      min="0"
+      required
+    />
+
+    <label for="data_compra">Data da compra</label>
+    <input
+      type="date"
+      id="data_compra"
+      name="data_compra"
+      value="{{ date.today().isoformat() }}"
+      required
+    />
 
     <menu>
       <button type="submit" class="botaoPrimario">Salvar</button>

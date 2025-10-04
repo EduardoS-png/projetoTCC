@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template
-from app.models.compra import get_compras_por_produto
+from app.models.compra import *
 from app.models.produto import get_produtos_id
 
 compra_bp = Blueprint("compra", __name__)
