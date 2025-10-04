@@ -38,16 +38,12 @@ modalProduto.addEventListener("click", (evento) => {
 });
 
 // MODAL ALTERAR
+// MODAL ALTERAR
 const modalAlterarProduto = document.getElementById("modalAlterarProduto");
 const formAlterarProduto = document.getElementById("formAlterarProduto");
-const btnFecharModalAlterarProduto =
-  document.getElementById("botaoFecharAlterar");
-const btnCancelarModalAlterarProduto = document.getElementById(
-  "botaoCancelarAlterar"
-);
-const btnAbrirModalAlterarProduto = document.querySelectorAll(
-  ".btnAbrirModalAlterarProduto"
-);
+const btnFecharModalAlterarProduto = document.getElementById("botaoFecharAlterar");
+const btnCancelarModalAlterarProduto = document.getElementById("botaoCancelarAlterar");
+const btnAbrirModalAlterarProduto = document.querySelectorAll(".btnAbrirModalAlterarProduto");
 
 btnAbrirModalAlterarProduto.forEach((botao) => {
   botao.addEventListener("click", () => {
@@ -56,24 +52,14 @@ btnAbrirModalAlterarProduto.forEach((botao) => {
     formAlterarProduto.reset();
 
     document.getElementById("idAlterar").value = botao.dataset.id;
-    document.getElementById("nomeAlterar").value =
-      linha.children[1].textContent.trim();
-    document.getElementById("categoriaAlterar").value =
-      linha.dataset.categoriaId;
-    document.getElementById("fornecedorAlterar").value =
-      linha.dataset.fornecedorId;
-    document.getElementById("codigoAlterar").value =
-      linha.children[4].textContent.trim();
-    document.getElementById("precoAlterar").value =
-      parseFloat(linha.children[5].textContent.replace("R$", "").trim()) || 0;
-    document.getElementById("marcaAlterar").value =
-      linha.children[6].textContent.trim();
-    document.getElementById("tamanhoAlterar").value =
-      linha.children[7].textContent.trim();
-    document.getElementById("corAlterar").value =
-      linha.children[8].textContent.trim();
-    document.getElementById("dataAlterar").value =
-      linha.children[9].textContent.trim();
+    document.getElementById("nomeAlterar").value = linha.children[1].textContent.trim();
+    document.getElementById("categoriaAlterar").value = linha.dataset.categoriaId;
+    document.getElementById("fornecedorAlterar").value = linha.dataset.fornecedorId;
+    document.getElementById("codigoAlterar").value = linha.children[4].textContent.trim();
+    document.getElementById("marcaAlterar").value = linha.children[5].textContent.trim();
+    document.getElementById("tamanhoAlterar").value = linha.children[6].textContent.trim();
+    document.getElementById("corAlterar").value = linha.children[7].textContent.trim();
+    document.getElementById("dataAlterar").value = linha.children[8].textContent.trim();
 
     modalAlterarProduto.showModal();
   });
@@ -84,9 +70,7 @@ btnFecharModalAlterarProduto.addEventListener("click", () => {
   formAlterarProduto.reset();
 });
 
-btnCancelarModalAlterarProduto.addEventListener("click", () =>
-  modalAlterarProduto.close()
-);
+btnCancelarModalAlterarProduto.addEventListener("click", () => modalAlterarProduto.close());
 
 modalAlterarProduto.addEventListener("click", (evento) => {
   const reacao = modalAlterarProduto.getBoundingClientRect();
@@ -95,9 +79,9 @@ modalAlterarProduto.addEventListener("click", (evento) => {
     evento.clientX > reacao.right ||
     evento.clientY < reacao.top ||
     evento.clientY > reacao.bottom
-  )
-    modalAlterarProduto.close();
+  ) modalAlterarProduto.close();
 });
+
 
 function filtrarPorNome() {
   const nomeValue = filtroNome.value

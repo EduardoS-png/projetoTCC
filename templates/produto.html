@@ -199,15 +199,8 @@
   <form id="formAlterarProduto" method="POST" action="/produto/alterar">
     <div class="modalCabecalho">
       <h2 class="tituloModal">Alterar Produto</h2>
-      <button
-        type="button"
-        aria-label="Fechar formulário"
-        id="botaoFecharAlterar"
-      >
-        <img
-          src="{{ url_for('static', filename='assets/icons/fechar.svg')}}"
-          alt="fechar"
-        />
+      <button type="button" aria-label="Fechar formulário" id="botaoFecharAlterar">
+        <img src="{{ url_for('static', filename='assets/icons/fechar.svg')}}" alt="fechar" />
       </button>
     </div>
 
@@ -253,6 +246,7 @@
     </menu>
   </form>
 </dialog>
+
 
 {% endblock %} {% block javascript %}
 <script

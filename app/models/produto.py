@@ -91,7 +91,7 @@ def alterar(id, novoNome, novoCodigoOriginal, novaMarca, novoTamanho, novaCor, n
             SET nome = %s, codigo_original = %s, marca = %s, tamanho = %s, cor = %s, categoria_id = %s, fornecedor_id = %s
             WHERE id = %s
         """
-        cursor.execute(sql, (novoNome, novoCodigoOriginal, novaMarca, novoTamanho, novaCor, novoFornecedor, novaCategoria, id))
+        cursor.execute(sql, (novoNome, novoCodigoOriginal, novaMarca, novoTamanho, novaCor, novaCategoria ,novoFornecedor, id))
 
         conexao.commit()
         return cursor.lastrowid
