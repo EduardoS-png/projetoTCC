@@ -1,5 +1,4 @@
 from app.models import conexaoBD
-from flask import flash
 from datetime import date
 
 def get_compras_por_produto(produto_id):
@@ -30,31 +29,47 @@ def get_compras_por_produto(produto_id):
 
 
 # Inserir nova compra
-def inserir_compra(produto_id, nome_produto, fornecedor_id, nome_fornecedor, quantidade, preco_unitario, preco_compra):
+def inserir_compra(produto_id, nome_produto, fornecedor_id, nome_fornecedor, quantidade, preco_unitario, preco_compra, data_compra=None):
     conexao = conexaoBD()
     try:
-        cursor = conexao.cursor()
+        cursor = conexao.cursor(dictionary=True)
 
+        data_compra = data_compra or date.today().isoformat()
+
+        # Verifica se o produto existe
         cursor.execute("SELECT id, quantidade_total FROM produto WHERE id = %s", (produto_id,))
         produto = cursor.fetchone()
         if not produto:
-            flash("Produto não encontrado.", "error")
-            return False
-            
+            raise ValueError("Produto não encontrado.")
+
+        # Inserir compra
         sql = """
-            INSERT INTO compra (produto_id, nome_produto, fornecedor_id, nome_fornecedor, quantidade, preco_unitario, preco_compra, data_compra)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, NOW())
+            INSERT INTO compra 
+            (produto_id, nome_produto, fornecedor_id, nome_fornecedor, quantidade, preco_unitario, preco_compra, data_compra)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
         """
-        cursor.execute(sql, (produto_id, nome_produto, fornecedor_id, nome_fornecedor, quantidade, preco_unitario, preco_compra, date.today()))
+        cursor.execute(sql, (
+            produto_id,
+            nome_produto,
+            fornecedor_id,
+            nome_fornecedor,
+            quantidade,
+            preco_unitario,
+            preco_compra,
+            data_compra
+        ))
 
-        nova_quantidade = float(produto["quantidade_total"]) + quantidade
+        # Atualiza estoque
+        quantidade_atual = produto["quantidade_total"] or 0
+        nova_quantidade = float(quantidade_atual) + quantidade
         cursor.execute("UPDATE produto SET quantidade_total = %s WHERE id = %s", (nova_quantidade, produto_id))
-        conexao.commit()
 
+        conexao.commit()
         return {"sucesso": True, "mensagem": "Compra registrada e estoque atualizado com sucesso!"}
+
     except Exception as err:
         conexao.rollback()
-        return {"sucesso": False, "mensagem": f"Erro ao registrar compra: {str(err)}"}
+        raise err
     finally:
         cursor.close()
         conexao.close()

@@ -4,7 +4,7 @@ def get_fornecedores():
   conexao = conexaoBD()
   try:
     cursor = conexao.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM fornecedor")
+    cursor.execute("SELECT id, nome, nome_fantasia, cnpj, endereco, telefone1, telefone2, ativo FROM fornecedor ORDER BY nome_fantasia")
     fornecedores = cursor.fetchall()
   finally:
     cursor.close()

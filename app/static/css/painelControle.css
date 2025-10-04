@@ -716,26 +716,26 @@ main {
 }
 #tabelaCompras th:nth-child(2),
 #tabelaCompras td:nth-child(2) {
-  width: 200px;
+  width: 160px;
 }
 #tabelaCompras th:nth-child(3),
 #tabelaCompras td:nth-child(3) {
-  width: 130px;
-  text-align: right;
+  width: 160px;
+  text-align: left;
 }
 #tabelaCompras th:nth-child(4),
 #tabelaCompras td:nth-child(4) {
   width: 140px;
-  text-align: right;
+  text-align: left;
 }
 #tabelaCompras th:nth-child(5),
 #tabelaCompras td:nth-child(5) {
   width: 140px;
-  text-align: right;
+  text-align: left;
 }
 #tabelaCompras th:nth-child(6),
 #tabelaCompras td:nth-child(6) {
-  width: 130px;
+  width: 140px;
   text-align: center;
 }
 
@@ -1327,6 +1327,7 @@ form textarea {
   align-items: center;
   gap: 8px;
   padding: 10px 20px;
+  margin-top: 1.5rem;
   background-color: #ffffff;
   color: var(--cor-texto);
   border: 2px solid var(--cor-terciaria);
