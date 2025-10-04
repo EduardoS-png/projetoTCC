@@ -49,8 +49,8 @@
           <th>ID Compra</th>
           <th>Fornecedor</th>
           <th>Quantidade comprada</th>
-          <th>Total de Compra</th>
           <th>Preço Unitário</th>
+          <th>Total de Compra</th>
           <th>Data da Compra</th>
         </tr>
       </thead>
@@ -59,12 +59,17 @@
         <tr>
           <td>{{ compra.id }}</td>
           <td>{{ compra.fornecedor }}</td>
-          <td>{{ compra.quantidade }}</td>
-          <td>{{ compra.data_compra.strftime("%d/%m/%Y") }}</td>
+          <td>{{ "%.2f"|format(compra.quantidade) }}</td>
+          <td>R$ {{ "%.2f"|format(compra.preco_unitario) }}</td>
+          <td>R$ {{ "%.2f"|format(compra.preco_compra) }}</td>
+          <td>
+            {% if compra.data_compra is string %} {{ compra.data_compra }} {%
+            else %} {{ compra.data_compra.strftime("%d/%m/%Y") }} {% endif %}
+          </td>
         </tr>
         {% else %}
         <tr>
-          <td colspan="5">Nenhuma compra registrada para este produto.</td>
+          <td colspan="6">Nenhuma compra registrada para este produto.</td>
         </tr>
         {% endfor %}
       </tbody>

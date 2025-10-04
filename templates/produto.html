@@ -26,7 +26,7 @@
       <select id="filtroFornecedor">
         <option value="">Todos os fornecedores</option>
         {% for fornecedor in fornecedores %}
-        <option value="{{ fornecedor['id'] }}">{{ fornecedor['nome'] }}</option>
+        <option value="{{ fornecedor['id'] }}">{{ fornecedor['nome_fantasia'] }}</option>
         {% endfor %}
       </select>
 
@@ -113,7 +113,7 @@
 <dialog id="modalCadastroProduto">
   <form id="formCadastroProduto" method="POST" action="/produto/cadastrar">
     <div class="modalCabecalho">
-      <h2 class="tituloModal">Cadastrar Produto</h2>
+      <h2 class="tituloModal">Novo Produto</h2>
       <button
         type="button"
         aria-label="Fechar formulário"
@@ -147,7 +147,7 @@
     <select id="fornecedorCadastro" name="fornecedor_id" required>
       <option value="">Selecione o fornecedor</option>
       {% for fornecedor in fornecedores %}
-      <option value="{{fornecedor['id']}}">{{fornecedor['nome']}}</option>
+      <option value="{{fornecedor['id']}}">{{fornecedor['nome_fantasia']}}</option>
       {% endfor %}
     </select>
 
