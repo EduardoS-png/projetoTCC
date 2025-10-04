@@ -1,135 +1,65 @@
-const modalConfiguracao = document.getElementById("modalCadastroConfiguracao");
+const modalCadastro = document.getElementById("modalCadastroConfiguracao");
+const btnAbrirCadastro = document.getElementById("btnAbrirModalConfiguracao");
+const btnFecharCadastro = document.getElementById("botaoFecharUsuario");
+const btnCancelarCadastro = document.getElementById("botaoCancelarUsuario");
+const formCadastro = document.getElementById("formCadastroUsuario");
 
-const btnAbrirModalConfiguracao = document.getElementById(
-  "btnAbrirModalConfiguracao"
-);
-
-const btnFecharUsuario = document.getElementById("botaoFecharUsuario");
-
-btnAbrirModalConfiguracao.addEventListener("click", () => {
-  modalConfiguracao.showModal();
-  formCadastroUsuario.reset();
+btnAbrirCadastro.addEventListener("click", () => {
+  modalCadastro.showModal();
+  formCadastro.reset();
 });
 
-const formCadastroUsuario = document.getElementById(
-  "formCadastroUsuario"
-);
-
-const btnFecharModalUsuario = document.getElementById(
-  "botaoFecharUsuario"
-);
-
-const btnCancelarModalUsuario = document.getElementById(
-  "botaoCancelarUsuario"
-);
-
-btnFecharModalUsuario.addEventListener("click", () => {
-  modalConfiguracao.close();
-  formCadastroUsuario.reset();
+btnFecharCadastro.addEventListener("click", () => {
+  modalCadastro.close();
+  formCadastro.reset();
 });
 
-btnCancelarModalUsuario.addEventListener("click", () =>
-  modalEditarUsuario.close()
-);
-
-modalConfiguracao.addEventListener("click", (evento) => {
-  const reacao = modalConfiguracao.getBoundingClientRect();
-  if (
-    evento.clientX < reacao.left ||
-    evento.clientX > reacao.right ||
-    evento.clientY < reacao.top ||
-    evento.clientY > reacao.bottom
-  )
-    modalConfiguracao.close();
+btnCancelarCadastro.addEventListener("click", () => {
+  modalCadastro.close();
+  formCadastro.reset();
 });
 
-//editar funcionario
-const modalEditarUsuario = document.getElementById(
-  "modalEditarUsuario"
-);
+// Modal Editar
+const modalEditar = document.getElementById("modalEditarUsuario");
+const btnFecharEditar = document.getElementById("botaoFecharEditarUsuario");
+const btnCancelarEditar = document.getElementById("botaoCancelarEditarUsuario");
+const formEditar = document.getElementById("formEditarUsuario");
 
-const btnAbrirEditarUsuario = document.querySelectorAll(
-  ".btnAbrirEditarUsuario"
-);
+const btnAbrirEditar = document.querySelectorAll(".btnAbrirEditarUsuario");
 
-const formAlterarUsuario = document.getElementById("formEditarUsuario");
+btnAbrirEditar.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const linha = btn.closest("tr");
+    formEditar.reset();
 
-const btnFecharEditarUsuario = document.getElementById(
-  "botaoFecharEditarUsuario"
-);
+    document.getElementById("idAlterar").value = btn.dataset.id;
+    document.getElementById("nomeAlterar").value = linha.children[1].textContent.trim();
+    document.getElementById("emailAlterar").value = linha.children[2].textContent.trim();
+    document.getElementById("senhaAlterar").value = linha.children[3].textContent.trim();
+    document.getElementById("statusAlterar").value = linha.children[4].textContent.trim();
 
-const btnCancelarEditarUsuario = document.getElementById(
-  "botaoCancelarEditarUsuario"
-);
-
-btnAbrirEditarUsuario.forEach((botao) => {
-  botao.addEventListener("click", () => {
-    const linha = botao.closest("tr");
-
-    formAlterarUsuario.reset();
-
-    document.getElementById("idAlterar").value = botao.dataset.id;
-    document.getElementById("nomeAlterar").value =
-      linha.children[1].textContent.trim();
-    document.getElementById("emailAlterar").value =
-      linha.children[2].textContent.trim();
-    document.getElementById("senhaAlterar").value =
-      linha.children[3].textContent.trim();
-    document.getElementById("statusAlterar").value =
-      linha.children[4].textContent.trim();
-
-    modalEditarUsuario.showModal();
+    modalEditar.showModal();
   });
 });
 
-btnFecharEditarUsuario.addEventListener("click", () => {
-  modalEditarUsuario.close();
-  formAlterarUsuario.reset();
+btnFecharEditar.addEventListener("click", () => {
+  modalEditar.close();
+  formEditar.reset();
 });
 
-btnCancelarEditarUsuario.addEventListener("click", () =>
-  modalEditarUsuario.close()
-);
-
-modalEditarUsuario.addEventListener("click", (evento) => {
-  const reacao = modalEditarUsuario.getBoundingClientRect();
-  if (
-    evento.clientX < reacao.left ||
-    evento.clientX > reacao.right ||
-    evento.clientY < reacao.top ||
-    evento.clientY > reacao.bottom
-  )
-    modalEditarUsuario.close();
+btnCancelarEditar.addEventListener("click", () => {
+  modalEditar.close();
+  formEditar.reset();
 });
 
-function filtrarPorNome() {
-  const nomeValue = filtroNome.value
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
+// Filtro
+const filtroNome = document.getElementById("filtroNome");
+const linhas = document.querySelectorAll("#tabelaOperacoes tbody tr");
 
-  for (let linha of linhas) {
-    const nomeProduto = linha.cells[1].textContent
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "");
-
-    // Armazena se a linha deve ser mostrada ou não
-    linha.dataset.filtronome = nomeProduto.includes(nomeValue) ? "1" : "0";
-  }
-}
-
-function aplicarTodosFiltros() {
-  filtrarPorNome();
-
-  for (let linha of linhas) {
-    const mostra =
-      linha.dataset.filtronome === "1" &&
-      linha.dataset.filtrocategoria === "1" &&
-      linha.dataset.filtrofornecedor === "1";
-
-    linha.style.display = mostra ? "" : "none";
-  }
-}
-
-filtroNome.addEventListener("input", aplicarTodosFiltros);
+filtroNome.addEventListener("input", () => {
+  const valor = filtroNome.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  linhas.forEach((linha) => {
+    const nome = linha.cells[1].textContent.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    linha.style.display = nome.includes(valor) ? "" : "none";
+  });
+});

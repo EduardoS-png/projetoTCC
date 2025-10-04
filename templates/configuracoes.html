@@ -61,12 +61,9 @@
   </div>
 </section>
 
+<!-- Modal Cadastro -->
 <dialog id="modalCadastroConfiguracao">
-  <form
-    id="formCadastroUsuario"
-    method="POST"
-    action="/configuracoes/cadastrar"
-  >
+  <form id="formCadastroUsuario" method="POST" action="/configuracao/cadastrar">
     <div class="modalCabecalho">
       <h2 class="tituloModal">Novo Usuário</h2>
       <button
@@ -81,8 +78,6 @@
         />
       </button>
     </div>
-
-    <input type="hidden" id="idAlterar" name="id" />
 
     <label for="nome">Nome do Usuário</label>
     <input
@@ -111,7 +106,7 @@
       required
     />
 
-    <label for="status">Status do funcionario</label>
+    <label for="status">Status do Usuário</label>
     <input type="text" id="status" name="status" required />
 
     <menu>
@@ -121,8 +116,7 @@
   </form>
 </dialog>
 
-<!-- modal de editar configuracao -->
-
+<!-- Modal Editar -->
 <dialog id="modalEditarUsuario">
   <form id="formEditarUsuario" method="POST" action="/configuracao/alterar">
     <div class="modalCabecalho">
@@ -140,35 +134,19 @@
       </button>
     </div>
 
+    <input type="hidden" id="idAlterar" name="id" />
+
     <label for="nomeAlterar">Nome do Usuário</label>
-    <input
-      type="text"
-      id="nomeAlterar"
-      name="nomeAlterar"
-      placeholder="Digite o nome do Usuário..."
-      required
-    />
+    <input type="text" id="nomeAlterar" name="nomeAlterar" required />
 
     <label for="emailAlterar">Email do Usuário</label>
-    <input
-      type="text"
-      id="emailAlterar"
-      name="emailAlterar"
-      placeholder="Digite o email do Usuário..."
-      required
-    />
+    <input type="text" id="emailAlterar" name="emailAlterar" required />
 
     <label for="senhaAlterar">Senha do Usuário</label>
-    <input
-      type="text"
-      id="senhaAlterar"
-      name="senhaAlterar"
-      placeholder="Digite a senha do Usuário..."
-      required
-    />
+    <input type="text" id="senhaAlterar" name="senhaAlterar" required />
 
     <label for="statusAlterar">Status do Usuário</label>
-    <select name="statusAlterar" id="statusAlterar">
+    <select name="statusAlterar" id="statusAlterar" required>
       <option value="">Selecione o status</option>
       <option value="administrador">Administrador</option>
       <option value="funcionario">Funcionário</option>
