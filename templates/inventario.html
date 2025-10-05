@@ -49,7 +49,12 @@
           <td>{{ produto['fornecedor'] }}</td>
           <td>{{ produto['codigo_original'] }}</td>
           <td>{{ produto['quantidade_total'] }}</td>
-          <td>R$ 120000</td>
+          <td>
+            {% for compra in compras %} {% if compra['produto_id'] ==
+            produto['id'] %} {{ compra['preco_compra'] }} {% endif %} {% endfor
+            %}
+          </td>
+
           <td>
             <span
               class="badge-status {{ 'badge-ativo' if produto.ativo == 1 else 'badge-inativo' }}"

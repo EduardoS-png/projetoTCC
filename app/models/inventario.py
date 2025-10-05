@@ -33,3 +33,28 @@ def get_inventario():
         cursor.close()
         conexao.close()
     return inventario
+
+def get_valor_total_estoque():
+    conexao = conexaoBD()
+    try:
+        cursor = conexao.cursor(dictionary=True)
+        sql = """
+            SELECT 
+                ROUND(SUM(p.quantidade_total * COALESCE(precos.preco_medio, 0)), 2) AS valor_total_estoque
+            FROM produto p
+            LEFT JOIN (
+                SELECT 
+                    produto_id, 
+                    AVG(preco_unitario) AS preco_medio
+                FROM compra
+                GROUP BY produto_id
+            ) AS precos ON p.id = precos.produto_id;
+        """
+        cursor.execute(sql)
+        resultado = cursor.fetchone()
+        return resultado["valor_total_estoque"] or 0
+    except Exception as e:
+        print("Erro ao calcular valor total do estoque:", e)
+        return 0
+    finally:
+        conexao.close()

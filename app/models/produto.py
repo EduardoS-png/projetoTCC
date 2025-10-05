@@ -123,3 +123,13 @@ def reativar(id):
     finally:
         cursor.close()
         conexao.close()
+
+def get_total_produtos_ativos():
+    conexao = conexaoBD()
+    try:
+        cursor = conexao.cursor(dictionary=True)
+        sql = "SELECT COUNT(*) AS total FROM produto WHERE ativo = 1"
+        cursor.execute(sql)
+        return cursor.fetchone()["total"]
+    finally:
+        conexao.close()

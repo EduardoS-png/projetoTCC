@@ -93,4 +93,13 @@ def alterar(id, nome, nome_fantasia, cnpj, endereco, telefone1, telefone2):
         cursor.close()
         conexao.close()
 
+def get_total_fornecedores_ativos():
+    conexao = conexaoBD()
+    try:
+        cursor = conexao.cursor(dictionary=True)
+        sql = "SELECT COUNT(*) AS total FROM fornecedor WHERE ativo = 1"
+        cursor.execute(sql)
+        return cursor.fetchone()["total"]
+    finally:
+        conexao.close()
 

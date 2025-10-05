@@ -317,14 +317,30 @@ main {
   color: var(--cor-terciaria);
 }
 
-.graficoContainer {
-  height: 25rem;
-  width: 100%;
+.dashboardGrid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.graficos {
   background: white;
   border-radius: var(--raio-borda);
-  padding: 2rem;
-  margin-bottom: 1.5rem;
+  padding: 1rem;
   box-shadow: var(--sombra-pequena);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 380px;
+  flex: 1 1 320px;
+  max-width: 400px;
+}
+
+.graficos > div {
+  width: 100%;
+  height: 80%;
 }
 
 .sessaoTitulo {

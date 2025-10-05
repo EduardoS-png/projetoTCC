@@ -1,59 +1,81 @@
 {% extends 'layout.html' %} {% block main %}
-
 <section id="dashboard">
   <div class="cabecalhoPagina">
     <h2 class="paginaTitulo">Dashboard</h2>
-    <p class="subtitulo">Início / Dashboard</p>
+    <p class="subtitulo">Visão geral das operações e indicadores principais</p>
   </div>
+
   <div class="dashboardGrid">
+    <!-- Compras Hoje -->
     <div class="cartao">
       <div class="cabecalhoCartao">
         <h3 class="tituloCartao">Compras Hoje</h3>
         <div class="iconeCartao">
           <img
             src="{{ url_for('static', filename='assets/icons/vendas.svg') }}"
-            alt="vendas.svg"
+            alt="compras"
           />
         </div>
       </div>
-      <div class="valorCartao">R$ 15.000,89</div>
-      <div class="descricaoCartao">+12% em relação a ontem</div>
+      <div class="valorCartao">
+        R$ {{ '{:,.2f}'.format(total_compras_hoje) }}
+      </div>
+      <div class="descricaoCartao">Total de compras realizadas hoje</div>
     </div>
+
+    <!-- Valor Total em Estoque -->
     <div class="cartao">
       <div class="cabecalhoCartao">
-        <h3 class="tituloCartao">Pedidos Pendentes</h3>
+        <h3 class="tituloCartao">Valor Total em Estoque</h3>
         <div class="iconeCartao">
           <img
-            src="{{ url_for('static', filename='assets/icons/alerta.svg') }}"
-            alt="alerta.svg"
+            src="{{ url_for('static', filename='assets/icons/caixa.svg') }}"
+            alt="estoque"
           />
         </div>
       </div>
-      <div class="valorCartao">25</div>
-      <div class="descricaoCartao">-2 desde ontem</div>
+      <div class="valorCartao">
+        R$ {{ '{:,.2f}'.format(valor_estoque_total) }}
+      </div>
+      <div class="descricaoCartao">Capital imobilizado no estoque</div>
     </div>
+
+    <!-- Produtos Ativos -->
     <div class="cartao">
       <div class="cabecalhoCartao">
-        <h3 class="tituloCartao">Novos fornecedores</h3>
+        <h3 class="tituloCartao">Produtos Ativos</h3>
+        <div class="iconeCartao">
+          <img
+            src="{{ url_for('static', filename='assets/icons/pacote.svg') }}"
+            alt="produtos"
+          />
+        </div>
+      </div>
+      <div class="valorCartao">{{ total_produtos_ativos }}</div>
+      <div class="descricaoCartao">Itens disponíveis no catálogo</div>
+    </div>
+
+    <!-- Fornecedores Ativos -->
+    <div class="cartao">
+      <div class="cabecalhoCartao">
+        <h3 class="tituloCartao">Fornecedores Ativos</h3>
         <div class="iconeCartao">
           <img
             src="{{ url_for('static', filename='assets/icons/pessoas.svg') }}"
-            alt="pessoas.svg"
+            alt="fornecedores"
           />
         </div>
       </div>
-      <div class="valorCartao">14</div>
-      <div class="descricaoCartao">+7 novos esta semana</div>
+      <div class="valorCartao">{{ total_fornecedores_ativos }}</div>
+      <div class="descricaoCartao">Fornecedores em atividade</div>
     </div>
   </div>
 
+  <!-- Gráficos -->
   <div class="dashboardGrid">
-    <div class="graficos">
-      <canvas id="chartContainer2" class="graficoContainer"></canvas>
-    </div>
-    <div class="graficos">
-      <canvas id="chartContainer3" class="graficoContainer"></canvas>
-    </div>
+    <div class="graficos">{{ grafico_categoria|safe }}</div>
+    <div class="graficos">{{ grafico_top_produtos|safe }}</div>
+    <div class="graficos">{{ grafico_compras_mes|safe }}</div>
   </div>
 </section>
 

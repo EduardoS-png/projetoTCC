@@ -1,10 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
-from app.models.compra import inserir_compra
+from app.models.compra import *
 from app.models.produto import get_produtos_id
 from app.models.inventario import get_inventario
 from app.models.fornecedor import get_fornecedores, get_fornecedor_id
 from datetime import date
-import traceback
 
 inventario_bp = Blueprint("inventario", __name__)
 
@@ -12,10 +11,12 @@ inventario_bp = Blueprint("inventario", __name__)
 def listar_inventario():
     produtos = get_inventario()
     fornecedores = get_fornecedores()
+    compras = get_compras_por_produto(produto_id=None)
     return render_template(
         "inventario.html",
         produtos=produtos,
         fornecedores=fornecedores,
+        compras=compras, 
         date=date
     )
 

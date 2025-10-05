@@ -73,3 +73,17 @@ def inserir_compra(produto_id, nome_produto, fornecedor_id, nome_fornecedor, qua
     finally:
         cursor.close()
         conexao.close()
+
+def get_total_compras_hoje():
+    conexao = conexaoBD()
+    try:
+        cursor = conexao.cursor(dictionary=True)
+        sql = """
+            SELECT COALESCE(SUM(preco_compra), 0) AS total
+            FROM compra
+            WHERE data_compra = %s
+        """
+        cursor.execute(sql, (date.today(),))
+        return cursor.fetchone()["total"]
+    finally:
+        conexao.close()

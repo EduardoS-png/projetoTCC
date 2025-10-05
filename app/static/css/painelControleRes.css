@@ -44,6 +44,13 @@
     flex-direction: column;
     align-items: stretch;
   }
+  #controlesInventario button {
+    min-width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  .graficoContainer {
+    height: 18rem;
+  }
 }
 
 @media (max-width: 600px) {
@@ -53,5 +60,11 @@
 
   .infoCard {
     flex: 1 1 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .graficoContainer {
+    height: 15rem;
   }
 }
