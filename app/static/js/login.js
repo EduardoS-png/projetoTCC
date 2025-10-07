@@ -2,49 +2,29 @@ const formLogin = document.getElementById("login-caixa");
 const btnSpinner = document.getElementById("btnSpinner");
 const btnText = document.getElementById("btnText");
 
-formLogin.addEventListener("submit", () => {
+formLogin.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
   btnText.style.display = "none";
   btnSpinner.style.display = "inline-block";
-});
 
-function mostrarToast(mensagem, tipo = "sucesso", duracao = 4000) {
-  const toast = document.createElement("div");
-  toast.classList.add("toast", tipo);
-
-  //Ícone
-  const icon = document.createElement("span");
-  icon.classList.add("icon");
-  icon.textContent = tipo === "sucesso" ? "✅" : "⚠️";
-
-  // Texto da mensagem
-  const text = document.createElement("span");
-  text.textContent = mensagem;
-
-  // Botão de fechar
-  const btnFechar = document.createElement("button");
-  btnFechar.classList.add("fechar-btn");
-  btnFechar.innerHTML = "&times;";
-
-  btnFechar.addEventListener("click", () => {
-    toast.classList.remove("show");
-    setTimeout(() => toastContainer.removeChild(toast), 400);
+  const formData = new FormData(formLogin);
+  const response = await fetch("/login", {
+    method: "POST",
+    body: formData,
   });
 
-  toast.appendChild(icon);
-  toast.appendChild(text);
-  toast.appendChild(btnFechar);
-  toastContainer.appendChild(toast);
+  const result = await response.json();
 
-  // Mostrar com animação
-  setTimeout(() => toast.classList.add("show"), 100);
-
-  // Remover automaticamente após a duração
-  setTimeout(() => {
-    toast.classList.remove("show");
-    setTimeout(() => {
-      if (toastContainer.contains(toast)) {
-        toastContainer.removeChild(toast);
-      }
-    }, 400);
-  }, duracao);
-}
+  if (result.success) {
+    if (result.status === "Administrador") {
+      window.location.href = "/dashboard/lista";
+    } else {
+      window.location.href = "/venda/lista";
+    }
+  } else {
+    alert("Login inválido");
+    btnText.style.display = "inline";
+    btnSpinner.style.display = "none";
+  }
+});

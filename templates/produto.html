@@ -23,13 +23,6 @@
         {% endfor %}
       </select>
 
-      <select id="filtroFornecedor">
-        <option value="">Todos os fornecedores</option>
-        {% for fornecedor in fornecedores %}
-        <option value="{{ fornecedor['id'] }}">{{ fornecedor['nome_fantasia'] }}</option>
-        {% endfor %}
-      </select>
-
       <select id="filtroStatus">
         <option value="todos" {% if status == 'todos' %}selected{% endif %}>Todos</option>
         <option value="ativo" {% if status == 'ativo' %}selected{% endif %}>Ativos</option>
@@ -46,7 +39,6 @@
           <th>ID</th>
           <th>Nome</th>
           <th>Categoria</th>
-          <th>Fornecedor</th>
           <th>Código Original</th>
           <th>Marca</th>
           <th>Tamanho</th>
@@ -60,12 +52,10 @@
         {% for produto in produtos %}
         <tr
           data-categoria-id="{{ produto['categoria_id'] }}"
-          data-fornecedor-id="{{ produto['fornecedor_id'] }}"
         >
           <td>{{ produto['id'] }}</td>
           <td title="{{ produto['nome'] }}">{{ produto['nome'] }}</td>
           <td>{{ produto['categoria'] }}</td>
-          <td>{{ produto['fornecedor'] }}</td>
           <td>{{ produto['codigo_original'] }}</td>
           <td>{{ produto['marca'] }}</td>
           <td>{{ produto['tamanho'] }}</td>
@@ -143,14 +133,6 @@
       {% endfor %}
     </select>
 
-    <label for="fornecedorCadastro">Fornecedor</label>
-    <select id="fornecedorCadastro" name="fornecedor_id" required>
-      <option value="">Selecione o fornecedor</option>
-      {% for fornecedor in fornecedores %}
-      <option value="{{fornecedor['id']}}">{{fornecedor['nome_fantasia']}}</option>
-      {% endfor %}
-    </select>
-
     <label for="codigoCadastro">Código</label>
     <input
       type="text"
@@ -213,15 +195,6 @@
     <select id="categoriaAlterar" name="categoria_id" required>
       {% for categoria in categorias %}
       <option value="{{categoria['id']}}">{{categoria['nome']}}</option>
-      {% endfor %}
-    </select>
-
-    <label for="fornecedorAlterar">Fornecedor</label>
-    <select id="fornecedorAlterar" name="fornecedor_id" required>
-      {% for fornecedor in fornecedores %}
-      <option value="{{fornecedor['id']}}">
-        {{fornecedor['nome_fantasia']}}
-      </option>
       {% endfor %}
     </select>
 

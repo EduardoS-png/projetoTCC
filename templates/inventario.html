@@ -18,6 +18,13 @@
         id="filtroNomeInventario"
         placeholder="Filtrar por nome..."
       />
+
+      <select id="filtroCategoria">
+        <option value="">Todas as categorias</option>
+        {% for categoria in categorias %}
+        <option value="{{ categoria['id'] }}">{{ categoria['nome'] }}</option>
+        {% endfor %}
+      </select>
     </div>
   </div>
 
@@ -29,32 +36,20 @@
           <th>ID</th>
           <th>Nome</th>
           <th>Categoria</th>
-          <th>Fornecedor</th>
           <th>Código Original</th>
           <th>Quantidade Total</th>
-          <th>Preço total da compra</th>
           <th>Status</th>
           <th>Ações</th>
         </tr>
       </thead>
       <tbody>
         {% for produto in produtos %}
-        <tr
-          data-categoria-id="{{ produto['categoria_id'] }}"
-          data-fornecedor-id="{{ produto['fornecedor_id'] }}"
-        >
+        <tr data-categoria-id="{{ produto['categoria_id'] }}">
           <td>{{ produto['id'] }}</td>
           <td>{{ produto['nome'] }}</td>
           <td>{{ produto['categoria'] }}</td>
-          <td>{{ produto['fornecedor'] }}</td>
           <td>{{ produto['codigo_original'] }}</td>
           <td>{{ produto['quantidade_total'] }}</td>
-          <td>
-            {% for compra in compras %} {% if compra['produto_id'] ==
-            produto['id'] %} {{ compra['preco_compra'] }} {% endif %} {% endfor
-            %}
-          </td>
-
           <td>
             <span
               class="badge-status {{ 'badge-ativo' if produto.ativo == 1 else 'badge-inativo' }}"

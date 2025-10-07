@@ -1,0 +1,58 @@
+{% extends 'layout.html' %} {% block main %}
+
+<section id="detalhesVenda">
+  <div class="cabecalhoPagina">
+    <h2 class="paginaTitulo">Detalhes da Venda</h2>
+    <p class="subtitulo">Informações detalhadas da venda selecionada</p>
+  </div>
+
+  <div class="infoVenda">
+    <div><strong>ID Venda:</strong> {{ venda.id }}</div>
+    <div><strong>Cliente:</strong> {{ venda.cliente_nome }}</div>
+    <div>
+      <strong>Data:</strong> {{ venda.data_venda.strftime("%d/%m/%Y") }}
+    </div>
+    <div>
+      <strong>Forma de pagamento:</strong> {{ venda.forma_pagamento|capitalize
+      }}
+    </div>
+    <div><strong>Status:</strong> {{ venda.status|capitalize }}</div>
+    <div><strong>Total:</strong> R$ {{ "%.2f"|format(venda.valor_total) }}</div>
+  </div>
+
+  <h3 class="tituloTabela">Itens da Venda</h3>
+  <div class="table-container">
+    <table class="tabelaInventario">
+      <thead>
+        <tr class="tabelaCabecalho">
+          <th>Produto</th>
+          <th>Lote</th>
+          <th>Quantidade</th>
+          <th>Preço Unitário</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in itens %}
+        <tr>
+          <td>{{ item.produto_nome }}</td>
+          <td>{{ item.lote_id }}</td>
+          <td>{{ "%.2f"|format(item.quantidade) }}</td>
+          <td>R$ {{ "%.2f"|format(item.preco_unitario) }}</td>
+          <td>R$ {{ "%.2f"|format(item.subtotal) }}</td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="5">Nenhum item registrado para esta venda.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <a href="{{ url_for('venda.listar_vendas') }}" class="botaoSecundario">
+    ← Voltar para lista
+  </a>
+</section>
+
+{% endblock %}

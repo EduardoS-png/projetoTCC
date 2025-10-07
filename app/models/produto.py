@@ -10,8 +10,6 @@ def get_produtos():
             p.nome,
             c.id AS categoria_id, 
             c.nome AS categoria,
-            f.id AS fornecedor_id,
-            f.nome_fantasia AS fornecedor,
             p.codigo_original,
             p.marca,
             p.tamanho,
@@ -20,7 +18,6 @@ def get_produtos():
             p.ativo
             FROM produto p
             JOIN categoria c ON p.categoria_id = c.id
-            JOIN fornecedor f ON p.fornecedor_id = f.id
             ORDER BY p.nome
         """
         
@@ -36,7 +33,7 @@ def get_produtos_id(id):
     try:
         cursor = conexao.cursor(dictionary=True)
         sql = """
-            SELECT p.id, 
+        SELECT p.id, 
             p.nome, 
             p.codigo_original,
             p.marca, 
@@ -45,14 +42,11 @@ def get_produtos_id(id):
             p.data_cadastro, 
             p.ativo, 
             c.id AS categoria_id, 
-            c.nome AS categoria, 
-            f.id AS fornecedor_id,
-            f.nome_fantasia AS fornecedor
-            FROM produto p
-            JOIN categoria c ON p.categoria_id = c.id
-            JOIN fornecedor f ON p.fornecedor_id = f.id
-            WHERE p.id = %s
-        """
+            c.nome AS categoria
+        FROM produto p
+        JOIN categoria c ON p.categoria_id = c.id
+        WHERE p.id = %s
+    """
 
         cursor.execute(sql, (id,))
         produto = cursor.fetchone()
@@ -61,7 +55,7 @@ def get_produtos_id(id):
         conexao.close()
     return produto
 
-def insert_produtos(nome, codigo_original, marca, tamanho, cor, data_cadastro, categoria_id, fornecedor_id):
+def insert_produtos(nome, codigo_original, marca, tamanho, cor, data_cadastro, categoria_id):
     conexao = conexaoBD()
     try: 
         cursor = conexao.cursor()
@@ -69,11 +63,11 @@ def insert_produtos(nome, codigo_original, marca, tamanho, cor, data_cadastro, c
             data_cadastro = date.today()
 
         sql = """
-            INSERT INTO produto (nome, codigo_original, marca, tamanho, cor, data_cadastro, categoria_id, fornecedor_id)
-            VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
+            INSERT INTO produto (nome, codigo_original, marca, tamanho, cor, data_cadastro, categoria_id)
+            VALUES (%s,%s,%s,%s,%s,%s,%s)
         """
 
-        cursor.execute(sql, (nome, codigo_original, marca, tamanho, cor, data_cadastro, categoria_id, fornecedor_id))
+        cursor.execute(sql, (nome, codigo_original, marca, tamanho, cor, data_cadastro, categoria_id))
         produto_id = cursor.lastrowid
         conexao.commit()
         return produto_id
@@ -82,16 +76,16 @@ def insert_produtos(nome, codigo_original, marca, tamanho, cor, data_cadastro, c
         conexao.close()
 
 
-def alterar(id, novoNome, novoCodigoOriginal, novaMarca, novoTamanho, novaCor, novaCategoria, novoFornecedor):
+def alterar(id, novoNome, novoCodigoOriginal, novaMarca, novoTamanho, novaCor, novaCategoria):
     conexao = conexaoBD()
     try:
         cursor = conexao.cursor()
         sql = """
             UPDATE produto
-            SET nome = %s, codigo_original = %s, marca = %s, tamanho = %s, cor = %s, categoria_id = %s, fornecedor_id = %s
+            SET nome = %s, codigo_original = %s, marca = %s, tamanho = %s, cor = %s, categoria_id = %s
             WHERE id = %s
         """
-        cursor.execute(sql, (novoNome, novoCodigoOriginal, novaMarca, novoTamanho, novaCor, novaCategoria ,novoFornecedor, id))
+        cursor.execute(sql, (novoNome, novoCodigoOriginal, novaMarca, novoTamanho, novaCor, novaCategoria , id))
 
         conexao.commit()
         return cursor.lastrowid

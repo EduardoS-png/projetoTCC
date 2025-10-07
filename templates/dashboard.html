@@ -26,10 +26,13 @@
     <!-- Valor Total em Estoque -->
     <div class="cartao">
       <div class="cabecalhoCartao">
-        <h3 class="tituloCartao">Valor Total em Estoque</h3>
+        <h3 class="tituloCartao">
+          Valor Total <br />
+          em Estoque
+        </h3>
         <div class="iconeCartao">
           <img
-            src="{{ url_for('static', filename='assets/icons/caixa.svg') }}"
+            src="{{ url_for('static', filename='assets/icons/estoque.svg') }}"
             alt="estoque"
           />
         </div>
@@ -46,7 +49,7 @@
         <h3 class="tituloCartao">Produtos Ativos</h3>
         <div class="iconeCartao">
           <img
-            src="{{ url_for('static', filename='assets/icons/pacote.svg') }}"
+            src="{{ url_for('static', filename='assets/icons/produto.svg') }}"
             alt="produtos"
           />
         </div>
@@ -58,7 +61,10 @@
     <!-- Fornecedores Ativos -->
     <div class="cartao">
       <div class="cabecalhoCartao">
-        <h3 class="tituloCartao">Fornecedores Ativos</h3>
+        <h3 class="tituloCartao">
+          Fornecedores <br />
+          Ativos
+        </h3>
         <div class="iconeCartao">
           <img
             src="{{ url_for('static', filename='assets/icons/pessoas.svg') }}"
@@ -73,10 +79,84 @@
 
   <!-- Gráficos -->
   <div class="dashboardGrid">
-    <div class="graficos">{{ grafico_categoria|safe }}</div>
-    <div class="graficos">{{ grafico_top_produtos|safe }}</div>
-    <div class="graficos">{{ grafico_compras_mes|safe }}</div>
+    <div class="graficos">
+      <canvas id="chartCategoria"></canvas>
+    </div>
+    <div class="graficos">
+      <canvas id="chartTopProdutos"></canvas>
+    </div>
+    <div class="graficos">
+      <canvas id="chartVendasSemana"></canvas>
+    </div>
   </div>
 </section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  function gerarCores(qtd) {
+      const cores = [];
+      for (let i = 0; i < qtd; i++) {
+          const r = Math.floor(Math.random() * 200 + 30);
+          const g = Math.floor(Math.random() * 200 + 30);
+          const b = Math.floor(Math.random() * 200 + 30);
+          cores.push(`rgba(${r}, ${g}, ${b}, 0.7)`);
+      }
+      return cores;
+  }
+
+  const categoriaData = {{ grafico_categoria | safe }};
+  const topProdutosData = {{ grafico_top_produtos | safe }};
+  const vendasSemanaData = {{ grafico_vendas_semana | safe }};
+
+  // Estoque por Categoria (Doughnut)
+  new Chart(document.getElementById('chartCategoria'), {
+      type: 'doughnut',
+      data: {
+          labels: categoriaData.labels,
+          datasets: [{ data: categoriaData.values, backgroundColor: gerarCores(categoriaData.labels.length) }]
+      },
+      options: {
+          responsive: true,
+          plugins: { title: { display: true, text: 'Valor do Estoque por Categoria', font: { size: 18 } }, legend: { position: 'bottom' } }
+      }
+  });
+
+  // Top Produtos (Bar)
+  new Chart(document.getElementById('chartTopProdutos'), {
+      type: 'bar',
+      data: {
+          labels: topProdutosData.labels,
+          datasets: [{ label: 'Valor em R$', data: topProdutosData.values, backgroundColor: gerarCores(topProdutosData.labels.length) }]
+      },
+      options: {
+          responsive: true,
+          plugins: { title: { display: true, text: 'Top Produtos por Valor em Estoque', font: { size: 18 } }, legend: { display: false } },
+          scales: { y: { beginAtZero: true } }
+      }
+  });
+
+  // Vendas Semanais (Line)
+  new Chart(document.getElementById('chartVendasSemana'), {
+      type: 'line',
+      data: {
+          labels: vendasSemanaData.labels,
+          datasets: [{
+              label: 'Vendas em R$',
+              data: vendasSemanaData.values,
+              borderColor: '#36A2EB',
+              backgroundColor: 'rgba(54, 162, 235, 0.2)',
+              fill: true,
+              tension: 0.4,
+              pointBackgroundColor: '#36A2EB',
+              pointRadius: 5
+          }]
+      },
+      options: {
+          responsive: true,
+          plugins: { title: { display: true, text: 'Vendas Semanais', font: { size: 18 } } },
+          scales: { y: { beginAtZero: true } }
+      }
+  });
+</script>
 
 {% endblock %}

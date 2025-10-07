@@ -9,8 +9,7 @@ produto_bp = Blueprint("produto", __name__)
 def listar_produtos():
     produtos = get_produtos()
     categorias = get_categorias()
-    fornecedores = get_fornecedores()
-    return render_template("produto.html", produtos=produtos, categorias=categorias, fornecedores=fornecedores)
+    return render_template("produto.html", produtos=produtos, categorias=categorias)
 
 
 @produto_bp.route("/produto/cadastrar", methods=["POST"])
@@ -22,11 +21,10 @@ def adicionar_produto():
         tamanho = request.form.get('tamanho')
         cor = request.form.get('cor')
         categoria_id = int(request.form['categoria_id'])
-        fornecedor_id = int(request.form['fornecedor_id'])
         data_cadastro = request.form.get('data_cadastro') or None
 
         insert_produtos(
-            nome, codigo_original, marca, tamanho, cor, data_cadastro, categoria_id, fornecedor_id
+            nome, codigo_original, marca, tamanho, cor, data_cadastro, categoria_id
         )
 
         flash("✅ Produto cadastrado com sucesso!", "success")
@@ -46,10 +44,9 @@ def atualizar_produto():
         tamanho = request.form.get('tamanho')
         cor = request.form.get('cor')
         categoria_id = int(request.form['categoria_id'])
-        fornecedor_id = int(request.form['fornecedor_id'])
 
         alterar(
-            id, nome, codigo_original, marca, tamanho, cor, categoria_id, fornecedor_id
+            id, nome, codigo_original, marca, tamanho, cor, categoria_id
         )
 
         flash("✏️ Produto atualizado com sucesso!", "info")

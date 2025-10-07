@@ -12,12 +12,12 @@ def listar_fornecedor():
 @fornecedor_bp.route("/fornecedor/cadastrar", methods=["POST"])
 def cadastro_fornecedor():
     try:
-        nome = request.form['nomeFornecedor']
-        nome_fantasia = request.form['nome_fantasia']
-        cnpj = request.form['cnpj']
-        endereco = request.form['endereco']
-        telefone1 = request.form['telefone1']
-        telefone2 = request.form['telefone2']
+        nome = request.form.get('nomeFornecedor')
+        nome_fantasia = request.form.get('nome_fantasia')
+        cnpj = request.form.get('cnpj').replace(".", "").replace("-", "").replace("/", "")
+        endereco = request.form.get('endereco')
+        telefone1 = request.form.get('telefone1').replace(".", "").replace("-", "").replace("(", "").replace(")", "").replace(" ", "")
+        telefone2 = request.form.get('telefone2').replace(".", "").replace("-", "").replace("(", "").replace(")", "").replace(" ", "")
 
         dados = {
             "nome": nome,

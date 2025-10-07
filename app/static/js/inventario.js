@@ -5,6 +5,7 @@ const btnCancelarModalCompra = document.getElementById("botaoCancelarCompra");
 const formCadastroCompra = document.getElementById("formCadastroCompra");
 
 const filtroNome = document.getElementById("filtroNomeInventario");
+const filtroCategoria = document.getElementById("filtroCategoria");
 const tabela = document.getElementById("tabelaInventario");
 const linhas = tabela
   .getElementsByTagName("tbody")[0]
@@ -39,14 +40,27 @@ function filtrarPorNome() {
   }
 }
 
-function aplicarTodosFiltros() {
-  filtrarPorNome();
+function filtrarPorCategoria() {
+  const categoriaValue = filtroCategoria.value;
 
   for (let linha of linhas) {
-    const mostra = linha.dataset.filtronome === "1";
+    const categoriaId = linha.dataset.categoriaId;
+    linha.dataset.filtrocategoria =
+      categoriaValue === "" || categoriaId === categoriaValue ? "1" : "0";
+  }
+}
+
+function aplicarTodosFiltros() {
+  filtrarPorNome();
+  filtrarPorCategoria();
+
+  for (let linha of linhas) {
+    const mostra =
+      linha.dataset.filtronome === "1" && linha.dataset.filtrocategoria === "1";
 
     linha.style.display = mostra ? "" : "none";
   }
 }
 
 filtroNome.addEventListener("input", aplicarTodosFiltros);
+filtroCategoria.addEventListener("change", aplicarTodosFiltros);

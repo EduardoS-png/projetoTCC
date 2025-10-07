@@ -16,7 +16,6 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='css/painelControleRes.css') }}"
     />
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   </head>
   <body>
     <!-- Cabeçalho -->
@@ -37,7 +36,7 @@
       </div>
       <div class="perfilUsuario">
         <button id="btnSpinner" class="spinner" style="display: none"></button>
-        <h2 id="bemVindo">Bem-vindo, {{ usuario_nome }}!</h2>
+        <h2 id="bemVindo">Bem-vindo, {{ session['usuario_nome'] }}!</h2>
         <button id="btnLogout">Sair</button>
       </div>
     </header>
@@ -46,6 +45,7 @@
     <nav>
       <div class="navSessao">
         <h2 class="navTitulo">Estruturas</h2>
+        {% if session['estado'] == "Administrador" %}
         <a href="/dashboard/lista" class="navLink ativo">
           <img
             src="{{ url_for('static', filename='assets/icons/dashboard.svg') }}"
@@ -53,7 +53,7 @@
           />
           <span>Dashboard</span>
         </a>
-        {% if session['estado'] == "Administrador" %}
+        {% endif %} {% if session['estado'] == "Administrador" %}
         <a href="/inventario/lista" class="navLink">
           <img
             src="{{ url_for('static', filename='assets/icons/estoque.svg') }}"
@@ -62,31 +62,42 @@
           <span>Inventário</span>
         </a>
         {% endif %}
+        <a href="/venda/lista" class="navLink">
+          <img
+            src="{{ url_for('static', filename='assets/icons/vendas.svg') }}"
+            alt="venda.svg"
+          />
+          <span>Vendas</span>
+        </a>
       </div>
 
       <div class="navSessao">
+        {% if session['estado'] == "Administrador" %}
         <h2 class="navTitulo">Elementos</h2>
         <a href="/categoria/lista" class="navLink">
           <img
-            src="{{ url_for('static', filename='assets/icons/compras.svg') }}"
+            src="{{ url_for('static', filename='assets/icons/categoria.svg') }}"
             alt="compras.svg"
           />
           <span>Categorias</span>
         </a>
+        {% endif %} {% if session['estado'] == "Administrador" %}
         <a href="/fornecedor/lista" class="navLink">
           <img
-            src="{{ url_for('static', filename='assets/icons/compras.svg') }}"
+            src="{{ url_for('static', filename='assets/icons/pessoas.svg') }}"
             alt="compras.svg"
           />
           <span>Fornecedores</span>
         </a>
+        {% endif %} {% if session['estado'] == "Administrador" %}
         <a href="/produto/lista" class="navLink">
           <img
-            src="{{ url_for('static', filename='assets/icons/compras.svg') }}"
+            src="{{ url_for('static', filename='assets/icons/produto.svg') }}"
             alt="compras.svg"
           />
           <span>Produtos</span>
         </a>
+        {% endif %}
       </div>
 
       <div class="navSessao">

@@ -941,6 +941,70 @@ main {
   animation: spin 1s linear infinite;
 }
 
+#itensVendaContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.itemVendaLinha {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  background: #fff;
+  padding: 0.75rem;
+  border-radius: var(--raio-borda);
+  box-shadow: var(--sombra-pequena);
+}
+
+.itemVendaLinha select,
+.itemVendaLinha input[type="number"] {
+  flex: 1 1 150px;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: var(--raio-borda);
+  font-size: 0.9rem;
+}
+
+.itemVendaLinha select {
+  background-color: #fff;
+}
+
+.itemVendaLinha input[type="number"] {
+  max-width: 100px;
+}
+
+.itemVendaLinha .removerItemVenda {
+  background: #ff4d4f;
+  color: #fff;
+  border: none;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s ease;
+}
+
+.itemVendaLinha .removerItemVenda:hover {
+  background: #d9363e;
+}
+
+#adicionarItemVenda {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  width: 25%;
+  border-radius: var(--raio-borda);
+  border: none;
+  background-color: var(--cor-secundaria);
+  color: #fff;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
 footer {
   grid-area: footer;
   background: white;
@@ -1014,7 +1078,9 @@ form#formAlterarCategoria,
 form#formEditarProduto,
 form#formCadastroCompra,
 form#formCadastroUsuario,
-form#formEditarUsuario {
+form#formEditarUsuario,
+form#formCadastroVenda,
+form#formCadastroCliente {
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
@@ -1083,7 +1149,9 @@ form textarea {
 #botaoCancelarCadastro,
 #botaoCancelarAlterar,
 #botaoCancelarUsuario,
-#botaoCancelarEditarUsuario {
+#botaoCancelarEditarUsuario,
+#botaoCancelarVenda,
+#botaoCancelarCliente {
   padding: 0.85rem 1.2rem;
   background: var(--cor-terciaria);
   color: #fff;
@@ -1108,7 +1176,9 @@ form textarea {
 #botaoCancelarCadastro:hover,
 #botaoCancelarAlterar:hover,
 #botaoCancelarUsuario:hover,
-#botaoCancelarEditarUsuario:hover {
+#botaoCancelarEditarUsuario:hover,
+#botaoCancelarVenda:hover,
+#botaoCancelarCliente:hover {
   background: var(--cor-apoio2);
   color: var(--corTexto-inversa);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
@@ -1124,7 +1194,9 @@ form textarea {
 #botaoCancelarCadastro:active,
 #botaoCancelarAlterar:active,
 #botaoCancelarUsuario:active,
-#botaoCancelarEditarUsuario:active {
+#botaoCancelarEditarUsuario:active,
+#botaoCancelarVenda:active,
+#botaoCancelarCliente:active {
   transform: scale(0.97);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
@@ -1139,7 +1211,9 @@ form textarea {
 #botaoFecharProduto,
 #botaoFecharAlterar,
 #botaoFecharUsuario,
-#botaoFecharEditarUsuario {
+#botaoFecharEditarUsuario,
+#botaoFecharVenda,
+#botaoFecharCliente {
   all: unset;
   cursor: pointer;
   display: flex;
@@ -1158,7 +1232,9 @@ form textarea {
 #botaoFecharProduto img,
 #botaoFecharAlterar img,
 #botaoFecharUsuario img,
-#botaoFecharEditarUsuario img {
+#botaoFecharEditarUsuario img,
+#botaFecharVenda img,
+#botaoFecharCliente img {
   width: 1.6rem;
   height: 1.6rem;
   transition: transform 0.2s ease;
@@ -1174,7 +1250,9 @@ form textarea {
 #botaoFecharProduto:hover img,
 #botaoFecharAlterar:hover img,
 #botaoFecharUsuario:hover img,
-#botaoFecharEditarUsuario:hover img {
+#botaoFecharEditarUsuario:hover img,
+#botaFecharVenda:hover img,
+#botaoFecharCliente:hover img {
   transform: rotate(90deg) scale(1.1);
 }
 

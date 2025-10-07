@@ -11,19 +11,15 @@ def get_inventario():
                 p.nome,
                 c.id AS categoria_id,
                 c.nome AS categoria,
-                f.id AS fornecedor_id,
-                f.nome_fantasia AS fornecedor,
                 p.codigo_original,
                 p.data_cadastro,
                 p.ativo,
                 COALESCE(SUM(co.quantidade), 0) AS quantidade_total
             FROM produto p
             JOIN categoria c ON p.categoria_id = c.id
-            JOIN fornecedor f ON p.fornecedor_id = f.id
             LEFT JOIN compra co ON co.produto_id = p.id
             GROUP BY 
-                p.id, p.nome, c.id, c.nome, f.id, 
-                f.nome_fantasia, p.codigo_original, p.marca, 
+                p.id, p.nome, c.id, c.nome, p.codigo_original, p.marca, 
                 p.tamanho, p.cor, p.data_cadastro, p.ativo
             ORDER BY p.nome
         """

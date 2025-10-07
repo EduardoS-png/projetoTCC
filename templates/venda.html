@@ -1,0 +1,217 @@
+{% extends 'layout.html' %} {% block main %}
+
+<section id="vendas">
+  <div class="cabecalhoPagina">
+    <h2 class="paginaTitulo">Vendas</h2>
+    <p class="subtitulo">Registre novas vendas e visualize o histórico</p>
+  </div>
+
+  <div id="controlesVendas">
+    <button id="btnAbrirModalVenda" class="botaoPrimario">
+      <img
+        src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
+        alt="novo.svg"
+      />
+      Nova Venda
+    </button>
+    <button id="btnAbrirModalCliente" class="botaoPrimario">
+      <img
+        src="{{ url_for('static', filename='assets/icons/novo.svg') }}"
+        alt="novo.svg"
+      />
+      Novo Cliente
+    </button>
+
+    <div class="filtros">
+      <input
+        type="text"
+        id="filtroVendas"
+        placeholder="Filtrar por cliente..."
+      />
+    </div>
+  </div>
+
+  <h3 class="tituloTabela">Vendas registradas</h3>
+  <div class="table-container">
+    <table id="tabelaVendas" class="tabelaInventario">
+      <thead>
+        <tr class="tabelaCabecalho">
+          <th>ID</th>
+          <th>Cliente</th>
+          <th>Data</th>
+          <th>Total</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for venda in vendas %}
+        <tr>
+          <td>{{ venda.id }}</td>
+          <td>{{ venda.cliente_nome }}</td>
+          <td>{{ venda.data_venda.strftime("%d/%m/%Y") }}</td>
+          <td>R$ {{ "%.2f"|format(venda.valor_total) }}</td>
+          <td>
+            <a
+              href="{{ url_for('venda.detalhes_venda', venda_id=venda.id) }}"
+              class="btn-ver-detalhado"
+            >
+              <span class="icon-ver">&#128065;</span> Detalhes
+            </a>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="5">Nenhuma venda registrada.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Modal de Nova Venda -->
+<dialog id="modalCadastroVenda">
+  <form id="formCadastroVenda" method="POST" action="/venda/cadastrar">
+    <div class="modalCabecalho">
+      <h2 class="tituloModal">Nova Venda</h2>
+      <button type="button" id="botaoFecharVenda" class="botaoFecharModal">
+        <img
+          src="{{ url_for('static', filename='assets/icons/fechar.svg') }}"
+          alt="fechar.svg"
+        />
+      </button>
+    </div>
+
+    <label for="cliente_id">Cliente</label>
+    <select id="cliente_id" name="cliente_id" required>
+      <option value="">Selecione o cliente</option>
+      {% for cliente in clientes %}
+      <option value="{{ cliente.id }}">{{ cliente.nome }}</option>
+      {% endfor %}
+    </select>
+
+    <label for="data_venda">Data da venda</label>
+    <input
+      type="date"
+      id="data_venda"
+      name="data_venda"
+      value="{{ date.today().isoformat() }}"
+      required
+    />
+
+    <label for="itemVendaLinha">Produtos e lotes</label>
+    <div id="itensVendaContainer">
+      <div class="itemVendaLinha">
+        <select name="produto_id[]" class="produtoSelect" required>
+          <option value="">Selecione o produto</option>
+          {% for produto in produtos %}
+          <option value="{{ produto.id }}">{{ produto.nome }}</option>
+          {% endfor %}
+        </select>
+
+        <select name="lote_id[]" class="loteSelect" required>
+          <option value="">Selecione o lote</option>
+        </select>
+
+        <input
+          type="number"
+          name="quantidade[]"
+          placeholder="Qtd"
+          min="0.01"
+          step="0.01"
+          required
+        />
+        <button type="button" class="removerItemVenda">
+          <img
+            src="{{ url_for('static', filename='assets/icons/fechar.svg') }}"
+            alt="fechar.svg"
+          />
+        </button>
+      </div>
+
+      <label for="status">Status:</label>
+      <select name="status" id="status" required>
+        <option value="">Selecione o status da venda</option>
+        <option value="concluída">Concluída</option>
+        <option value="cancelada">Cancelada</option>
+      </select>
+
+      <label for="forma_pagamento">Forma de Pagamento:</label>
+      <select name="forma_pagamento" id="forma_pagamento" required>
+        <option value="">Selecione a forma de pagamento</option>
+        <option value="dinheiro">Dinheiro</option>
+        <option value="cartão">Cartão</option>
+        <option value="pix">PIX</option>
+      </select>
+    </div>
+
+    <button type="button" id="adicionarItemVenda" class="botaoSecundario">
+      Adicionar produto
+    </button>
+
+    <menu>
+      <button type="submit" class="botaoPrimario">Salvar Venda</button>
+      <button type="button" id="botaoCancelarVenda">Cancelar</button>
+    </menu>
+  </form>
+</dialog>
+
+<dialog id="modalCadastroCliente">
+  <form id="formCadastroCliente" method="POST" action="/cliente/cadastrar">
+    <div class="modalCabecalho">
+      <h2 class="tituloModal">Novo Cliente</h2>
+      <button type="button" id="botaoFecharCliente" class="botaoFecharModal">
+        <img
+          src="{{ url_for('static', filename='assets/icons/fechar.svg') }}"
+          alt="fechar.svg"
+        />
+      </button>
+    </div>
+
+    <label for="nome">Nome</label>
+    <input
+      type="text"
+      id="nome"
+      name="nome"
+      placeholder="Digite o nome..."
+      required
+    />
+
+    <label for="cpf">CPF</label>
+    <input
+      type="text"
+      id="cpf"
+      name="cpf"
+      placeholder="Digite o CPF..."
+      required
+    />
+
+    <label for="telefone">Telefone</label>
+    <input
+      type="text"
+      id="telefone"
+      name="telefone"
+      placeholder="Digite o telefone..."
+    />
+
+    <label for="endereco">Endereço</label>
+    <input
+      type="text"
+      id="endereco"
+      name="endereco"
+      placeholder="Digite o endereço..."
+    />
+
+    <menu>
+      <button type="submit" class="botaoPrimario">Salvar</button>
+      <button type="button" id="botaoCancelarCliente">Cancelar</button>
+    </menu>
+  </form>
+</dialog>
+
+{% endblock %} {% block javascript %}
+<script
+  type="module"
+  src="{{ url_for('static', filename='js/venda.js') }}"
+></script>
+{% endblock %}

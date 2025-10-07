@@ -8,7 +8,6 @@ const btnCancelarModalProduto = document.getElementById(
 );
 const filtroNome = document.getElementById("filtroNome");
 const filtroCategoria = document.getElementById("filtroCategoria");
-const filtroFornecedor = document.getElementById("filtroFornecedor");
 const tabela = document.getElementById("tabelaProdutos");
 const linhas = tabela
   .getElementsByTagName("tbody")[0]
@@ -38,12 +37,16 @@ modalProduto.addEventListener("click", (evento) => {
 });
 
 // MODAL ALTERAR
-// MODAL ALTERAR
 const modalAlterarProduto = document.getElementById("modalAlterarProduto");
 const formAlterarProduto = document.getElementById("formAlterarProduto");
-const btnFecharModalAlterarProduto = document.getElementById("botaoFecharAlterar");
-const btnCancelarModalAlterarProduto = document.getElementById("botaoCancelarAlterar");
-const btnAbrirModalAlterarProduto = document.querySelectorAll(".btnAbrirModalAlterarProduto");
+const btnFecharModalAlterarProduto =
+  document.getElementById("botaoFecharAlterar");
+const btnCancelarModalAlterarProduto = document.getElementById(
+  "botaoCancelarAlterar"
+);
+const btnAbrirModalAlterarProduto = document.querySelectorAll(
+  ".btnAbrirModalAlterarProduto"
+);
 
 btnAbrirModalAlterarProduto.forEach((botao) => {
   botao.addEventListener("click", () => {
@@ -52,14 +55,20 @@ btnAbrirModalAlterarProduto.forEach((botao) => {
     formAlterarProduto.reset();
 
     document.getElementById("idAlterar").value = botao.dataset.id;
-    document.getElementById("nomeAlterar").value = linha.children[1].textContent.trim();
-    document.getElementById("categoriaAlterar").value = linha.dataset.categoriaId;
-    document.getElementById("fornecedorAlterar").value = linha.dataset.fornecedorId;
-    document.getElementById("codigoAlterar").value = linha.children[4].textContent.trim();
-    document.getElementById("marcaAlterar").value = linha.children[5].textContent.trim();
-    document.getElementById("tamanhoAlterar").value = linha.children[6].textContent.trim();
-    document.getElementById("corAlterar").value = linha.children[7].textContent.trim();
-    document.getElementById("dataAlterar").value = linha.children[8].textContent.trim();
+    document.getElementById("nomeAlterar").value =
+      linha.children[1].textContent.trim();
+    document.getElementById("categoriaAlterar").value =
+      linha.dataset.categoriaId;
+    document.getElementById("codigoAlterar").value =
+      linha.children[4].textContent.trim();
+    document.getElementById("marcaAlterar").value =
+      linha.children[5].textContent.trim();
+    document.getElementById("tamanhoAlterar").value =
+      linha.children[6].textContent.trim();
+    document.getElementById("corAlterar").value =
+      linha.children[7].textContent.trim();
+    document.getElementById("dataAlterar").value =
+      linha.children[8].textContent.trim();
 
     modalAlterarProduto.showModal();
   });
@@ -70,7 +79,9 @@ btnFecharModalAlterarProduto.addEventListener("click", () => {
   formAlterarProduto.reset();
 });
 
-btnCancelarModalAlterarProduto.addEventListener("click", () => modalAlterarProduto.close());
+btnCancelarModalAlterarProduto.addEventListener("click", () =>
+  modalAlterarProduto.close()
+);
 
 modalAlterarProduto.addEventListener("click", (evento) => {
   const reacao = modalAlterarProduto.getBoundingClientRect();
@@ -79,9 +90,9 @@ modalAlterarProduto.addEventListener("click", (evento) => {
     evento.clientX > reacao.right ||
     evento.clientY < reacao.top ||
     evento.clientY > reacao.bottom
-  ) modalAlterarProduto.close();
+  )
+    modalAlterarProduto.close();
 });
-
 
 function filtrarPorNome() {
   const nomeValue = filtroNome.value
@@ -109,26 +120,13 @@ function filtrarPorCategoria() {
   }
 }
 
-function filtrarPorFornecedor() {
-  const fornecedorValue = filtroFornecedor.value;
-
-  for (let linha of linhas) {
-    const fornecedorId = linha.dataset.fornecedorId;
-    linha.dataset.filtrofornecedor =
-      fornecedorValue === "" || fornecedorId === fornecedorValue ? "1" : "0";
-  }
-}
-
 function aplicarTodosFiltros() {
   filtrarPorNome();
   filtrarPorCategoria();
-  filtrarPorFornecedor();
 
   for (let linha of linhas) {
     const mostra =
-      linha.dataset.filtronome === "1" &&
-      linha.dataset.filtrocategoria === "1" &&
-      linha.dataset.filtrofornecedor === "1";
+      linha.dataset.filtronome === "1" && linha.dataset.filtrocategoria === "1";
 
     linha.style.display = mostra ? "" : "none";
   }
@@ -136,7 +134,6 @@ function aplicarTodosFiltros() {
 
 filtroNome.addEventListener("input", aplicarTodosFiltros);
 filtroCategoria.addEventListener("change", aplicarTodosFiltros);
-filtroFornecedor.addEventListener("change", aplicarTodosFiltros);
 
 document.addEventListener("DOMContentLoaded", () => {
   const filtroStatus = document.getElementById("filtroStatus");

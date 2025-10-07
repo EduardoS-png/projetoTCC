@@ -44,9 +44,9 @@ def inserir_compra(produto_id, nome_produto, fornecedor_id, nome_fornecedor, qua
 
         # Inserir compra
         sql = """
-            INSERT INTO compra 
-            (produto_id, nome_produto, fornecedor_id, nome_fornecedor, quantidade, preco_unitario, preco_compra, data_compra)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        INSERT INTO compra 
+        (produto_id, nome_produto, fornecedor_id, nome_fornecedor, quantidade, preco_unitario, preco_compra, data_compra)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
         """
         cursor.execute(sql, (
             produto_id,
@@ -58,6 +58,12 @@ def inserir_compra(produto_id, nome_produto, fornecedor_id, nome_fornecedor, qua
             preco_compra,
             data_compra
         ))
+
+        sql_lote = """
+            INSERT INTO lote (produto_id, fornecedor_id, quantidade_atual, preco_unitario, data_entrada)
+            VALUES (%s, %s, %s, %s, %s)
+        """
+        cursor.execute(sql_lote, (produto_id, fornecedor_id, quantidade, preco_unitario, data_compra))
 
         # Atualiza estoque
         quantidade_atual = produto["quantidade_total"] or 0
@@ -87,3 +93,41 @@ def get_total_compras_hoje():
         return cursor.fetchone()["total"]
     finally:
         conexao.close()
+
+def get_lotes_disponiveis(produto_id):
+    conexao = conexaoBD()
+    try:
+        cursor = conexao.cursor(dictionary=True)
+        sql = """
+            SELECT 
+                l.id AS lote_id,
+                l.preco_unitario,
+                l.quantidade_atual,
+                l.data_entrada
+            FROM lote l
+            WHERE l.produto_id = %s
+            AND l.quantidade_atual > 0
+            ORDER BY l.data_entrada ASC
+        """
+        cursor.execute(sql, (produto_id,))
+        return cursor.fetchall()
+    finally:
+        cursor.close()
+        conexao.close()
+
+def atualizar_quantidade_lote(lote_id, quantidade_vendida):
+    conexao = conexaoBD()
+    try:
+        cursor = conexao.cursor()
+        sql = """
+            UPDATE lote
+            SET quantidade_atual = quantidade_atual - %s
+            WHERE id = %s AND quantidade_atual >= %s
+        """
+        cursor.execute(sql, (quantidade_vendida, lote_id, quantidade_vendida))
+        conexao.commit()
+    finally:
+        cursor.close()
+        conexao.close()
+
+

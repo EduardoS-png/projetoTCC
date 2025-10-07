@@ -136,3 +136,33 @@ function aplicarTodosFiltros() {
 }
 
 filtroNome.addEventListener("input", aplicarTodosFiltros);
+
+const inputCnpj = document.getElementById("cnpj");
+const inputTelefone1 = document.getElementById("telefone1");
+const inputTelefone2 = document.getElementById("telefone2");
+
+function mascaraInput(input, tipo) {
+  input.addEventListener("input", () => {
+    let valor = input.value.replace(/\D/g, "");
+
+    if (tipo === "cnpj") {
+      valor = valor.slice(0, 14);
+      valor = valor.replace(/^(\d{2})(\d)/, "$1.$2");
+      valor = valor.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+      valor = valor.replace(/\.(\d{3})(\d)/, ".$1/$2");
+      valor = valor.replace(/(\d{4})(\d{1,2})$/, "$1-$2");
+    }
+
+    if (tipo === "telefone1" || tipo === "telefone2") {
+      valor = valor.slice(0, 11); // máximo 11 dígitos
+      valor = valor.replace(/^(\d{2})(\d)/, "($1) $2");
+      valor = valor.replace(/(\d{5})(\d{4})$/, "$1-$2");
+    }
+
+    input.value = valor;
+  });
+}
+
+mascaraInput(inputCnpj, "cnpj");
+mascaraInput(inputTelefone1, "telefone1");
+mascaraInput(inputTelefone2, "telefone2");
