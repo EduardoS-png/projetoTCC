@@ -23,32 +23,34 @@
     <table id="tabelaOperacoes">
       <thead>
         <tr class="tabelaCabecalho">
-          <th>ID</th>
-          <th>Nome</th>
-          <th>Email</th>
-          <th>Senha</th>
-          <th>Status</th>
-          <th>Ação</th>
+          <th title="ID">ID</th>
+          <th title="Nome">Nome</th>
+          <th title="Email">Email</th>
+          <th title="Senha">Senha</th>
+          <th title="Status">Status</th>
+          <th title="Ações">Ações</th>
         </tr>
       </thead>
       <tbody>
         {% for configuracao in configuracoes %}
         <tr>
-          <td>{{configuracao['id']}}</td>
-          <td>{{configuracao['nome']}}</td>
-          <td>{{configuracao['email']}}</td>
-          <td>{{configuracao['senha']}}</td>
+          <td title="{{configuracao['id']}}">{{configuracao['id']}}</td>
+          <td title="{{configuracao['nome']}}">{{configuracao['nome']}}</td>
+          <td title="{{configuracao['email']}}">{{configuracao['email']}}</td>
+          <td title="{{configuracao['senha']}}">{{configuracao['senha']}}</td>
           <td title="{{configuracao['status']}}">{{configuracao['status']}}</td>
           <td>
             <button
               class="botoesDecisao btnAbrirEditarUsuario"
               href=""
+              title="Abrir modal"
               data-id="{{ configuracao['id'] }}"
             >
               <img src="/static/assets/icons/editar.svg" alt="editar.svg" />
             </button>
             <a
               class="botoesDecisao"
+              title="Deletar"
               href="{{url_for('configuracao.deletar_configuracao',id=configuracao['id'])}}"
             >
               <img src="/static/assets/icons/lixeira.svg" alt="lixeira.svg" />

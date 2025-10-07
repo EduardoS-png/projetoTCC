@@ -84,7 +84,7 @@ def cadastrar_venda():
         atualizar_valor_total(nova_venda_id, valor_total)
 
         flash("✅ Venda registrada com sucesso!", "sucesso")
-        return redirect(url_for("venda.detalhes_venda", venda_id=nova_venda_id))
+        return redirect(url_for("venda.listar_vendas", venda_id=nova_venda_id))
 
     except ValueError as ve:
         flash(f"❌ Erro de conversão: {str(ve)}", "erro")

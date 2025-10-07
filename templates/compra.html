@@ -38,22 +38,22 @@
     <table id="tabelaCompras" class="tabelaInventario">
       <thead>
         <tr class="tabelaCabecalho">
-          <th>ID Compra</th>
-          <th>Fornecedor</th>
-          <th>Quantidade comprada</th>
-          <th>Preço Unitário</th>
-          <th>Total de Compra</th>
-          <th>Data da Compra</th>
+          <th title="ID Compra">ID Compra</th>
+          <th title="Fornecedor">Fornecedor</th>
+          <th title="Quantidade comprada">Quantidade comprada</th>
+          <th title="Preço Unitário">Preço Unitário</th>
+          <th title="Total de Compra">Total de Compra</th>
+          <th title="Data da Compra">Data da Compra</th>
         </tr>
       </thead>
       <tbody>
         {% for compra in compras %}
         <tr>
-          <td>{{ compra.id }}</td>
-          <td>{{ compra.fornecedor }}</td>
-          <td>{{ "%.2f"|format(compra.quantidade) }}</td>
-          <td>R$ {{ "%.2f"|format(compra.preco_unitario) }}</td>
-          <td>R$ {{ "%.2f"|format(compra.preco_compra) }}</td>
+          <td title="{{ compra.id }}">{{ compra.id }}</td>
+          <td title="{{ compra.fornecedor }}">{{ compra.fornecedor }}</td>
+          <td title="{{ "%.2f"|format(compra.quantidade) }}">{{ "%.2f"|format(compra.quantidade) }}</td>
+          <td title="R$ {{ "%.2f"|format(compra.preco_unitario) }}">R$ {{ "%.2f"|format(compra.preco_unitario) }}</td>
+          <td title="R$ {{ "%.2f"|format(compra.preco_compra) }}">R$ {{ "%.2f"|format(compra.preco_compra) }}</td>
           <td>
             {% if compra.data_compra is string %} {{ compra.data_compra }} {%
             else %} {{ compra.data_compra.strftime("%d/%m/%Y") }} {% endif %}

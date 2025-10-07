@@ -36,21 +36,21 @@
     <table id="tabelaVendas" class="tabelaInventario">
       <thead>
         <tr class="tabelaCabecalho">
-          <th>ID</th>
-          <th>Cliente</th>
-          <th>Data</th>
-          <th>Total</th>
-          <th>Ações</th>
+          <th title="ID">ID</th>
+          <th title="Cliente">Cliente</th>
+          <th title="Data">Data</th>
+          <th title="Total">Total</th>
+          <th title="Ações">Ações</th>
         </tr>
       </thead>
       <tbody>
         {% for venda in vendas %}
         <tr>
-          <td>{{ venda.id }}</td>
-          <td>{{ venda.cliente_nome }}</td>
-          <td>{{ venda.data_venda.strftime("%d/%m/%Y") }}</td>
-          <td>R$ {{ "%.2f"|format(venda.valor_total) }}</td>
-          <td>
+          <td title="{{ venda.id }}">{{ venda.id }}</td>
+          <td title="{{ venda.cliente_nome }}">{{ venda.cliente_nome }}</td>
+          <td title="{{ venda.data_venda.strftime("%d/%m/%Y") }}">{{ venda.data_venda.strftime("%d/%m/%Y") }}</td>
+          <td title="R$ {{ "%.2f"|format(venda.valor_total) }}">R$ {{ "%.2f"|format(venda.valor_total) }}</td>
+          <td title="Detalhes">
             <a
               href="{{ url_for('venda.detalhes_venda', venda_id=venda.id) }}"
               class="btn-ver-detalhado"

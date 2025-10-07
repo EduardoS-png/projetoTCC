@@ -33,23 +33,27 @@
     <table id="tabelaInventario" class="tabelaInventario">
       <thead>
         <tr class="tabelaCabecalho">
-          <th>ID</th>
-          <th>Nome</th>
-          <th>Categoria</th>
-          <th>Código Original</th>
-          <th>Quantidade Total</th>
-          <th>Status</th>
-          <th>Ações</th>
+          <th title="ID">ID</th>
+          <th title="Nome">Nome</th>
+          <th title="Categoria">Categoria</th>
+          <th title="Código Original">Código Original</th>
+          <th title="Quantidade Total">Quantidade Total</th>
+          <th title="Status">Status</th>
+          <th title="Ações">Ações</th>
         </tr>
       </thead>
       <tbody>
         {% for produto in produtos %}
         <tr data-categoria-id="{{ produto['categoria_id'] }}">
-          <td>{{ produto['id'] }}</td>
-          <td>{{ produto['nome'] }}</td>
-          <td>{{ produto['categoria'] }}</td>
-          <td>{{ produto['codigo_original'] }}</td>
-          <td>{{ produto['quantidade_total'] }}</td>
+          <td title="{{ produto['id'] }}">{{ produto['id'] }}</td>
+          <td title="{{ produto['nome'] }}">{{ produto['nome'] }}</td>
+          <td title="{{ produto['categoria'] }}">{{ produto['categoria'] }}</td>
+          <td title="{{ produto['codigo_original'] }}">
+            {{ produto['codigo_original'] }}
+          </td>
+          <td title="{{ produto['quantidade_total'] }}">
+            {{ produto['quantidade_total'] }}
+          </td>
           <td>
             <span
               class="badge-status {{ 'badge-ativo' if produto.ativo == 1 else 'badge-inativo' }}"
@@ -57,7 +61,7 @@
               {{ 'Ativo' if produto.ativo == 1 else 'Inativo' }}
             </span>
           </td>
-          <td>
+          <td title="Ver detalhado">
             <a
               class="btn-ver-detalhado"
               href="{{ url_for('compra.compras_por_produto', produto_id=produto['id']) }}"

@@ -36,16 +36,16 @@
     <table id="tabelaProdutos" class="tabelaInventario">
       <thead>
         <tr class="tabelaCabecalho">
-          <th>ID</th>
-          <th>Nome</th>
-          <th>Categoria</th>
-          <th>Código Original</th>
-          <th>Marca</th>
-          <th>Tamanho</th>
-          <th>Cor</th>
-          <th>Data Cadastro</th>
-          <th>Status</th>
-          <th>Ações</th>
+          <th title="ID">ID</th>
+          <th title="Nome">Nome</th>
+          <th title="Categoria">Categoria</th>
+          <th title="Código Original">Código Original</th>
+          <th title="Marca">Marca</th>
+          <th title="Tamanho">Tamanho</th>
+          <th title="Cor">Cor</th>
+          <th title="Data Cadastro">Data Cadastro</th>
+          <th title="Status">Status</th>
+          <th title="Ações">Ações</th>
         </tr>
       </thead>
       <tbody>
@@ -53,14 +53,14 @@
         <tr
           data-categoria-id="{{ produto['categoria_id'] }}"
         >
-          <td>{{ produto['id'] }}</td>
+          <td title="{{ produto['id'] }}">{{ produto['id'] }}</td>
           <td title="{{ produto['nome'] }}">{{ produto['nome'] }}</td>
-          <td>{{ produto['categoria'] }}</td>
-          <td>{{ produto['codigo_original'] }}</td>
-          <td>{{ produto['marca'] }}</td>
-          <td>{{ produto['tamanho'] }}</td>
-          <td>{{ produto['cor'] }}</td>
-          <td>{{ produto['data_cadastro'] }}</td>
+          <td title="{{ produto['categoria'] }}">{{ produto['categoria'] }}</td>
+          <td title="{{ produto['codigo_original'] }}">{{ produto['codigo_original'] }}</td>
+          <td title="{{ produto['marca'] }}">{{ produto['marca'] }}</td>
+          <td title="{{ produto['tamanho'] }}">{{ produto['tamanho'] }}</td>
+          <td title="{{ produto['cor'] }}">{{ produto['cor'] }}</td>
+          <td title="{{ produto['data_cadastro'] }}">{{ produto['data_cadastro'] }}</td>
           <td>
             <span
               class="badge-status {{ 'badge-ativo' if produto.ativo == 1 else 'badge-inativo' }}"
@@ -72,6 +72,7 @@
             <button
               class="botoesDecisao btnAbrirModalAlterarProduto"
               href=""
+              title="Abrir editar"
               data-id="{{ produto['id'] }}"
             >
               <img src="/static/assets/icons/editar.svg" alt="editar" />
@@ -79,6 +80,7 @@
             {% if produto['ativo'] == 1 %}
             <a
               class="botoesDecisao"
+              title="Inativar"
               href="{{url_for('produto.inativar_produto',id=produto['id'])}}"
             >
               <img src="/static/assets/icons/inativar.svg" alt="inativar" />
@@ -86,6 +88,7 @@
             {% else %}
             <a
               class="botoesDecisao"
+              title="Reativar"
               href="{{url_for('produto.reativar_produto',id=produto['id'])}}"
             >
               <img src="/static/assets/icons/reativar.svg" alt="reativar" />

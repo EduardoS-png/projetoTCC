@@ -40,21 +40,16 @@ btnLogout.addEventListener("click", async () => {
       body: JSON.stringify({}),
     });
 
-    if (resposta.ok) {
-      const dados = await resposta.json();
-      if (dados) {
-        alert("Logout realizado com sucesso!", "sucesso");
-        setTimeout(() => {
-          window.location.href = "/login";
-        }, 800);
-      } else {
-        alert("Erro ao sair.", "erro");
-      }
+    // Se houver redirect do Flask, segue para login
+    if (resposta.redirected) {
+      window.location.href = resposta.url;
     } else {
-      alert("Erro na requisição.", "erro");
+      // fallback: recarrega a página caso não tenha redirect
+      window.location.href = "/login";
     }
   } catch (erro) {
-    console.error(erro);
+    console.error("Erro no logout:", erro);
+    alert("Não foi possível sair, tente novamente.");
   }
 });
 

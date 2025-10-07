@@ -27,18 +27,18 @@
     <table id="tabelaCategorias">
       <thead>
         <tr class="tabelaCabecalho">
-          <th>ID</th>
-          <th>Nome</th>
-          <th>Descrição</th>
-          <th>Status</th>
-          <th>Ação</th>
+          <th title="ID">ID</th>
+          <th title="Nome">Nome</th>
+          <th title="Descrição">Descrição</th>
+          <th title="Status">Status</th>
+          <th title="Ações">Ações</th>
         </tr>
       </thead>
       <tbody>
         {% for categoria in categorias %}
         <tr>
-          <td>{{categoria['id']}}</td>
-          <td>{{categoria['nome']}}</td>
+          <td title="{{categoria['id']}}">{{categoria['id']}}</td>
+          <td title="{{categoria['nome']}}">{{categoria['nome']}}</td>
           <td title="{{categoria['descricao']}}">{{categoria['descricao']}}</td>
           <td>
             <span
@@ -51,6 +51,7 @@
             <button
               class="botoesDecisao btnAbrirAlterarCategoria"
               href=""
+              title="Abrir modal"
               data-id="{{ categoria['id'] }}"
             >
               <img src="/static/assets/icons/editar.svg" alt="editar.svg" />
@@ -58,6 +59,7 @@
             {% if categoria['ativo'] == 1 %}
             <a
               class="botoesDecisao"
+              title="Inativar"
               href="{{url_for('categoria.inativar_categoria',id=categoria['id'])}}"
             >
               <img src="/static/assets/icons/inativar.svg" alt="inativar.svg" />
@@ -65,6 +67,7 @@
             {% else %}
             <a
               class="botoesDecisao"
+              title="Reativar"
               href="{{url_for('categoria.reativar_categoria',id=categoria['id'])}}"
             >
               <img src="/static/assets/icons/reativar.svg" alt="reativar.svg" />

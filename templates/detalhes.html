@@ -25,21 +25,21 @@
     <table class="tabelaInventario">
       <thead>
         <tr class="tabelaCabecalho">
-          <th>Produto</th>
-          <th>Lote</th>
-          <th>Quantidade</th>
-          <th>Preço Unitário</th>
-          <th>Subtotal</th>
+          <th title="Produto">Produto</th>
+          <th title="Lote">Lote</th>
+          <th title="Quantidade">Quantidade</th>
+          <th title="Preço Unitário">Preço Unitário</th>
+          <th title="Subtotal">Subtotal</th>
         </tr>
       </thead>
       <tbody>
         {% for item in itens %}
         <tr>
-          <td>{{ item.produto_nome }}</td>
-          <td>{{ item.lote_id }}</td>
-          <td>{{ "%.2f"|format(item.quantidade) }}</td>
-          <td>R$ {{ "%.2f"|format(item.preco_unitario) }}</td>
-          <td>R$ {{ "%.2f"|format(item.subtotal) }}</td>
+          <td title="{{ item.produto_nome }}">{{ item.produto_nome }}</td>
+          <td title="{{ item.lote_id }}">{{ item.lote_id }}</td>
+          <td title="{{ "%.2f"|format(item.quantidade) }}">{{ "%.2f"|format(item.quantidade) }}</td>
+          <td title="R$ {{ "%.2f"|format(item.preco_unitario) }}">R$ {{ "%.2f"|format(item.preco_unitario) }}</td>
+          <td title="R$ {{ "%.2f"|format(item.subtotal) }}">R$ {{ "%.2f"|format(item.subtotal) }}</td>
         </tr>
         {% else %}
         <tr>
@@ -50,7 +50,7 @@
     </table>
   </div>
 
-  <a href="{{ url_for('venda.listar_vendas') }}" class="botaoSecundario">
+  <a href="{{ url_for('venda.listar_vendas') }}" id="btnVoltarVendas" class="botaoSecundario">
     ← Voltar para lista
   </a>
 </section>
